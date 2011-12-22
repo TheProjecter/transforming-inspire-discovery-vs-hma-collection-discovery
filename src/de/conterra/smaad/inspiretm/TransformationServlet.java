@@ -155,7 +155,7 @@ public class TransformationServlet extends HttpServlet {
         }
         catch (ExceptionReport e) {
             LOGGER.error("Error in facade", e);
-            resp.setStatus(500);
+            resp.setStatus(400);
             if (engine != null) {
                 engine.transformException(e, resp.getOutputStream());
             }
