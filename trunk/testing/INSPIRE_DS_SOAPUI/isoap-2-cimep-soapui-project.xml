@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:soapui-project name="CSW AP ISO 1.0 INSPIRE (ICC)" resourceRoot="" soapui-version="3.6.1" abortOnError="false" runType="SEQUENTIAL" defaultScriptLanguage="Groovy" xmlns:con="http://eviware.com/soapui/config"><con:settings/><con:interface xsi:type="con:WsdlInterface" wsaVersion="NONE" name="Axis2SampleDocLitPortBinding" type="wsdl" bindingName="{http://userguide.axis2.apache.org/Axis2SampleDocLit}Axis2SampleDocLitPortBinding" soapVersion="1_1" anonymous="optional" definition="file:/C:/projects/java/axis2-1.5/samples/wsdl/Axis2SampleDocLit.wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="file:/C:/projects/java/axis2-1.5/samples/wsdl/Axis2SampleDocLit.wsdl"><con:part><con:url>file:/C:/projects/java/axis2-1.5/samples/wsdl/Axis2SampleDocLit.wsdl</con:url><con:content><![CDATA[<!--~ Licensed to the Apache Software Foundation (ASF) under one
+  ~ or more contributor license agreements. See the NOTICE file
+  ~ distributed with this work for additional information
+  ~ regarding copyright ownership. The ASF licenses this file
+  ~ to you under the Apache License, Version 2.0 (the
+  ~ "License"); you may not use this file except in compliance
+  ~ with the License. You may obtain a copy of the License at
+  ~
+  ~ http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing,
+  ~ software distributed under the License is distributed on an
+  ~ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+  ~ KIND, either express or implied. See the License for the
+  ~ specific language governing permissions and limitations
+  ~ under the License.-->
+<definitions targetNamespace="http://userguide.axis2.apache.org/Axis2SampleDocLit" name="Axis2SampleDocLitService" xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://userguide.axis2.apache.org/Axis2SampleDocLit" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsd1="http://userguide.axis2.apache.org/xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <types>
+    <schema targetNamespace="http://userguide.axis2.apache.org/xsd" elementFormDefault="qualified" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+      <complexType name="ArrayOfstring_literal">
+        <sequence>
+          <element maxOccurs="unbounded" minOccurs="1" name="string" type="xsd:string"/>
+        </sequence>
+      </complexType>
+      <complexType name="SOAPStruct">
+        <all>
+          <element name="varFloat" type="xsd:float"/>
+          <element name="varInt" type="xsd:int"/>
+          <element name="varString" type="xsd:string"/>
+        </all>
+      </complexType>
+      <element name="echoStringParam" type="xsd:string"/>
+      <element name="echoIntParam" type="xsd:int"/>
+      <element name="echoStringReturn" type="xsd:string"/>
+      <element name="echoStringArrayParam" type="xsd1:ArrayOfstring_literal"/>
+      <element name="echoStringArrayReturn" type="xsd1:ArrayOfstring_literal"/>
+      <element name="echoStructParam" type="xsd1:SOAPStruct"/>
+      <element name="echoStructReturn" type="xsd1:SOAPStruct"/>
+    </schema>
+  </types>
+  <message name="echoString">
+    <part name="a" element="xsd1:echoStringParam"/>
+  </message>
+  <message name="echoStringResponse">
+    <part name="result" element="xsd1:echoStringReturn"/>
+  </message>
+  <message name="echoStringArray">
+    <part name="a" element="xsd1:echoStringArrayParam"/>
+  </message>
+  <message name="echoStringArrayResponse">
+    <part name="result" element="xsd1:echoStringArrayReturn"/>
+  </message>
+  <message name="echoStruct">
+    <part name="a" element="xsd1:echoStructParam"/>
+  </message>
+  <message name="echoStructResponse">
+    <part name="result" element="xsd1:echoStructReturn"/>
+  </message>
+  <portType name="Axis2SampleDocLitPortType">
+    <operation name="echoString">
+      <input name="echoString" message="tns:echoString"/>
+      <output name="echoStringResponse" message="tns:echoStringResponse"/>
+    </operation>
+    <operation name="echoStringArray">
+      <input name="echoStringArray" message="tns:echoStringArray"/>
+      <output name="echoStringArrayResponse" message="tns:echoStringArrayResponse"/>
+    </operation>
+    <operation name="echoStruct">
+      <input name="echoStruct" message="tns:echoStruct"/>
+      <output name="echoStructResponse" message="tns:echoStructResponse"/>
+    </operation>
+  </portType>
+  <binding name="Axis2SampleDocLitPortBinding" type="tns:Axis2SampleDocLitPortType">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <operation name="echoString">
+      <soap:operation soapAction="echoString" style="document"/>
+      <input>
+        <soap:body use="literal" namespace="http://userguide.axis2.apache.org/Axis2SampleDocLit"/>
+      </input>
+      <output>
+        <soap:body use="literal" namespace="http://userguide.axis2.apache.org/Axis2SampleDocLit"/>
+      </output>
+    </operation>
+    <operation name="echoStringArray">
+      <soap:operation soapAction="echoStringArray" style="document"/>
+      <input>
+        <soap:body use="literal" namespace="http://userguide.axis2.apache.org/Axis2SampleDocLit"/>
+      </input>
+      <output>
+        <soap:body use="literal" namespace="http://userguide.axis2.apache.org/Axis2SampleDocLit"/>
+      </output>
+    </operation>
+    <operation name="echoStruct">
+      <soap:operation soapAction="echoStruct" style="document"/>
+      <input>
+        <soap:body use="literal" namespace="http://userguide.axis2.apache.org/Axis2SampleDocLit"/>
+      </input>
+      <output>
+        <soap:body use="literal" namespace="http://userguide.axis2.apache.org/Axis2SampleDocLit"/>
+      </output>
+    </operation>
+  </binding>
+  <service name="Axis2SampleDocLitService">
+    <port name="Axis2SampleDocLitPort" binding="tns:Axis2SampleDocLitPortBinding">
+      <soap:address location="http://userguide.axis2.apache.org/stkv3/wsdl/Axis2SampleDocLit.wsdl"/>
+    </port>
+  </service>
+</definitions>]]></con:content><con:type>http://schemas.xmlsoap.org/wsdl/</con:type></con:part></con:definitionCache><con:endpoints><con:endpoint>http://46.51.189.235/inspiretm/cimep</con:endpoint><con:endpoint>http://veoportal.eumetsat.int/soapServices/services/CSWDiscovery</con:endpoint><con:endpoint>http://corona.dev.esri-de.com:8091/inspiretm/cimep</con:endpoint><con:endpoint>http://46.51.189.235/soapServices/services/CSWDiscovery</con:endpoint><con:endpoint>http://corona.dev.esri-de.com:8091/inspiretm/cimep</con:endpoint><con:endpoint>http://projects-eu.erdas.com/erdas-georeg/wrs/SPB</con:endpoint><con:endpoint>http://www.portalu.sachsen.de/csw</con:endpoint><con:endpoint>http://46.51.189.235/soapServices/CSWStartup</con:endpoint></con:endpoints><con:operation isOneWay="false" action="echoString" name="notUsed" bindingOperationName="echoString" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/></con:operation><con:operation isOneWay="false" action="echoStringArray" name="notUsed_" bindingOperationName="echoStringArray" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/></con:operation><con:operation isOneWay="false" action="echoStruct" name="Requests" bindingOperationName="echoStruct" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="TC_020_020: ISO AP to CIM EP – GetRecords Complex"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://46.51.189.235/soapServices/services/CSWDiscovery</con:endpoint><con:request><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://userguide.axis2.apache.org/xsd">
+	<soapenv:Header/>
+	<soapenv:Body>
+
+<GetRecords xmlns="http://www.opengis.net/cat/csw/2.0.2" xmlns:ogc="http://www.opengis.net/ogc" xmlns:gmd="http://www.isotc211.org/2005/gmd" xmlns:apiso="http://www.opengis.net/cat/csw/apiso/1.0" xmlns:ows="http://www.opengis.net/ows" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dct="http://purl.org/dc/terms/" xmlns:gml="http://www.opengis.net/gml" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/cat/csw/2.0.2
+../../../../../CSW-discovery.xsd" service="CSW" version="2.0.2" resultType="results" outputFormat="application/xml" outputSchema="http://www.isotc211.org/2005/gmd" startPosition="1" maxRecords="0">
+	<Query typeNames="gmd:MD_Metadata">
+		<ElementSetName typeNames="">brief</ElementSetName>
+		<Constraint version="1.1.0">
+			<ogc:Filter>
+				<ogc:And>
+					<ogc:PropertyIsEqualTo>
+						<ogc:PropertyName>apiso:Language</ogc:PropertyName>
+						<ogc:Literal>eng</ogc:Literal>
+					</ogc:PropertyIsEqualTo>
+					<ogc:Not>
+						<ogc:PropertyIsEqualTo>
+							<ogc:PropertyName>apiso:type</ogc:PropertyName>
+							<ogc:Literal>service</ogc:Literal>
+						</ogc:PropertyIsEqualTo>
+					</ogc:Not>
+					<ogc:Or>
+						<ogc:And>
+							<ogc:PropertyIsEqualTo>
+								<ogc:PropertyName>apiso:AccessConstraints</ogc:PropertyName>
+								<ogc:Literal>otherRestrictions</ogc:Literal>
+							</ogc:PropertyIsEqualTo>
+							<ogc:PropertyIsEqualTo>
+								<ogc:PropertyName>apiso:OtherConstraints</ogc:PropertyName>
+								<ogc:Literal>no limitations</ogc:Literal>
+							</ogc:PropertyIsEqualTo>
+						</ogc:And>
+					<ogc:Not>
+						<ogc:PropertyIsEqualTo>
+							<ogc:PropertyName>apiso:AccessConstraints</ogc:PropertyName>
+							<ogc:Literal>intellectualPropertyRights</ogc:Literal>
+						</ogc:PropertyIsEqualTo>
+					</ogc:Not>
+					</ogc:Or>
+
+				</ogc:And>
+			</ogc:Filter>
+		</Constraint>
+	</Query>
+</GetRecords>
+
+
+	</soapenv:Body>
+</soapenv:Envelope>
+]]></con:request><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="echoStruct"/><con:wsrmConfig version="1.2"/></con:call><con:call name="TC_020_030: ISO AP to CIM EP – GetRecords Specification"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://veoportal.eumetsat.int/soapServices/services/CSWDiscovery</con:endpoint><con:request><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://userguide.axis2.apache.org/xsd">
+	<soapenv:Header/>
+	<soapenv:Body>
+
+<GetRecords xmlns="http://www.opengis.net/cat/csw/2.0.2" xmlns:ogc="http://www.opengis.net/ogc" xmlns:gmd="http://www.isotc211.org/2005/gmd" xmlns:apiso="http://www.opengis.net/cat/csw/apiso/1.0" xmlns:ows="http://www.opengis.net/ows" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dct="http://purl.org/dc/terms/" xmlns:gml="http://www.opengis.net/gml" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/cat/csw/2.0.2
+../../../../../CSW-discovery.xsd" service="CSW" version="2.0.2" resultType="results" outputFormat="application/xml" outputSchema="http://www.isotc211.org/2005/gmd" startPosition="1" maxRecords="5">
+	<Query typeNames="gmd:MD_Metadata">
+		<ElementSetName typeNames="">brief</ElementSetName>
+		<Constraint version="1.1.0">
+			<ogc:Filter>
+				<ogc:And>
+					<ogc:PropertyIsEqualTo>
+						<ogc:PropertyName>apiso:Language</ogc:PropertyName>
+						<ogc:Literal>eng</ogc:Literal>
+					</ogc:PropertyIsEqualTo>
+						<ogc:PropertyIsEqualTo>
+							<ogc:PropertyName>apiso:type</ogc:PropertyName>
+							<ogc:Literal>datasetcollection</ogc:Literal>
+						</ogc:PropertyIsEqualTo>
+					<ogc:PropertyIsEqualTo>
+						<ogc:PropertyName>apiso:SpecificationTitle</ogc:PropertyName>
+						<ogc:Literal>INSPIRE Data Specification on Hydrography</ogc:Literal>
+					</ogc:PropertyIsEqualTo>
+					<ogc:PropertyIsGreaterThanOrEqualTo>
+						<ogc:PropertyName>apiso:SpecificationDate</ogc:PropertyName>
+						<ogc:Literal>2008-12-01</ogc:Literal>
+					</ogc:PropertyIsGreaterThanOrEqualTo>
+					<ogc:PropertyIsEqualTo>
+						<ogc:PropertyName>apiso:SpecificationDateType</ogc:PropertyName>
+						<ogc:Literal>publication</ogc:Literal>
+					</ogc:PropertyIsEqualTo>
+					<ogc:PropertyIsEqualTo>
+						<ogc:PropertyName>apiso:Degree</ogc:PropertyName>
+						<ogc:Literal>true</ogc:Literal>
+					</ogc:PropertyIsEqualTo>
+		
+				</ogc:And>
+			</ogc:Filter>
+		</Constraint>
+	</Query>
+</GetRecords>
+
+
+	</soapenv:Body>
+</soapenv:Envelope>
+]]></con:request><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="echoStruct"/><con:wsrmConfig version="1.2"/></con:call><con:call name="TC_020_040: ISO AP to CIM EP – GetRecords Services"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://46.51.189.235/soapServices/services/CSWDiscovery</con:endpoint><con:request><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://userguide.axis2.apache.org/xsd">
+	<soapenv:Header/>
+	<soapenv:Body>
+
+<GetRecords xmlns="http://www.opengis.net/cat/csw/2.0.2" xmlns:ogc="http://www.opengis.net/ogc" xmlns:gmd="http://www.isotc211.org/2005/gmd" xmlns:apiso="http://www.opengis.net/cat/csw/apiso/1.0" xmlns:ows="http://www.opengis.net/ows" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dct="http://purl.org/dc/terms/" xmlns:gml="http://www.opengis.net/gml" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/cat/csw/2.0.2
+../../../../../CSW-discovery.xsd" service="CSW" version="2.0.2" resultType="results" outputFormat="application/xml" outputSchema="http://www.isotc211.org/2005/gmd" startPosition="1" maxRecords="5">
+	<Query typeNames="gmd:MD_Metadata">
+		<ElementSetName typeNames="">brief</ElementSetName>
+		<Constraint version="1.1.0">
+			<ogc:Filter>
+				<ogc:And>
+					<ogc:PropertyIsEqualTo>
+						<ogc:PropertyName>apiso:type</ogc:PropertyName>
+						<ogc:Literal>service</ogc:Literal>
+					</ogc:PropertyIsEqualTo>
+					<ogc:PropertyIsEqualTo>
+						<ogc:PropertyName>apiso:ServiceType</ogc:PropertyName>
+						<ogc:Literal>view</ogc:Literal>
+					</ogc:PropertyIsEqualTo>
+				</ogc:And>
+			</ogc:Filter>
+		</Constraint>
+	</Query>
+</GetRecords>
+
+
+	</soapenv:Body>
+</soapenv:Envelope>
+]]></con:request><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="echoStruct"/><con:wsrmConfig version="1.2"/></con:call><con:call name="TC_020_050: ISO AP to CIM EP – GetRecords BBox"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://veoportal.eumetsat.int/soapServices/services/CSWDiscovery</con:endpoint><con:request><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://userguide.axis2.apache.org/xsd">
+	<soapenv:Header/>
+	<soapenv:Body>
+
+<GetRecords xmlns="http://www.opengis.net/cat/csw/2.0.2" xmlns:ogc="http://www.opengis.net/ogc" xmlns:gmd="http://www.isotc211.org/2005/gmd" xmlns:apiso="http://www.opengis.net/cat/csw/apiso/1.0" xmlns:ows="http://www.opengis.net/ows" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dct="http://purl.org/dc/terms/" xmlns:gml="http://www.opengis.net/gml" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/cat/csw/2.0.2
+../../../../../CSW-discovery.xsd" service="CSW" version="2.0.2" resultType="results" outputFormat="application/xml" outputSchema="http://www.isotc211.org/2005/gmd" startPosition="1" maxRecords="5">
+	<Query typeNames="gmd:MD_Metadata">
+		<ElementSetName typeNames="">brief</ElementSetName>
+		<Constraint version="1.1.0">
+			<ogc:Filter>
+				<ogc:And>
+					<ogc:PropertyIsEqualTo>
+						<ogc:PropertyName>apiso:type</ogc:PropertyName>
+						<ogc:Literal>datasetcollection</ogc:Literal>
+					</ogc:PropertyIsEqualTo>
+					<ogc:BBOX>
+						<ogc:PropertyName>apiso:BoundingBox</ogc:PropertyName>
+						<gml:Envelope srsName="urn:ogc:def:crs:EPSG:7.4:4326">
+							<gml:lowerCorner>-90.00 -180.00</gml:lowerCorner>
+							<gml:upperCorner>90.00 180.00</gml:upperCorner>
+						</gml:Envelope>
+					</ogc:BBOX>
+
+
+				</ogc:And>
+			</ogc:Filter>
+		</Constraint>
+	</Query>
+</GetRecords>
+
+
+	</soapenv:Body>
+</soapenv:Envelope>
+]]></con:request><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="echoStruct"/><con:wsrmConfig version="1.2"/></con:call><con:call name="TC_020_060: ISO AP to CIM EP – GetRecords SyntaxError"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://46.51.189.235/soapServices/services/CSWDiscovery</con:endpoint><con:request><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://userguide.axis2.apache.org/xsd">
+	<soapenv:Header/>
+	<soapenv:Body>
+
+<GetRecords xmlns="http://www.opengis.net/cat/csw/2.0.2" xmlns:ogc="http://www.opengis.net/ogc" xmlns:gmd="http://www.isotc211.org/2005/gmd" xmlns:apiso="http://www.opengis.net/cat/csw/apiso/1.0" xmlns:ows="http://www.opengis.net/ows" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dct="http://purl.org/dc/terms/" xmlns:gml="http://www.opengis.net/gml" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/cat/csw/2.0.2
+../../../../../CSW-discovery.xsd" service="CSW" version="2.0.2" resultType="results" outputFormat="application/xml" outputSchema="http://www.isotc211.org/2005/gmd" startPosition="1" maxRecords="5">
+	<Query typeNames="gmd:MD_Metadata">
+		<ElementSetName typeNames="">brief</ElementSetName>
+		<Constraint version="1.1.0">
+			<ogc:Filter>
+					<ogc:PropertyIsEqualTo>
+						<ogc:PropertyName>apiso:typeSyntaxError</ogc:PropertyName>
+						<ogc:Literal>datasetcollection</ogc:Literal>
+					</ogc:PropertyIsEqualTo>
+			</ogc:Filter>
+		</Constraint>
+	</Query>
+</GetRecords>
+
+
+	</soapenv:Body>
+</soapenv:Envelope>
+]]></con:request><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="echoStruct"/><con:wsrmConfig version="1.2"/></con:call></con:operation></con:interface><con:testSuite name="INSPIRE"><con:settings/><con:runType>SEQUENTIAL</con:runType><con:testCase failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="TC_020_010: ISO AP to CIM EP - GetCapabilities" searchProperties="true" id="3bdacfa3-114a-4224-9448-846a2cbbc2b0"><con:settings/><con:testStep type="httprequest" name="TC_020_010: ISO AP to CIM EP - GetCapabilities"><con:settings/><con:config method="GET" xsi:type="con:HttpRequest" name="TC_020_010: ISO AP to CIM EP - GetCapabilities" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:endpoint>http://46.51.189.235/soapServices/CSWStartup</con:endpoint><con:request/><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:parameters><con:parameter><con:name>service</con:name><con:value>CSW</con:value><con:style>QUERY</con:style><con:type xmlns:xs="http://www.w3.org/2001/XMLSchema">xs:string</con:type><con:default>CSW</con:default><con:description xsi:nil="true"/></con:parameter><con:parameter><con:name>version</con:name><con:value>2.0.2</con:value><con:style>QUERY</con:style><con:type xmlns:xs="http://www.w3.org/2001/XMLSchema">xs:string</con:type><con:default>2.0.2</con:default><con:description xsi:nil="true"/></con:parameter><con:parameter><con:name>request</con:name><con:value>GetCapabilities</con:value><con:style>QUERY</con:style><con:type xmlns:xs="http://www.w3.org/2001/XMLSchema">xs:string</con:type><con:default>GetRecordById</con:default><con:description xsi:nil="true"/></con:parameter></con:parameters></con:config></con:testStep><con:properties/></con:testCase><con:testCase failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="GetRecordById (not an official test case)" searchProperties="true"><con:settings/><con:testStep type="httprequest" name="GetRecordById"><con:settings/><con:config method="GET" xsi:type="con:HttpRequest" name="GetRecordById" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:endpoint>http://46.51.189.235/soapServices/CSWStartup</con:endpoint><con:request/><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:parameters><con:parameter><con:name>service</con:name><con:value>CSW</con:value><con:style>QUERY</con:style><con:type xmlns:xs="http://www.w3.org/2001/XMLSchema">xs:string</con:type><con:default>CSW</con:default><con:description xsi:nil="true"/></con:parameter><con:parameter><con:name>version</con:name><con:value>2.0.2</con:value><con:style>QUERY</con:style><con:type xmlns:xs="http://www.w3.org/2001/XMLSchema">xs:string</con:type><con:default>2.0.2</con:default><con:description xsi:nil="true"/></con:parameter><con:parameter><con:name>request</con:name><con:value>GetRecordById</con:value><con:style>QUERY</con:style><con:type xmlns:xs="http://www.w3.org/2001/XMLSchema">xs:string</con:type><con:default>GetRecordById</con:default><con:description xsi:nil="true"/></con:parameter><con:parameter><con:name>Id</con:name><con:value>EO:EUM:DAT:NOAA:ANOMNDVI</con:value><con:style>QUERY</con:style></con:parameter><con:parameter><con:name>outputSchema</con:name><con:value>http://www.isotc211.org/2005/gmd</con:value><con:style>QUERY</con:style></con:parameter></con:parameters></con:config></con:testStep><con:properties/></con:testCase><con:properties/></con:testSuite><con:properties/><con:wssContainer/></con:soapui-project>

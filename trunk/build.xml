@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project name="InspireTM">
+	<!-- 
+	   Ant build file for Inspire Transformation Module.
+	   Author: Udo Einspanier
+	   
+	   All properties can be set/overwritten in the build.properties file of the root of the project.
+	   
+	   Following goals are possible:
+
+	       Build
+	       ~~~~~~
+	           clean           : cleans the ./target directory
+	           compile         : compiles the ./src directory
+	           explode-web     : creates a web exploded directory
+               package-jar     : jars the ./target/classes directory
+               package-war     : war's the web application
+	           build           : executes package and package-javadoc
+	           
+	       JavaDoc
+	       ~~~~~~~~
+	           javadoc         : creates javadoc from ./src directory
+	           package-javadoc : jars the ./target/javadoc directory 
+	-->
+	<!-- set the base directory -->
+	<dirname property="project.basedir" file="${ant.file}" />
+
+    <!-- a properties file, can overwrite all properties -->
+    <property file="${project.basedir}/build.properties" />
+    <filter filtersfile="${project.basedir}/build.properties" />
+
+	<!-- some settings -->
+	<property name="project.vendor" value="con terra GmbH" />
+	<property name="project.name" value="${ant.project.name}" />
+	<property name="project.title" value="${project.name}" />
+	<property name="project.version" value="1.0.0-SNAPSHOT" />
+    <property name="project.base.packagename" value="de.conterra" />
+
+	<!-- path settings -->
+	<property name="project.output.dir" value="${project.basedir}/target" />
+	<property name="project.jaroutput.dir" value="${project.output.dir}" />
+	<property name="project.compileoutput.dir" value="${project.output.dir}/classes" />
+	<property name="project.javadoc.output" value="${project.output.dir}/javadoc" />
+	<property name="project.weboutput.dir" value="${project.output.dir}/${project.name}" />
+	<property name="project.lib.dir" value="${project.basedir}/lib" />
+	<property name="project.source.dir" value="${project.basedir}/src" />
+	<property name="project.websource.dir" value="${project.basedir}/web" />
+
+    <!-- Compiler options -->
+    <property name="compiler.language.target" value="1.5" />
+    <property name="compiler.language.source" value="1.5" />
+    <property name="compiler.debug" value="on" />
+    <property name="compiler.generate.no.warnings" value="off" />
+    <property name="compiler.args" value="" />
+    <property name="compiler.max.memory" value="128m" />
+    <patternset id="ignored.files">
+        <exclude name="**/.svn/**" />
+        <exclude name="**/.settings/**" />
+        <exclude name="**/.project" />
+        <exclude name="**/.classpath" />
+    </patternset>
+
+    <patternset id="compiler.filter.resources">
+        <include name="**/?*.properties" />
+        <include name="**/?*.xml" />
+        <include name="**/?*.xsl" />
+    </patternset>
+
+    <patternset id="compiler.nonfilter.resources">
+        <include name="**/?*.jks" />
+        <include name="**/?*.gif" />
+        <include name="**/?*.png" />
+        <include name="**/?*.jpeg" />
+        <include name="**/?*.jpg" />
+        <include name="**/?*.jsp" />
+        <include name="**/?*.jspx" />
+        <include name="**/?*.css" />
+        <include name="**/?*.class" />
+        <include name="**/?*.html" />
+        <include name="**/?*.tld" />
+        <include name="**/?*.wsdl" />
+    </patternset>
+
+    <patternset id="excluded.from.project">
+        <patternset refid="ignored.files" />
+    </patternset>
+    
+    <patternset id="excluded.from.compilation">
+        <patternset refid="excluded.from.project" />
+    </patternset>
+
+    <!-- JavaDoc options -->
+    <property name="javadoc.args" value="" />
+
+    <path id="project.classpath">
+        <fileset dir="${project.lib.dir}" includes="**/*.jar"/>
+    </path>
+
+	<!--
+	Build
+	~~~~~
+	-->
+	<!-- cleans the output directories -->
+	<target name="clean" depends="displayinfo" description="cleanup module">
+		<delete dir="${project.output.dir}" />
+	</target>
+	
+	<target name="displayinfo">
+		<echo>
+		*************************************************************************
+		*		Build ${project.title}
+		*************************************************************************
+		</echo>
+	</target>
+
+	<!-- compiles the src tree -->
+	<target name="compile" depends="displayinfo" description="compile module">
+		<mkdir dir="${project.compileoutput.dir}" />
+		<javac srcdir="${project.source.dir}" destdir="${project.compileoutput.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true">
+			<compilerarg line="${compiler.args}" />
+			<classpath refid="project.classpath" />
+			<patternset refid="excluded.from.compilation" />
+		</javac>
+		<!-- copy static resources -->
+		<copy todir="${project.compileoutput.dir}">
+			<fileset dir="${project.source.dir}">
+				<patternset refid="compiler.nonfilter.resources" />
+				<type type="file" />
+			</fileset>
+		</copy>
+		<!-- copy filter resources -->
+		<copy todir="${project.compileoutput.dir}" filtering="true" overwrite="true">
+			<fileset dir="${project.source.dir}">
+				<patternset refid="compiler.filter.resources" />
+				<type type="file" />
+			</fileset>
+		</copy>
+	</target>
+
+	<!-- jars the module output (only if no webapp)-->
+	<target name="package-jar" depends="compile" description="package classes">
+		<mkdir dir="${project.jaroutput.dir}" />
+		<jar jarfile="${project.jaroutput.dir}/${project.name}-${project.version}.jar" basedir="${project.compileoutput.dir}">
+			<exclude name="${excluded.from.project}" />
+			<manifest>
+				<attribute name="Created-By" value="${user.name}" />
+				<attribute name="JDK-Version" value="${ant.java.version}" />
+				<attribute name="Specification-Title" value="${project.title}" />
+				<attribute name="Specification-Vendor" value="${project.vendor}" />
+				<attribute name="Specification-Version" value="${project.version}" />
+			</manifest>
+		</jar>
+	</target>
+
+	<!-- create exploded directory for web applications -->
+	<target name="explode-web" depends="compile" description="explode webapp">
+		<!-- copy web resources -->
+		<mkdir dir="${project.weboutput.dir}" />
+		<!-- copy static web resources -->
+		<copy todir="${project.weboutput.dir}">
+			<fileset dir="${project.websource.dir}">
+				<patternset refid="compiler.nonfilter.resources" />
+				<type type="file" />
+			</fileset>
+		</copy>
+		<!-- copy filter web resources -->
+		<copy todir="${project.weboutput.dir}" filtering="true" overwrite="true">
+			<fileset dir="${project.websource.dir}">
+				<patternset refid="compiler.filter.resources" />
+				<type type="file" />
+			</fileset>
+		</copy>
+		<!-- copy classes and property files -->
+		<mkdir dir="${project.weboutput.dir}/WEB-INF/classes" />
+		<copy todir="${project.weboutput.dir}/WEB-INF/classes">
+			<fileset dir="${project.compileoutput.dir}">
+				<patternset refid="compiler.filter.resources" />
+				<patternset refid="compiler.nonfilter.resources" />
+				<type type="file" />
+			</fileset>
+		</copy>
+		<!-- copy libs -->
+		<mkdir dir="${project.weboutput.dir}/WEB-INF/lib" />
+		<copy todir="${project.weboutput.dir}/WEB-INF/lib" flatten="true">
+			<path refid="project.classpath" />
+		</copy>
+	</target>
+
+	<!-- create war file -->
+	<target name="package-war" depends="explode-web" description="package webapp">
+		<mkdir dir="${project.jaroutput.dir}" />
+		<war warfile="${project.jaroutput.dir}/${project.name}-${project.version}.war" basedir="${project.weboutput.dir}" webxml="${project.weboutput.dir}/WEB-INF/web.xml">
+			<exclude name="${excluded.from.project}" />
+			<manifest>
+				<attribute name="Created-By" value="${user.name}" />
+				<attribute name="JDK-Version" value="${ant.java.version}" />
+				<attribute name="Specification-Title" value="${project.title}" />
+				<attribute name="Specification-Vendor" value="${project.vendor}" />
+				<attribute name="Specification-Version" value="${project.version}" />
+			</manifest>
+		</war>
+	</target>
+
+	<target name="package" depends="package-jar, package-war" description="package classes and web">
+	</target>
+
+	<!-- builds the module and the javadoc -->
+	<target name="build" depends="package, package-javadoc" description="builds the whole module">
+	</target>
+
+	<!--
+	JavaDoc
+	~~~~~~~
+	-->
+	<!-- creates the javadoc -->
+	<target name="javadoc" depends="displayinfo" description="create javadoc" if="source.present">
+		<mkdir dir="${project.javadoc.output}" />
+		<javadoc sourcepath="${project.source.dir}" packagenames="${project.base.packagename}.*" destdir="${project.javadoc.output}" author="true" version="true" use="true" windowtitle="${project.title}">
+			<arg line="${javadoc.args}" />
+			<classpath refid="project.classpath" />
+			<doctitle>${project.title}</doctitle>
+			<bottom>Copyright &#169; ${project.vendor}. All Rights Reserved.</bottom>
+			<link href="http://java.sun.com/javase/6/docs/api/" />
+			<link href="http://java.sun.com/webservices/docs/1.6/api/" />
+		</javadoc>
+	</target>
+
+	<!-- jars the javadoc output -->
+	<target name="package-javadoc" depends="javadoc" description="package javadoc" if="source.present">
+		<mkdir dir="${project.jaroutput.dir}" />
+		<jar jarfile="${project.jaroutput.dir}/${project.name}-${project.version}-javadoc.jar" basedir="${project.javadoc.output}">
+			<exclude name="${excluded.from.project}" />
+			<manifest>
+				<attribute name="Created-By" value="${user.name}" />
+				<attribute name="JDK-Version" value="${ant.java.version}" />
+				<attribute name="Specification-Title" value="${project.title}" />
+				<attribute name="Specification-Vendor" value="${project.vendor}" />
+				<attribute name="Specification-Version" value="${project.version}" />
+			</manifest>
+		</jar>
+	</target>
+</project>

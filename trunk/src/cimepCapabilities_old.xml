@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wrs:Capabilities version="1.0.1" xmlns:wrs="http://www.opengis.net/cat/wrs/1.0" xmlns:ows="http://www.opengis.net/ows" xmlns:ogc="http://www.opengis.net/ogc" xmlns:xlink="http://www.w3.org/1999/xlink">
+	<ows:ServiceIdentification>
+		<ows:Title>CSW-ebRIM Registry Service</ows:Title>
+		<ows:Abstract>Abstract</ows:Abstract>
+		<ows:Keywords>
+			<ows:Keyword>registry</ows:Keyword>
+		</ows:Keywords>
+		<ows:ServiceType codeSpace="http://www.opengeospatial.org/ogcna">
+urn:ogc:serviceType:CatalogueService:2.0.2:HTTP:ebRIM
+</ows:ServiceType>
+		<ows:ServiceTypeVersion>1.0.1</ows:ServiceTypeVersion>
+	</ows:ServiceIdentification>
+	<ows:ServiceProvider>
+		<ows:ProviderName>Alpha Beta, Inc.</ows:ProviderName>
+		<ows:ServiceContact>
+			<ows:IndividualName>Phineas Fogg</ows:IndividualName>
+		</ows:ServiceContact>
+	</ows:ServiceProvider>
+	<ows:OperationsMetadata>
+		<ows:Operation name="GetCapabilities">
+			<ows:DCP>
+				<ows:HTTP>
+					<ows:Get xlink:type="simple" xlink:href="http://localhost:80/path"/>
+				</ows:HTTP>
+			</ows:DCP>
+		</ows:Operation>
+		<ows:Operation name="GetRecords">
+			<ows:DCP>
+				<ows:HTTP>
+					<ows:Get xlink:type="simple" xlink:href="http://localhost:80/path"/>
+					<ows:Post xlink:type="simple" xlink:href="http://localhost:80/path"/>
+				</ows:HTTP>
+			</ows:DCP>
+		</ows:Operation>
+		<ows:Operation name="GetRecordById">
+			<ows:DCP>
+				<ows:HTTP>
+					<ows:Get xlink:type="simple" xlink:href="http://localhost:80/path"/>
+				</ows:HTTP>
+			</ows:DCP>
+		</ows:Operation>
+		<ows:Operation name="DescribeRecord">
+			<ows:DCP>
+				<ows:HTTP>
+					<ows:Post xlink:type="simple" xlink:href="http://localhost:80/path"/>
+				</ows:HTTP>
+			</ows:DCP>
+		</ows:Operation>
+		<ows:Operation name="GetDomain">
+			<ows:DCP>
+				<ows:HTTP>
+					<ows:Post xlink:type="simple" xlink:href="http://localhost:80/path"/>
+				</ows:HTTP>
+			</ows:DCP>
+		</ows:Operation>
+		<ows:Operation name="GetRepositoryItem">
+			<ows:DCP>
+				<ows:HTTP>
+					<ows:Get xlink:type="simple" xlink:href="http://localhost:80/path"/>
+				</ows:HTTP>
+			</ows:DCP>
+		</ows:Operation>
+		<ows:Operation name="Transaction">
+			<ows:DCP>
+				<ows:HTTP>
+					<ows:Post xlink:type="simple" xlink:href="https://localhost:443/path"/>
+				</ows:HTTP>
+			</ows:DCP>
+		</ows:Operation>
+		<ows:Operation name="Harvest">
+			<ows:DCP>
+				<ows:HTTP>
+					<ows:Post xlink:type="simple" xlink:href="https://localhost:443/path"/>
+				</ows:HTTP>
+			</ows:DCP>
+			<ows:Parameter name="ResourceType">
+				<ows:Value>http://www.isotc211.org/2005/gmd</ows:Value>
+			</ows:Parameter>
+			<ows:Constraint name="uri-schemes">
+				<ows:Value>http</ows:Value>
+				<ows:Metadata xlink:type="simple" xlink:title="IANA URI schemes registry" xlink:href="http://www.iana.org/assignments/uri-schemes.html"/>
+			</ows:Constraint>
+		</ows:Operation>
+		<ows:Constraint name="media-types">
+			<ows:Value>application/xml</ows:Value>
+			<ows:Metadata xlink:type="simple" xlink:title="IANA media types registry" xlink:href="http://www.iana.org/assignments/media-types/"/>
+		</ows:Constraint>
+		<ows:Constraint name="srsName">
+			<ows:Value>urn:ogc:def:crs:EPSG:\d{4,5}</ows:Value>
+			<ows:Metadata xlink:type="simple" xlink:title="EPSG geodetic parameters" xlink:href="http://www.epsg-registry.org/"/>
+		</ows:Constraint>
+		<ows:ExtendedCapabilities xmlns:wsdi="http://www.w3.org/ns/wsdl-instance" wsdi:wsdlLocation="http://wrs1.example.org/wsdl
+http://localhost/wrs/wsdl"/>
+	</ows:OperationsMetadata>
+	<ogc:Filter_Capabilities>
+		<ogc:Spatial_Capabilities xmlns:gml="http://www.opengis.net/gml">
+			<ogc:GeometryOperands>
+				<ogc:GeometryOperand>gml:Envelope</ogc:GeometryOperand>
+			</ogc:GeometryOperands>
+			<ogc:SpatialOperators>
+				<ogc:SpatialOperator name="BBOX"/>
+			</ogc:SpatialOperators>
+		</ogc:Spatial_Capabilities>
+		<ogc:Scalar_Capabilities>
+			<ogc:LogicalOperators/>
+			<ogc:ComparisonOperators>
+				<ogc:ComparisonOperator>EqualTo</ogc:ComparisonOperator>
+				<ogc:ComparisonOperator>NotEqualTo</ogc:ComparisonOperator>
+				<ogc:ComparisonOperator>LessThan</ogc:ComparisonOperator>
+				<ogc:ComparisonOperator>GreaterThan</ogc:ComparisonOperator>
+				<ogc:ComparisonOperator>LessThanEqualTo</ogc:ComparisonOperator>
+				<ogc:ComparisonOperator>GreaterThanEqualTo</ogc:ComparisonOperator>
+				<ogc:ComparisonOperator>Like</ogc:ComparisonOperator>
+			</ogc:ComparisonOperators>
+		</ogc:Scalar_Capabilities>
+		<ogc:Id_Capabilities>
+			<!-- wrs:RecordId substitutes for ogc:_Id in ogc:Filter -->
+			<ogc:EID/>
+		</ogc:Id_Capabilities>
+	</ogc:Filter_Capabilities>
+</wrs:Capabilities>
