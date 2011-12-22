@@ -78,20 +78,31 @@ Transforms a CIM EP request to an ISO AP request.
 		</xsl:copy>
 	</xsl:template>
 
-	<!-- TODO: dataset type -->
+	<!-- dataset type -->
 	<xsl:template match="*[tmp:PropertyName/tmp:step[2]/tmp:localName = '@objectType' and ogc:Literal = 'urn:ogc:def:objectType:OGC-CSW-ebRIM-CIM::DataMetadata']">
-		<ogc:Or>
-			<xsl:copy>
-				<xsl:apply-templates select="@*"/>
-				<ogc:PropertyName>apiso:type</ogc:PropertyName>
-				<ogc:Literal>dataset</ogc:Literal>
-			</xsl:copy>
-			<xsl:copy>
-				<xsl:apply-templates select="@*"/>
-				<ogc:PropertyName>apiso:type</ogc:PropertyName>
-				<ogc:Literal>series</ogc:Literal>
-			</xsl:copy>
-		</ogc:Or>
+		<xsl:copy>
+			<xsl:apply-templates select="@*"/>
+			<ogc:PropertyName>apiso:type</ogc:PropertyName>
+			<ogc:Literal>dataset</ogc:Literal>
+		</xsl:copy>
+	</xsl:template>
+
+	<!-- series type -->
+	<xsl:template match="*[tmp:PropertyName/tmp:step[2]/tmp:localName = '@objectType' and ogc:Literal = 'urn:ogc:def:objectType:OGC-CSW-ebRIM-CIM::DatasetCollection']">
+		<xsl:copy>
+			<xsl:apply-templates select="@*"/>
+			<ogc:PropertyName>apiso:type</ogc:PropertyName>
+			<ogc:Literal>series</ogc:Literal>
+		</xsl:copy>
+	</xsl:template>
+
+	<!-- application type -->
+	<xsl:template match="*[tmp:PropertyName/tmp:step[2]/tmp:localName = '@objectType' and ogc:Literal = 'urn:ogc:def:objectType:OGC-CSW-ebRIM-CIM::Application']">
+		<xsl:copy>
+			<xsl:apply-templates select="@*"/>
+			<ogc:PropertyName>apiso:type</ogc:PropertyName>
+			<ogc:Literal>application</ogc:Literal>
+		</xsl:copy>
 	</xsl:template>
 
 	<!-- rim:Name -->

@@ -287,8 +287,14 @@ Transforms a CIM EP request to an ISO AP request.
 	<xsl:template name="hierarchyLevelValue">
 		<xsl:attribute name="codeListValue">
 			<xsl:choose>
-				<xsl:when test="rim:Slot[@name = 'http://purl.org/dc/terms/type']//@value">
-					<xsl:value-of select="rim:Slot[@name = 'http://purl.org/dc/terms/type']//@value"/>
+				<xsl:when test="@objectType = 'urn:ogc:def:objectType:OGC-CSW-ebRIM-CIM::ServiceMetadata'">
+					<xsl:value-of select="'service'"/>
+				</xsl:when>
+				<xsl:when test="$objectType = 'urn:ogc:def:objectType:OGC-CSW-ebRIM-CIM::DatasetCollection'">
+					<xsl:value-of select="'series'"/>
+				</xsl:when>
+				<xsl:when test="$objectType = 'urn:ogc:def:objectType:OGC-CSW-ebRIM-CIM::Application'">
+					<xsl:value-of select="'application'"/>
 				</xsl:when>
 				<xsl:otherwise>
 					<xsl:value-of select="'dataset'"/>
