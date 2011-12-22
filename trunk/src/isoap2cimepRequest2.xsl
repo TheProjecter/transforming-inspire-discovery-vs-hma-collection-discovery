@@ -105,20 +105,15 @@ Transforms a CIM EP request to an ISO AP request.
 		</xsl:copy>
 	</xsl:template>
 	
-	<xsl:template name="datasetMetadata">
+	<!-- creates a filter for the object type of resource metadata -->
+	<xsl:template name="resourceMetadata">
+		<xsl:variable name="objectType"/>
 		<ogc:PropertyIsEqualTo>
 			<ogc:PropertyName>$e1/@objectType</ogc:PropertyName>
-			<ogc:Literal>urn:ogc:def:objectType:OGC-CSW-ebRIM-CIM::DataMetadata</ogc:Literal>
+			<ogc:Literal><xsl:value-of select="$objectType"/></ogc:Literal>
 		</ogc:PropertyIsEqualTo>
 	</xsl:template>
-	
-	<xsl:template name="serviceMetadata">
-		<ogc:PropertyIsEqualTo>
-			<ogc:PropertyName>$e1/@objectType</ogc:PropertyName>
-			<ogc:Literal>urn:ogc:def:objectType:OGC-CSW-ebRIM-CIM::ServiceMetadata</ogc:Literal>
-		</ogc:PropertyIsEqualTo>
-	</xsl:template>
-	
+
 	<!-- creates necessary "joins" for the filter -->
 	<xsl:template name="createJoins">
 	<!--
@@ -139,8 +134,18 @@ Transforms a CIM EP request to an ISO AP request.
 		-->
 		<xsl:if test="not(//tmp:localName[text() = 'type'])">
 			<ogc:Or>
-				<xsl:call-template name="datasetMetadata"/>
-				<xsl:call-template name="serviceMetadata"/>
+				<xsl:call-template name="resourceMetadata">
+					<xsl:with-param name="objectType" select="'urn:ogc:def:objectType:OGC-CSW-ebRIM-CIM::DataMetadata'"/>
+				</xsl:call-template>
+				<xsl:call-template name="resourceMetadata">
+					<xsl:with-param name="objectType" select="'urn:ogc:def:objectType:OGC-CSW-ebRIM-CIM::ServiceMetadata'"/>
+				</xsl:call-template>
+				<xsl:call-template name="resourceMetadata">
+					<xsl:with-param name="objectType" select="'urn:ogc:def:objectType:OGC-CSW-ebRIM-CIM::DatasetCollection'"/>
+				</xsl:call-template>
+				<xsl:call-template name="resourceMetadata">
+					<xsl:with-param name="objectType" select="'urn:ogc:def:objectType:OGC-CSW-ebRIM-CIM::Application'"/>
+				</xsl:call-template>
 			</ogc:Or>
 		</xsl:if>
 		<xsl:if test="//tmp:localName[text() = 'Language' or text() = 'ParentIdentifier']">
@@ -275,40 +280,27 @@ Transforms a CIM EP request to an ISO AP request.
 	<xsl:template match="tmp:PropertyName[tmp:step/tmp:localName/text() = 'ResourceIdentifier']">
 		<ogc:PropertyName>$e1/rim:ExternalIdentifier/@value</ogc:PropertyName>
 	</xsl:template>
-	
-	<!-- unclear: ObjectType -->
-<!--
-	<xsl:template match="*[tmp:PropertyName[tmp:step/tmp:localName/text() = 'type']]">
-		<xsl:copy>
-			<xsl:apply-templates select="@*"/>
-			<ogc:PropertyName>$e1/@objectType</ogc:PropertyName>
-			<ogc:Literal>
-				<xsl:choose>
-					<xsl:when test="ogc:Literal = 'service'">
-						<xsl:text>urn:ogc:def:objectType:OGC-CSW-ebRIM-CIM::ServiceMetadata</xsl:text>
-					</xsl:when>
-					<xsl:otherwise>
-						<xsl:text>urn:ogc:def:objectType:OGC-CSW-ebRIM-CIM::DataMetadata</xsl:text>
-					</xsl:otherwise>
-				</xsl:choose>
-			</ogc:Literal>
-		</xsl:copy>
-	</xsl:template>
--->
 
 	<!-- type -->
-	<!-- TODO: check if this is correct-->
-	<!--
-	<xsl:template match="tmp:PropertyName[tmp:step/tmp:localName/text() = 'type']">
-		<ogc:PropertyName>$e1/rim:Slot[@name='http://purl.org/dc/terms/type']/rim:ValueList/rim:Value</ogc:PropertyName>
-	</xsl:template>
--->
 	<xsl:template match="*[tmp:PropertyName/tmp:step/tmp:localName/text() = 'type' and ogc:Literal = 'service']">
-		<xsl:call-template name="serviceMetadata"/>
+		<xsl:call-template name="resourceMetadata">
+			<xsl:with-param name="objectType" select="'urn:ogc:def:objectType:OGC-CSW-ebRIM-CIM::ServiceMetadata'"/>
+		</xsl:call-template>
 	</xsl:template>
-
-	<xsl:template match="*[tmp:PropertyName/tmp:step/tmp:localName/text() = 'type' and not(ogc:Literal = 'service')]">
-		<xsl:call-template name="datasetMetadata"/>
+	<xsl:template match="*[tmp:PropertyName/tmp:step/tmp:localName/text() = 'type' and ogc:Literal = 'dataset']">
+		<xsl:call-template name="resourceMetadata">
+			<xsl:with-param name="objectType" select="'urn:ogc:def:objectType:OGC-CSW-ebRIM-CIM::DataMetadata'"/>
+		</xsl:call-template>
+	</xsl:template>
+	<xsl:template match="*[tmp:PropertyName/tmp:step/tmp:localName/text() = 'type' and ogc:Literal = 'series']">
+		<xsl:call-template name="resourceMetadata">
+			<xsl:with-param name="objectType" select="'urn:ogc:def:objectType:OGC-CSW-ebRIM-CIM::DatasetCollection'"/>
+		</xsl:call-template>
+	</xsl:template>
+	<xsl:template match="*[tmp:PropertyName/tmp:step/tmp:localName/text() = 'type' and ogc:Literal = 'application']">
+		<xsl:call-template name="resourceMetadata">
+			<xsl:with-param name="objectType" select="'urn:ogc:def:objectType:OGC-CSW-ebRIM-CIM::Application'"/>
+		</xsl:call-template>
 	</xsl:template>
 
 	<!-- creation date -->

@@ -132,15 +132,23 @@ Transforms a CIM EP request to an ISO AP request.
 		<xsl:variable name="fileId" select="gmd:fileIdentifier/gco:CharacterString"/>
 		<xsl:variable name="elementSet" select="$requestDoc//csw:ElementSetName"/>
 		<wrs:ExtrinsicObject id="{concat('RM:', $fileId)}" lid="{concat('RM:', $fileId)}" status="urn:oasis:names:tc:ebxml-regrep:StatusType:Submitted">
-			<xsl:variable name="hmService" select="gmd:hierarchyLevel/gmd:MD_ScopeCode[@codeListValue = 'service']"/>
-			<xsl:choose>
-				<xsl:when test="$hmService">
-					<xsl:call-template name="smAttribs"/>
-				</xsl:when>
-				<xsl:otherwise>
-					<xsl:call-template name="dmAttribs"/>
-				</xsl:otherwise>
-			</xsl:choose>
+			<xsl:variable name="scopeCode" select="gmd:hierarchyLevel/gmd:MD_ScopeCode[@codeListValue = 'service']"/>
+			<xsl:attribute name="objectType">
+				<xsl:choose>
+					<xsl:when test="$scopeCode = 'service'">
+						<xsl:value-of select="'urn:ogc:def:objectType:OGC-CSW-ebRIM-CIM::ServiceMetadata'"/>
+					</xsl:when>
+					<xsl:when test="$scopeCode = 'series'">
+						<xsl:value-of select="'urn:ogc:def:objectType:OGC-CSW-ebRIM-CIM::DatasetCollection'"/>
+					</xsl:when>
+					<xsl:when test="$scopeCode = 'application'">
+						<xsl:value-of select="'urn:ogc:def:objectType:OGC-CSW-ebRIM-CIM::Application'"/>
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:value-of select="'urn:ogc:def:objectType:OGC-CSW-ebRIM-CIM::DataMetadata'"/>
+					</xsl:otherwise>
+				</xsl:choose>
+			</xsl:attribute>
 			<xsl:if test="$elementSet != 'brief'">
 				<!-- ResourceMetadata slots -->
 				<!-- unclear: ObjectType -->
@@ -254,7 +262,9 @@ Transforms a CIM EP request to an ISO AP request.
 			</xsl:call-template>
 			<!-- associated extrinsic objects -->
 			<!-- hierarchyLevel -->
+			<!--
 			<xsl:call-template name="hierarchyLevel"/>
+			-->
 			<!-- organization -->
 			<xsl:call-template name="responsibleParty">
 				<xsl:with-param name="values" select="gmd:identificationInfo[1]/*/gmd:pointOfContact/*[gmd:organisationName/gco:CharacterString != '']"/>
@@ -277,16 +287,6 @@ Transforms a CIM EP request to an ISO AP request.
 		</xsl:if>
 	</xsl:template>
 	
-	<!-- type name service -->
-	<xsl:template name="smAttribs">
-		<xsl:attribute name="objectType"><xsl:value-of select="'urn:ogc:def:objectType:OGC-CSW-ebRIM-CIM::ServiceMetadata'"/></xsl:attribute>
-	</xsl:template>
-
-	<!-- other type name -->
-	<xsl:template name="dmAttribs">
-		<xsl:attribute name="objectType"><xsl:value-of select="'urn:ogc:def:objectType:OGC-CSW-ebRIM-CIM::DataMetadata'"/></xsl:attribute>
-	</xsl:template>
-
 	<!-- title -->
 	<xsl:template match="gmd:title/gco:CharacterString">
 		<rim:Name>
@@ -354,7 +354,8 @@ Transforms a CIM EP request to an ISO AP request.
 		</xsl:if>
 	</xsl:template>
 
-	<!-- hierarchyLevel -->
+	<!-- hierarchyLevel +++ NOW PART OF THE ResourceMetadata objectType +++ -->
+	<!--
 	<xsl:template name="hierarchyLevel">
 		<xsl:variable name="sourceObject" select="concat('RM:', gmd:fileIdentifier/gco:CharacterString)"/>
 		<xsl:variable name="targetObject" select="concat('DO:', gmd:fileIdentifier/gco:CharacterString)"/>
@@ -378,7 +379,7 @@ Transforms a CIM EP request to an ISO AP request.
 			</xsl:otherwise>
 		</xsl:choose>
 	</xsl:template>
-	
+	-->
 
 	<!-- responsible party -->
 	<xsl:template name="responsibleParty">
