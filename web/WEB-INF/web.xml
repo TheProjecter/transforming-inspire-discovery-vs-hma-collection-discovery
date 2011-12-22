@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.4" xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+	<display-name>INSPIRE Transformation Module</display-name>
+
+    <!-- CIM facade for INSPIRE CSW-->
+	<servlet>
+		<servlet-name>cimep</servlet-name>
+		<servlet-class>de.conterra.smaad.inspiretm.TransformationServlet</servlet-class>
+        <init-param>
+            <description>URL of the target catalog</description>
+            <param-name>target.service.url</param-name>
+            <param-value>@target.inspire.url@</param-value>
+        </init-param>
+        <init-param>
+            <description>configure a proxy host for accessing the target service if required, otherwise leave empty</description>
+            <param-name>proxy.host</param-name>
+            <param-value>@proxy.host@</param-value>
+        </init-param>
+        <init-param>
+            <description>configure a proxy port for accessing the target service if required, otherwise leave empty</description>
+            <param-name>proxy.port</param-name>
+            <param-value>@proxy.port@</param-value>
+        </init-param>
+        <init-param>
+            <description>Stylesheet resources loaded from classpath, separate with | if more than one</description>
+            <param-name>request.transform</param-name>
+            <param-value>/cimep2isoapRequest1.xsl|/cimep2isoapRequest2.xsl</param-value>
+        </init-param>
+        <init-param>
+            <description>Stylesheet resources loaded from classpath, separate with | if more than one</description>
+            <param-name>response.transform</param-name>
+            <param-value>/isoap2cimepResponse.xsl</param-value>
+        </init-param>
+	</servlet>
+
+    <!-- INSPIRE facade for CIM CSW-->
+	<servlet>
+		<servlet-name>inspire</servlet-name>
+		<servlet-class>de.conterra.smaad.inspiretm.InspireServlet</servlet-class>
+        <init-param>
+            <description>URL of the target catalog</description>
+            <param-name>target.service.url</param-name>
+            <param-value>@target.cim.url@</param-value>
+        </init-param>
+        <init-param>
+            <description>configure a proxy host for accessing the target service if required, otherwise leave empty</description>
+            <param-name>proxy.host</param-name>
+            <param-value>@proxy.host@</param-value>
+        </init-param>
+        <init-param>
+            <description>configure a proxy port for accessing the target service if required, otherwise leave empty</description>
+            <param-name>proxy.port</param-name>
+            <param-value>@proxy.port@</param-value>
+        </init-param>
+        <init-param>
+            <description>Stylesheet resources loaded from classpath, separate with | if more than one</description>
+            <param-name>request.transform</param-name>
+            <param-value>/isoap2cimepRequest1.xsl|/isoap2cimepRequest2.xsl</param-value>
+        </init-param>
+        <init-param>
+            <description>Stylesheet resources loaded from classpath, separate with | if more than one</description>
+            <param-name>response.transform</param-name>
+            <param-value>/cimep2isoapResponse.xsl</param-value>
+        </init-param>
+	</servlet>
+
+    <servlet-mapping>
+        <servlet-name>cimep</servlet-name>
+        <url-pattern>/cimep</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>inspire</servlet-name>
+        <url-pattern>/inspire</url-pattern>
+    </servlet-mapping>
+</web-app>

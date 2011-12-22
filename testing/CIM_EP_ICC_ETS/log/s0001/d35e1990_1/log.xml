@@ -1,0 +1,47 @@
+<log>
+<starttest local-name="ICC" prefix="csw" namespace-uri="http://www.opengis.net/cat/csw/2.0.2" path="s0001/d35e1990_1" file="C:\Users\uvo\AppData\Local\Temp\te_work\C~3A~5CVoges~5CETS_4_CIM_0_1_12_ICC_1_0_r4~5Cctl~5Cmain.ctl\csw$ICC.test">
+<assertion>Run tests for level ICC compliance.</assertion>
+<params xmlns:sec="http://www.intecs.it/sec"
+        xmlns:ctlp="http://www.occamlab.com/te/parsers"
+        xmlns:xlink="http://www.w3.org/1999/xlink"
+        xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+        xmlns:saxon="http://saxon.sf.net/"
+        xmlns:xs="http://www.w3.org/2001/XMLSchema"
+        xmlns:util="http://www.occamlab.com/te/util"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ows="http://www.opengis.net/ows"
+        xmlns:dct="http://purl.org/dc/terms/"
+        xmlns:ctl="http://www.occamlab.com/ctl"
+        xmlns:wrs="http://www.opengis.net/cat/wrs/1.0"
+        xmlns:csw="http://www.opengis.net/cat/csw/2.0.2"
+        xmlns:tec="java:com.occamlab.te.TECore"
+        xmlns:parsers="http://www.occamlab.com/te/parsers"
+        xmlns:te="http://www.occamlab.com/te"
+        xmlns:dc="http://purl.org/dc/elements/1.1/"
+        xmlns:xi="http://www.w3.org/2001/XInclude">
+   <param local-name="csw.capabilities.url" namespace-uri="" prefix=""
+          type="document-node()">
+      <value>http://46.51.189.235/inspiretm/cimep?</value>
+   </param>
+   <param local-name="csw.getrecords.url" namespace-uri="" prefix=""
+          type="document-node()">
+      <value>http://46.51.189.235/inspiretm/cimep</value>
+   </param>
+   <param local-name="csw.getrepositoryitem.url" namespace-uri="" prefix=""
+          type="document-node()">
+      <value>http://46.51.189.235/inspiretm/cimep?</value>
+   </param>
+</params>
+</starttest>
+<message id="d35e410_1"><![CDATA[Here is: csw:ICC !!]]></message>
+<message id="d35e413_1"><![CDATA[http://46.51.189.235/inspiretm/cimep?]]></message>
+<testcall path="s0001/d35e1990_1/d35e438_1"/>
+<testcall path="s0001/d35e1990_1/d35e443_1"/>
+<testcall path="s0001/d35e1990_1/d35e448_1"/>
+<testcall path="s0001/d35e1990_1/d35e453_1"/>
+<testcall path="s0001/d35e1990_1/d35e458_1"/>
+<testcall path="s0001/d35e1990_1/d35e463_1"/>
+<testcall path="s0001/d35e1990_1/d35e471_1"/>
+<testcall path="s0001/d35e1990_1/d35e476_1"/>
+<endtest result="0"/>
+</log>
