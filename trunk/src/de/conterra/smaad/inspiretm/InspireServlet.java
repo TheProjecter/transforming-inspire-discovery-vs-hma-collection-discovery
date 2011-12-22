@@ -41,6 +41,11 @@ public class InspireServlet extends TransformationServlet implements NamespaceCo
     private final static String NS_GMD = "http://www.isotc211.org/2005/gmd";
     private final static String NS_GCO = "http://www.isotc211.org/2005/gco";
     private final static String NS_CSW = "http://www.opengis.net/cat/csw/2.0.2";
+    private final static String XPATH_RESOURCE_METADATA =
+            "//*[@objectType = 'urn:ogc:def:objectType:OGC-CSW-ebRIM-CIM::DataMetadata' or " +
+            "@objectType = 'urn:ogc:def:objectType:OGC-CSW-ebRIM-CIM::DataMetadata' or " +
+            "@objectType = 'urn:ogc:def:objectType:OGC-CSW-ebRIM-CIM::DatasetCollection' or " +
+            "@objectType = 'urn:ogc:def:objectType:OGC-CSW-ebRIM-CIM::Application']";
 
     private final DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
     private final XPathFactory xPathFactory = XPathFactory.newInstance();
@@ -86,7 +91,7 @@ public class InspireServlet extends TransformationServlet implements NamespaceCo
         try {
             // with the @id of *Metadata repository object, request original MD_Metadata via GetRepositoryItem
             Element searchResults = (Element) mdPath.evaluate("//csw:SearchResults", responseDoc, XPathConstants.NODE);
-            mdNodes = (NodeList) mdPath.evaluate("//*[@objectType = 'urn:ogc:def:objectType:OGC-CSW-ebRIM-CIM::DataMetadata' or @objectType = 'urn:ogc:def:objectType:OGC-CSW-ebRIM-CIM::DataMetadata']", responseDoc, XPathConstants.NODESET);
+            mdNodes = (NodeList) mdPath.evaluate(XPATH_RESOURCE_METADATA, responseDoc, XPathConstants.NODESET);
             for (int i = 0; i < mdNodes.getLength(); i++) {
                 Node mdNode = mdNodes.item(i);
                 String fileId = mdPath.evaluate("@id", mdNode);
@@ -131,7 +136,8 @@ public class InspireServlet extends TransformationServlet implements NamespaceCo
         if (id == null) {
             return;
         }
-        GetMethod method = new GetMethod(getTargetServiceUrl() + "?service=CSW-ebRIM&version=2.0.2&request=GetRepositoryItem&Id=" + id);
+        GetMethod method = new GetMethod(getTargetServiceUrl() +
+                "?service=CSW-ebRIM&version=2.0.2&request=GetRepositoryItem&Id=" + id);
         method.getParams().setParameter(HttpMethodParams.RETRY_HANDLER,
                 new DefaultHttpMethodRetryHandler(3, false));
 
