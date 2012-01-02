@@ -7,6 +7,12 @@ Transforms a CIM EP request to an ISO AP request.
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:gmd="http://www.isotc211.org/2005/gmd" xmlns:gml="http://www.opengis.net/gml" xmlns:csw="http://www.opengis.net/cat/csw/2.0.2" xmlns:ogc="http://www.opengis.net/ogc" xmlns:rim="urn:oasis:names:tc:ebxml-regrep:xsd:rim:3.0" xmlns:apiso="http://www.opengis.net/cat/csw/apiso/1.0" xmlns:tmp="urn:aadd40b1-c384-41a1-bb5f-b9730a90daae" >
 	<xsl:output method="xml" encoding="utf-8"/>
 
+	<!-- Support for thesaurus concept URI. Youhave to modify BOTH the following variable and template to allow this queryable in AP ISO catalogues -->
+	
+	<!-- The variable that defines the name of the concept URI queryable to support -->
+	<!-- If you want to support this queryable, leave the variable empty by deleting concept_uri. -->
+	<xsl:variable name="concept_uri">concept_uri</xsl:variable>
+
 	<!-- The template for thesaurus concept URI queryable used by ISO client. -->
 	<!-- If you want to support this queryable, replace concept_uri in the match attribute with the name of the queryable used by the client. -->
 	<!-- If you do not want to support this queryable, remove this template. -->
@@ -47,7 +53,7 @@ Transforms a CIM EP request to an ISO AP request.
 	<!-- ExtrinsicObject is in CIM the only type that can be requested -->
 	<xsl:template match="csw:ElementSetName/@typeNames">
 		<xsl:attribute name="typeNames">
-			<xsl:value-of select="'$e1'"/>
+			<xsl:value-of select="'rim:ExtrinsicObject'"/>
 		</xsl:attribute>
 	</xsl:template>
 	
@@ -84,13 +90,98 @@ Transforms a CIM EP request to an ISO AP request.
 	-->
 	<xsl:template match="csw:Query[csw:Constraint]/@typeNames">
 		<xsl:attribute name="typeNames">
-			<xsl:value-of select="'rim:ExtrinsicObject_e1_e2_e3_e4_e5_e6_e7_e8_e9_e10_e11 rim:Association_a2_a3_a4_a5_a6_a7_a8_a9_a10_a11 rim:Classification_c1_c2_c3_c4_c5_c6'"/>
+			<xsl:call-template name="generateTypeNames"/>
+			<!--
+			<xsl:value-of select="'rim:ExtrinsicObject_e1_e2_e3_e4_e5_e6_e7 rim:Association_a2_a3_a4_a5_a6_a7_a8_a9_a10_a11 rim:Classification_c1_c2_c3_c4_c5_c6'"/>
+-->
 		</xsl:attribute>
 	</xsl:template>
 	<xsl:template match="csw:Query[not(csw:Constraint)]/@typeNames">
 		<xsl:attribute name="typeNames">
 			<xsl:value-of select="'rim:ExtrinsicObject_e1'"/>
 		</xsl:attribute>
+	</xsl:template>
+	
+	<xsl:template name="generateTypeNames">
+		<xsl:text>rim:ExtrinsicObject_e1</xsl:text>
+		<xsl:if test="//tmp:localName[text() = 'Language' or text() = 'ParentIdentifier']">
+			<xsl:text>_e2</xsl:text>
+		</xsl:if>
+		<xsl:if test="//tmp:localName[text() = 'SpecificationTitle' or text() = 'Degree' or text() = 'SpecificationDateType'or text() = 'SpecificationDate']">
+			<xsl:text>_e3</xsl:text>
+		</xsl:if>
+		<xsl:if test="//tmp:localName[text() = 'ConditionApplyingToAccessAndUse']">
+			<xsl:text>_e4</xsl:text>
+		</xsl:if>
+		<xsl:if test="//tmp:localName[text() = 'OtherConstraints' or text() = 'AccessConstraints']">
+			<xsl:text>_e5</xsl:text>
+		</xsl:if>
+		<xsl:if test="//tmp:localName[text() = 'Classification']">
+			<xsl:text>_e6</xsl:text>
+		</xsl:if>
+		<xsl:if test="//tmp:localName[text() = 'OrganisationName']">
+			<xsl:text>_e7</xsl:text>
+		</xsl:if>
+		<!-- associations -->
+		<xsl:if test="//tmp:localName[text() = 'Language' or text() = 'ParentIdentifier' or text() = 'SpecificationTitle' or text() = 'Degree' or text() = 'SpecificationDateType'or text() = 'SpecificationDate' or text() = 'ConditionApplyingToAccessAndUse' or text() = 'OtherConstraints' or text() = 'AccessConstraints' or text() = 'Classification' or text() = 'OrganisationName']">
+			<xsl:text> rim:Association</xsl:text>
+		</xsl:if>
+		<xsl:if test="//tmp:localName[text() = 'Language' or text() = 'ParentIdentifier']">
+			<xsl:text>_a2</xsl:text>
+		</xsl:if>
+		<xsl:if test="//tmp:localName[text() = 'SpecificationTitle' or text() = 'Degree' or text() = 'SpecificationDateType'or text() = 'SpecificationDate']">
+			<xsl:text>_a3</xsl:text>
+		</xsl:if>
+		<xsl:if test="//tmp:localName[text() = 'ConditionApplyingToAccessAndUse']">
+			<xsl:text>_a4</xsl:text>
+		</xsl:if>
+		<xsl:if test="//tmp:localName[text() = 'OtherConstraints' or text() = 'AccessConstraints']">
+			<xsl:text>_a5</xsl:text>
+		</xsl:if>
+		<xsl:if test="//tmp:localName[text() = 'Classification']">
+			<xsl:text>_a6</xsl:text>
+		</xsl:if>
+		<xsl:if test="//tmp:localName[text() = 'OrganisationName']">
+			<xsl:choose>
+				<xsl:when test="//*[tmp:PropertyName/tmp:step/tmp:localName/text() = 'ResponsiblePartyRole' and ogc:Literal/text() = 'publisher']">
+					<xsl:text>_a7</xsl:text>
+				</xsl:when>
+				<xsl:when test="//*[tmp:PropertyName/tmp:step/tmp:localName/text() = 'ResponsiblePartyRole' and ogc:Literal/text() = 'originator']">
+					<xsl:text>_a8</xsl:text>
+				</xsl:when>
+				<xsl:when test="//*[tmp:PropertyName/tmp:step/tmp:localName/text() = 'ResponsiblePartyRole' and ogc:Literal/text() = 'author']">
+					<xsl:text>_a9</xsl:text>
+				</xsl:when>
+				<xsl:when test="//*[tmp:PropertyName/tmp:step/tmp:localName/text() = 'ResponsiblePartyRole' and ogc:Literal/text() = 'pointOfContact']">
+					<xsl:text>_a10</xsl:text>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:text>_a11</xsl:text>
+				</xsl:otherwise>
+			</xsl:choose>
+		</xsl:if>
+		<!-- classifications -->
+		<xsl:if test="//tmp:localName[text() = 'KeywordType' or text() = 'TopicCategory' or text() = 'AccessConstraints' or text() = 'Classification' or text() = 'subject' or text() = $concept_uri]">
+			<xsl:text> rim:Classification</xsl:text>
+		</xsl:if>
+		<xsl:if test="//tmp:localName/text() = 'KeywordType'">
+			<xsl:text>_c1</xsl:text>
+		</xsl:if>
+		<xsl:if test="//tmp:localName/text() = 'TopicCategory'">
+			<xsl:text>_c2</xsl:text>
+		</xsl:if>
+		<xsl:if test="//tmp:localName/text() = 'AccessConstraints'">
+			<xsl:text>_c3</xsl:text>
+		</xsl:if>
+		<xsl:if test="//tmp:localName/text() = 'Classification'">
+			<xsl:text>_c4</xsl:text>
+		</xsl:if>
+		<xsl:if test="//tmp:localName/text() = 'subject'">
+			<xsl:text>_c5</xsl:text>
+		</xsl:if>
+		<xsl:if test="//tmp:localName/text() = $concept_uri">
+			<xsl:text>_c6</xsl:text>
+		</xsl:if>
 	</xsl:template>
 
 	<!-- always request full -->
@@ -106,12 +197,12 @@ Transforms a CIM EP request to an ISO AP request.
 
 	<!-- if there is a filter without root And, create the root And and add the "joins" -->
 	<xsl:template match="ogc:Filter[not(ogc:And)]">
-		<ogc:And>
-			<xsl:call-template name="createJoins"/>
-			<xsl:copy>
+		<xsl:copy>
+			<ogc:And>
+				<xsl:call-template name="createJoins"/>
 				<xsl:apply-templates select="*"/>
-			</xsl:copy>
-		</ogc:And>
+			</ogc:And>
+		</xsl:copy>
 	</xsl:template>
 	
 	<!-- if there is already a filter root And, just add the "joins" -->
