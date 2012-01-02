@@ -448,7 +448,7 @@ Transforms a CIM EP request to an ISO AP request.
 	</xsl:template>
 	
 	<!-- keyword with thesaurus -->
-	<!-- NOTE: this produces MD_Metadata that is not valis wrt the official apiso.xsd schema! -->
+	<!-- NOTE: this produces MD_Metadata that is not valid wrt the official apiso.xsd schema! -->
 	<!-- TODO: slot name/path -->
 	<xsl:template match="rim:ClassificationNode[rim:Slot/@name='urn:ogc:def:slot:OGC-CSW-ebRIM-CIM::url']" mode="keyword">
 		<gmd:descriptiveKeywords>

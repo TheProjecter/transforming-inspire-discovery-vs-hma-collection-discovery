@@ -7,6 +7,22 @@ Transforms a CIM EP request to an ISO AP request.
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:gmd="http://www.isotc211.org/2005/gmd" xmlns:gml="http://www.opengis.net/gml" xmlns:csw="http://www.opengis.net/cat/csw/2.0.2" xmlns:ogc="http://www.opengis.net/ogc" xmlns:rim="urn:oasis:names:tc:ebxml-regrep:xsd:rim:3.0" xmlns:apiso="http://www.opengis.net/cat/csw/apiso/1.0" xmlns:tmp="urn:aadd40b1-c384-41a1-bb5f-b9730a90daae" >
 	<xsl:output method="xml" encoding="utf-8"/>
 
+	<!-- The template for thesaurus concept URI queryable used by ISO client. -->
+	<!-- If you want to support this queryable, replace concept_uri in the match attribute with the name of the queryable used by the client. -->
+	<!-- If you do not want to support this queryable, remove this template. -->
+	<xsl:template match="*[tmp:PropertyName/tmp:step/tmp:localName/text() = 'concept_uri']">
+		<xsl:choose>
+			<xsl:when test="../ogc:Or or ../ogc:Not">
+				<ogc:And>
+					<xsl:call-template name="conceptUriIntern"/>
+				</ogc:And>
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:call-template name="conceptUriIntern"/>
+			</xsl:otherwise>
+		</xsl:choose>
+	</xsl:template>
+
 	<!-- +++++++++++++ -->
 	<!-- GetRecords -->
 	<!-- +++++++++++++ -->
@@ -64,10 +80,11 @@ Transforms a CIM EP request to an ISO AP request.
 		c3: AccessConstraints
 		c4: Classification
 		c5: KeywordScheme
+		c6: ThesaurusKeywordScheme
 	-->
 	<xsl:template match="csw:Query[csw:Constraint]/@typeNames">
 		<xsl:attribute name="typeNames">
-			<xsl:value-of select="'rim:ExtrinsicObject_e1_e2_e3_e4_e5_e6_e7_e8_e9_e10_e11 rim:Association_a2_a3_a4_a5_a6_a7_a8_a9_a10_a11 rim:Classification_c1_c2_c3_c4_c5'"/>
+			<xsl:value-of select="'rim:ExtrinsicObject_e1_e2_e3_e4_e5_e6_e7_e8_e9_e10_e11 rim:Association_a2_a3_a4_a5_a6_a7_a8_a9_a10_a11 rim:Classification_c1_c2_c3_c4_c5_c6'"/>
 		</xsl:attribute>
 	</xsl:template>
 	<xsl:template match="csw:Query[not(csw:Constraint)]/@typeNames">
@@ -107,7 +124,7 @@ Transforms a CIM EP request to an ISO AP request.
 	
 	<!-- creates a filter for the object type of resource metadata -->
 	<xsl:template name="resourceMetadata">
-		<xsl:variable name="objectType"/>
+		<xsl:param name="objectType"/>
 		<ogc:PropertyIsEqualTo>
 			<ogc:PropertyName>$e1/@objectType</ogc:PropertyName>
 			<ogc:Literal><xsl:value-of select="$objectType"/></ogc:Literal>
@@ -261,7 +278,15 @@ Transforms a CIM EP request to an ISO AP request.
 	<!-- we use the temporary annotations for mapping PropertyName -->
 	<xsl:template match="ogc:PropertyName"/>
 	
-	<!-- TODO: identifier -->
+	<!-- TODO: map service type and service type version to classification Services-->
+	<!-- Current context node is the temporary property name. -->
+	<xsl:template match="tmp:PropertyName[tmp:step/tmp:localName/text() = 'ServiceType' or tmp:step/tmp:localName/text() = 'ServiceTypeVersion']">
+		<xsl:message terminate="yes"><xsl:value-of select="'Service type mapping currently not supported'"/></xsl:message>
+	</xsl:template>
+
+	<!-- TODO: ParentIdentifier -->
+
+	<!-- identifier -->
 	<xsl:template match="tmp:PropertyName[tmp:step/tmp:localName/text() = 'identifier']">
 		<ogc:PropertyName>$e1/@id</ogc:PropertyName>
 	</xsl:template>
@@ -367,7 +392,7 @@ Transforms a CIM EP request to an ISO AP request.
 		<ogc:PropertyName>$e1/rim:Slot[@name='urn:ogc:def:slot:OGC-CSW-ebRIM-CIM::Resolution']/wrs:ValueList/wrs:Value</ogc:PropertyName>
 	</xsl:template>
 	
-	<!-- TODO: organisation name, correct? -->
+	<!--  organisation name -->
 	<xsl:template match="tmp:PropertyName[tmp:step/tmp:localName/text() = 'OrganisationName']">
 		<ogc:PropertyName>$e7/rim:Name/rim:LocalizedString/@value</ogc:PropertyName>
 	</xsl:template>
@@ -381,8 +406,6 @@ Transforms a CIM EP request to an ISO AP request.
 	<xsl:template match="tmp:PropertyName[tmp:step/tmp:localName/text() = 'modified']">
 		<ogc:PropertyName>$e2/rim:Slot[@name='http://purl.org/dc/elements/1.1/date']/rim:ValueList/rim:Value</ogc:PropertyName>
 	</xsl:template>
-
-	<!-- TODO: ParentIdentifier -->
 
 	<!-- specification title -->
 	<xsl:template match="tmp:PropertyName[tmp:step/tmp:localName/text() = 'SpecificationTitle']">
@@ -480,6 +503,18 @@ Transforms a CIM EP request to an ISO AP request.
 			<ogc:PropertyName><xsl:value-of select="concat($classification, '/@classifiedObject')"/></ogc:PropertyName>
 		</ogc:PropertyIsEqualTo>
 	</xsl:template>
+	
+	<xsl:template name="conceptUriIntern">
+		<xsl:copy>
+			<xsl:apply-templates select="@*"/>
+			<ogc:PropertyName>$c6/rim:Slot[@name='urn:ogc:def:slot:OGC-CSW-ebRIM-CIM::url']/rim:ValueList/rim:Value</ogc:PropertyName>
+			<ogc:Literal><xsl:value-of select="ogc:Literal"/></ogc:Literal>
+		</xsl:copy>
+		<ogc:PropertyIsEqualTo>
+			<ogc:PropertyName><xsl:value-of select="'$e1/@id'"/></ogc:PropertyName>
+			<ogc:PropertyName><xsl:value-of select="'$c6/@classifiedObject'"/></ogc:PropertyName>
+		</ogc:PropertyIsEqualTo>
+	</xsl:template>
 
 	<!-- some queryable we can not map -->
 	<xsl:template match="tmp:PropertyName">
@@ -490,14 +525,10 @@ Transforms a CIM EP request to an ISO AP request.
 	<!-- +++++++++++++ -->
 	<!-- GetRecordById -->
 	<!-- +++++++++++++ -->
-	
-	<!-- TODO? -->
 
 	<!-- +++++++++++++ -->
 	<!-- GetRepositoryItem -->
 	<!-- +++++++++++++ -->
-
-	<!-- TODO? -->
 
 	<!-- identity transform for all remaining objects -->
 	<xsl:template match="node()|@*">

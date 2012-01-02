@@ -7,6 +7,9 @@ Transforms a CIM EP request to an ISO AP request.
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:gmd="http://www.isotc211.org/2005/gmd" xmlns:gml="http://www.opengis.net/gml" xmlns:csw="http://www.opengis.net/cat/csw/2.0.2" xmlns:ogc="http://www.opengis.net/ogc" xmlns:rim="urn:oasis:names:tc:ebxml-regrep:xsd:rim:3.0" xmlns:wrs="http://www.opengis.net/cat/wrs/1.0" xmlns:apiso="http://www.opengis.net/cat/csw/apiso/1.0" xmlns:tmp="urn:aadd40b1-c384-41a1-bb5f-b9730a90daae" xmlns:soap12="http://www.w3.org/2003/05/soap-envelope">
 	<xsl:output method="xml" encoding="utf-8"/>
 
+	<!-- The name of the thesaurus concept URI queryable. If left empty, it is ignored if a requests contains a respective constraint. -->
+	<xsl:variable name="concept_uri">concept_uri</xsl:variable>
+
 	<!-- +++++++++++++ -->
 	<!-- GetRecords -->
 	<!-- +++++++++++++ -->
@@ -17,13 +20,6 @@ Transforms a CIM EP request to an ISO AP request.
 			<xsl:apply-templates select="@*|node()" mode="cswRecord"/>
 		</xsl:copy>
 	</xsl:template>
-<!--
-	<xsl:template match="csw:GetRecords[csw:Query/tmp:ElementSetName/tmp:typeName/tmp:nsUri/text() = 'http://www.opengis.net/cat/csw/2.0.2' and csw:Query/tmp:ElementSetName/tmp:typeName/tmp:localName/text() = 'Record']">
-		<xsl:copy>
-			<xsl:apply-templates select="@*|node()" mode="cswRecord"/>
-		</xsl:copy>
-	</xsl:template>
--->
 	
 	<!-- in case of CSW base request, nothing to do -->
 	<xsl:template match="@*|node()" mode="cswRecord">
@@ -117,25 +113,11 @@ Transforms a CIM EP request to an ISO AP request.
 					<xsl:with-param name="otVariable" select="$otVariable"/>
 				</xsl:call-template>
 			</xsl:when>
-			<!-- name of *Metadata, map to title -->
+			<!-- name of ResourceMetadata, map to title -->
 			<xsl:otherwise>
 				<xsl:text>apiso:title</xsl:text>
 			</xsl:otherwise>
 		</xsl:choose>
-<!--
-		<xsl:choose>
-			<xsl:when test="$otVariable">
-				<xsl:call-template name="mapRimName">
-					<xsl:with-param name="objectType" select="../ogc:PropertyIsEqualTo[tmp:PropertyName/tmp:step[1]/tmp:variable = $otVariable and tmp:PropertyName/tmp:step[2]/tmp:localName = '@objectType']/ogc:Literal"/>
-				</xsl:call-template>
-			</xsl:when>
-			<xsl:otherwise>
-				<xsl:call-template name="mapRimName">				
-					<xsl:with-param name="objectType" select="../ogc:PropertyIsEqualTo[tmp:PropertyName/tmp:step[1]/tmp:localName = 'ExtrinsicObject' and tmp:PropertyName/tmp:step[2]/tmp:localName = '@objectType']/ogc:Literal"/>
-				</xsl:call-template>
-			</xsl:otherwise>
-		</xsl:choose>
--->
 	</xsl:template>
 	
 	<!-- find the object type with the given name -->
@@ -170,25 +152,6 @@ Transforms a CIM EP request to an ISO AP request.
 			<xsl:copy-of select="ogc:Literal"/>
 		</xsl:copy>
 	</xsl:template>
-<!--
-	<xsl:template name="mapRimName">
-		<xsl:param name="objectType"/>
-		<xsl:copy>
-			<xsl:apply-templates select="@*"/>
-			<ogc:PropertyName>
-				<xsl:choose>
-					<xsl:when test="$objectType = 'urn:ogc:def:objectType:OGC-CSW-ebRIM-CIM::Organization'">
-						<xsl:text>apiso:OrganisationName</xsl:text>
-					</xsl:when>
-					<xsl:when test="$objectType = 'urn:ogc:def:objectType:OGC-CSW-ebRIM-CIM::ReferenceSpecification'">
-						<xsl:text>apiso:SpecificationTitle</xsl:text>
-					</xsl:when>
-				</xsl:choose>
-			</ogc:PropertyName>
-			<xsl:copy-of select="ogc:Literal"/>
-		</xsl:copy>
-	</xsl:template>
--->
 
 	<!-- abstract -->
 	<xsl:template match="tmp:PropertyName[tmp:step[2]/tmp:nsUri/text() = 'urn:oasis:names:tc:ebxml-regrep:xsd:rim:3.0' and tmp:step[2]/tmp:localName/text() = 'Description']">
@@ -210,8 +173,14 @@ Transforms a CIM EP request to an ISO AP request.
 	<xsl:template match="ogc:Literal[not(starts-with(text(), 'urn:ogc:def:classificationScheme:OGC-CSW-ebRIM-CIM:'))]" mode="classificationNode">
 		<xsl:message terminate="yes"><xsl:value-of select="concat('Unknown classification scheme: ', text())"/></xsl:message>
 	</xsl:template>
+	
+	<!-- TODO: handle service type and service type version mapping in this template. -->
+	<!-- Current context node is the comparison operator. -->
+	<xsl:template name="serviceTypeMapping">
+		<xsl:message terminate="yes"><xsl:value-of select="concat('Service type mapping currently not supported: ', text())"/></xsl:message>
+	</xsl:template>
 
-	<!-- map classification identifier to property name and vlaue -->
+	<!-- map classification identifier to property name and value -->
 	<xsl:template match="ogc:Literal" mode="classificationNode">
 		<xsl:variable name="schemeAndValue" select="substring-after(text(), 'urn:ogc:def:classificationScheme:OGC-CSW-ebRIM-CIM::')"/>
 		<xsl:variable name="scheme" select="substring-before($schemeAndValue, ':')"/>
@@ -234,8 +203,20 @@ Transforms a CIM EP request to an ISO AP request.
 					<ogc:Literal><xsl:value-of select="substring-after($schemeAndValue, ':')"/></ogc:Literal>	
 				</xsl:element>
 			</xsl:when>
+			<xsl:when test="$scheme='Services'">
+				<xsl:call-template name="serviceTypeMapping"/>
+			</xsl:when>
+			<xsl:when test="$scheme='KeywordType' or $scheme='TopicCategory'">
+				<xsl:call-template name="serviceTypeMapping"/>
+				<xsl:element name="{concat('ogc:', local-name(..))}">
+					<ogc:PropertyName>
+						<xsl:value-of select="concat('apsio:', $scheme)"/>
+					</ogc:PropertyName>
+					<ogc:Literal><xsl:value-of select="substring-after($schemeAndValue, ':')"/></ogc:Literal>	
+				</xsl:element>
+			</xsl:when>
+			<!--
 			<xsl:otherwise>
-				<!-- KeywordType, TopicCategory -->
 				<xsl:element name="{concat('ogc:', local-name(..))}">
 					<ogc:PropertyName>
 						<xsl:value-of select="concat('apsio:', $scheme)"/>
@@ -243,9 +224,11 @@ Transforms a CIM EP request to an ISO AP request.
 					<ogc:Literal><xsl:value-of select="substring-after($schemeAndValue, ':')"/></ogc:Literal>	
 				</xsl:element>
 			</xsl:otherwise>
+-->
+			<!-- We cannot handle ThesaurusKeyword scheme here, we just handle its url slot -->
 		</xsl:choose>
 	</xsl:template>
-	
+
 	<!-- SLOTS-->
 	<!-- generic template for slots with @name predicate -->
 	<xsl:template match="*[tmp:PropertyName[tmp:step[2]/tmp:localName/text() = 'Slot'] and tmp:PropertyName[tmp:step[2]/tmp:nsUri/text() = 'urn:oasis:names:tc:ebxml-regrep:xsd:rim:3.0']]">
@@ -270,11 +253,6 @@ Transforms a CIM EP request to an ISO AP request.
 		<xsl:param name="name"/>
 		<xsl:choose>
 			<xsl:when test="$name = 'http://purl.org/dc/terms/created' or $name = 'http://purl.org/dc/terms/modified' or $name = 'http://purl.org/dc/terms/issued'">
-<!--
-				<xsl:call-template name="mapAmbiguousSlotName">
-					<xsl:with-param name="name" select="$name"/>
-				</xsl:call-template>
--->
 				<xsl:call-template name="mapAmbiguousSlotNameAssoc">
 					<xsl:with-param name="name" select="$name"/>
 				</xsl:call-template>
@@ -286,67 +264,6 @@ Transforms a CIM EP request to an ISO AP request.
 			</xsl:otherwise>
 		</xsl:choose>
 	</xsl:template>
-
-<!--
-	<xsl:template name="mapAmbiguousSlotName">
-		<xsl:param name="name"/>
-		<xsl:variable name="otVariable" select="tmp:PropertyName/tmp:step[1]/tmp:variable/text()"/>
-		<xsl:choose>
-			<xsl:when test="$otVariable">
-				<xsl:call-template name="mapAmbiguousSlotNameObjectType">
-					<xsl:with-param name="name" select="$name"/>
-					<xsl:with-param name="objectType" select="../ogc:PropertyIsEqualTo[tmp:PropertyName/tmp:step[1]/tmp:variable = $otVariable and tmp:PropertyName/tmp:step[2]/tmp:localName = '@objectType']/ogc:Literal"/>
-				</xsl:call-template>
-			</xsl:when>
-			<xsl:otherwise>
-				<xsl:call-template name="mapAmbiguousSlotNameObjectType">				
-					<xsl:with-param name="name" select="$name"/>
-					<xsl:with-param name="objectType" select="../ogc:PropertyIsEqualTo[tmp:PropertyName/tmp:step[1]/tmp:localName = 'ExtrinsicObject' and tmp:PropertyName/tmp:step[2]/tmp:localName = '@objectType']/ogc:Literal"/>
-				</xsl:call-template>
-			</xsl:otherwise>
-		</xsl:choose>
-	</xsl:template>
-	
-	<xsl:template name="mapAmbiguousSlotNameObjectType">
-		<xsl:param name="name"/>
-		<xsl:param name="objectType"/>
-		<xsl:choose>
-			<xsl:when test="$name = 'http://purl.org/dc/terms/created' and ($objectType = 'urn:ogc:def:objectType:OGC-CSW-ebRIM-CIM::DataMetadata' or $objectType = 'urn:ogc:def:objectType:OGC-CSW-ebRIM-CIM::ServiceMetadata')">
-				<xsl:call-template name="slotComparison">
-					<xsl:with-param name="name" select="'apiso:CreationDate'"/>
-				</xsl:call-template>
-			</xsl:when>
-			<xsl:when test="$name = 'http://purl.org/dc/terms/modified' and ($objectType = 'urn:ogc:def:objectType:OGC-CSW-ebRIM-CIM::DataMetadata' or $objectType = 'urn:ogc:def:objectType:OGC-CSW-ebRIM-CIM::ServiceMetadata')">
-				<xsl:call-template name="slotComparison">
-					<xsl:with-param name="name" select="'apiso:RevisionDate'"/>
-				</xsl:call-template>
-			</xsl:when>
-			<xsl:when test="$name = 'http://purl.org/dc/terms/issued' and ($objectType = 'urn:ogc:def:objectType:OGC-CSW-ebRIM-CIM::DataMetadata' or $objectType = 'urn:ogc:def:objectType:OGC-CSW-ebRIM-CIM::ServiceMetadata')">
-				<xsl:call-template name="slotComparison">
-					<xsl:with-param name="name" select="'apiso:PublicationDate'"/>
-				</xsl:call-template>
-			</xsl:when>
-			<xsl:when test="$name = 'http://purl.org/dc/terms/created' and ($objectType = 'urn:ogc:def:objectType:OGC-CSW-ebRIM-CIM::ReferenceSpecification')">
-				<xsl:call-template name="specDateComparison">
-					<xsl:with-param name="type" select="'creation'"/>
-				</xsl:call-template>
-			</xsl:when>
-			<xsl:when test="$name = 'http://purl.org/dc/terms/modified' and ($objectType = 'urn:ogc:def:objectType:OGC-CSW-ebRIM-CIM::ReferenceSpecification')">
-				<xsl:call-template name="specDateComparison">
-					<xsl:with-param name="type" select="'revision'"/>
-				</xsl:call-template>
-			</xsl:when>
-			<xsl:when test="$name = 'http://purl.org/dc/terms/issued' and ($objectType = 'urn:ogc:def:objectType:OGC-CSW-ebRIM-CIM::ReferenceSpecification')">
-				<xsl:call-template name="specDateComparison">
-					<xsl:with-param name="type" select="'publication'"/>
-				</xsl:call-template>
-			</xsl:when>
-			<xsl:otherwise>
-				<xsl:message terminate="yes"><xsl:value-of select="concat('Unable to determine mapping for ambiguous slot name: ', $name)"/></xsl:message>
-			</xsl:otherwise>
-		</xsl:choose>
-	</xsl:template>
--->
 
 	<!-- use association as indicator to determine correct queryable -->
 	<xsl:template name="mapAmbiguousSlotNameAssoc">
@@ -450,6 +367,14 @@ Transforms a CIM EP request to an ISO AP request.
  			<xsl:when test="$name = 'http://purl.org/dc/terms/temporal'">
 				<xsl:call-template name="tempExtent"/>
 			</xsl:when>
+ 			<xsl:when test="$name = 'urn:ogc:def:slot:OGC-CSW-ebRIM-CIM::url'">
+				<!-- Map the thesaurus concept URI, but only if this queryable is supported (non-empty concept_uri). -->
+				<xsl:if test="$concept_uri">
+					<xsl:call-template name="slotComparison">
+						<xsl:with-param name="name" select="$concept_uri"/>
+					</xsl:call-template>
+				</xsl:if>
+			</xsl:when>
 			<xsl:otherwise>
 				<xsl:message terminate="yes"><xsl:value-of select="concat('Invalid slot name: ', $name)"/></xsl:message>
 			</xsl:otherwise>
@@ -496,9 +421,6 @@ Transforms a CIM EP request to an ISO AP request.
 		<xsl:copy>
 			<xsl:apply-templates select="@*"/>
 			<ogc:PropertyName><xsl:value-of select="$name"/></ogc:PropertyName>
-<!--
-			<xsl:apply-templates select="ogc:Literal"/>
--->
 			<xsl:apply-templates select="*[position() != 1 and namespace-uri() != 'urn:aadd40b1-c384-41a1-bb5f-b9730a90daae']"/>
 		</xsl:copy>
 	</xsl:template>

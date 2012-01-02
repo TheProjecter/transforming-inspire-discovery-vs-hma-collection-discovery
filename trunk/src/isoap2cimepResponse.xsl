@@ -176,7 +176,6 @@ Transforms a CIM EP request to an ISO AP request.
 					<xsl:with-param name="name" select="'http://purl.org/dc/terms/source'"/>
 					<xsl:with-param name="values" select="gmd:distributionInfo/*/gmd:transferOptions/gmd:MD_DigitalTransferOptions/gmd:onLine/gmd:CI_OnlineResource/gmd:linkage/gmd:URL"/>
 				</xsl:call-template>
-				<!-- TODO: check with Uwe datatype FormatNameAndVersion! -->
 				<xsl:call-template name="internationalSlot">
 					<xsl:with-param name="name" select="'http://purl.org/dc/terms/format'"/>
 					<xsl:with-param name="values" select="gmd:identificationInfo/*/gmd:resourceFormat/gmd:MD_Format/gmd:name/gco:CharacterString"/>
@@ -225,7 +224,7 @@ Transforms a CIM EP request to an ISO AP request.
 					<xsl:with-param name="classifiedObject" select="concat('RM:', $fileId)"/>
 					<xsl:with-param name="values" select="gmd:identificationInfo/*/gmd:descriptiveKeywords/gmd:MD_Keywords/gmd:thesaurusName"/>
 				</xsl:call-template>
-				<!-- ServiceMetadata: classification Services -->
+				<!-- TODO: ServiceMetadata: classification Services, containing service type and service type version -->
 			</xsl:if>
 
 			<!-- resource identifier -->
