@@ -54,7 +54,7 @@ Transforms a CIM EP request to an ISO AP request.
 	<xsl:template match="csw:ElementSetName">
 		<xsl:copy>
 			<xsl:attribute name="typeNames">
-				<xsl:value-of select="'rim:ExtrinsicObject'"/>
+				<xsl:value-of select="'$e1'"/>
 			</xsl:attribute>
 			<xsl:value-of select="text()"/>
 		</xsl:copy>
