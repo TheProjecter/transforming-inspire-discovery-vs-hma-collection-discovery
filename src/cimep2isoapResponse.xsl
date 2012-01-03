@@ -290,10 +290,10 @@ Transforms a CIM EP request to an ISO AP request.
 				<xsl:when test="@objectType = 'urn:ogc:def:objectType:OGC-CSW-ebRIM-CIM::ServiceMetadata'">
 					<xsl:value-of select="'service'"/>
 				</xsl:when>
-				<xsl:when test="$objectType = 'urn:ogc:def:objectType:OGC-CSW-ebRIM-CIM::DatasetCollection'">
+				<xsl:when test="@objectType = 'urn:ogc:def:objectType:OGC-CSW-ebRIM-CIM::DatasetCollection'">
 					<xsl:value-of select="'series'"/>
 				</xsl:when>
-				<xsl:when test="$objectType = 'urn:ogc:def:objectType:OGC-CSW-ebRIM-CIM::Application'">
+				<xsl:when test="@objectType = 'urn:ogc:def:objectType:OGC-CSW-ebRIM-CIM::Application'">
 					<xsl:value-of select="'application'"/>
 				</xsl:when>
 				<xsl:otherwise>
