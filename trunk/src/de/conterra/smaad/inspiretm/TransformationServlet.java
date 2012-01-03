@@ -13,7 +13,7 @@ import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerException;
 import java.io.*;
 import java.util.StringTokenizer;
 
@@ -50,7 +50,7 @@ public class TransformationServlet extends HttpServlet {
         try {
             transformationEngineFactory = new TransformationEngineFactory(paramToArray(paramRequestTransform),
                     paramToArray(paramResponseTransform));
-        } catch (TransformerConfigurationException e) {
+        } catch (TransformerException e) {
             LOGGER.fatal("Error initializing transformers", e);
             throw new ServletException("Error initializing transformers", e);
         }
@@ -140,7 +140,6 @@ public class TransformationServlet extends HttpServlet {
             }
 
             bout.reset();
-//            engine.transformResponse(new ByteArrayInputStream(targetResponse), bout);
             transformResponse(engine, new ByteArrayInputStream(targetResponse), bout);
             bytes = bout.toByteArray();
             if (LOGGER.isDebugEnabled()) {
