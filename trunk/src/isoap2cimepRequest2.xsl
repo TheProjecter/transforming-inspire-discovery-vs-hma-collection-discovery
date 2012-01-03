@@ -51,10 +51,13 @@ Transforms a CIM EP request to an ISO AP request.
 	<xsl:template match="tmp:*" mode="cswRecord"/>
 
 	<!-- ExtrinsicObject is in CIM the only type that can be requested -->
-	<xsl:template match="csw:ElementSetName/@typeNames">
-		<xsl:attribute name="typeNames">
-			<xsl:value-of select="'rim:ExtrinsicObject'"/>
-		</xsl:attribute>
+	<xsl:template match="csw:ElementSetName">
+		<xsl:copy>
+			<xsl:attribute name="typeNames">
+				<xsl:value-of select="'rim:ExtrinsicObject'"/>
+			</xsl:attribute>
+			<xsl:value-of select="text()"/>
+		</xsl:copy>
 	</xsl:template>
 	
 	<xsl:template match="@outputSchema">
@@ -68,7 +71,8 @@ Transforms a CIM EP request to an ISO AP request.
 		e4: Rights
 		e5: LegalConstraints
 		e6: SecurityConstraints
-		e7: Organization
+
+		o1: Organization
 
 		a2: ResourceMetadataInformation
 		a3: Specification
@@ -92,7 +96,7 @@ Transforms a CIM EP request to an ISO AP request.
 		<xsl:attribute name="typeNames">
 			<xsl:call-template name="generateTypeNames"/>
 			<!--
-			<xsl:value-of select="'rim:ExtrinsicObject_e1_e2_e3_e4_e5_e6_e7 rim:Association_a2_a3_a4_a5_a6_a7_a8_a9_a10_a11 rim:Classification_c1_c2_c3_c4_c5_c6'"/>
+			<xsl:value-of select="'rim:ExtrinsicObject_e1_e2_e3_e4_e5_e6 rim:Organization_o1 rim:Association_a2_a3_a4_a5_a6_a7_a8_a9_a10_a11 rim:Classification_c1_c2_c3_c4_c5_c6'"/>
 -->
 		</xsl:attribute>
 	</xsl:template>
@@ -120,7 +124,7 @@ Transforms a CIM EP request to an ISO AP request.
 			<xsl:text>_e6</xsl:text>
 		</xsl:if>
 		<xsl:if test="//tmp:localName[text() = 'OrganisationName']">
-			<xsl:text>_e7</xsl:text>
+			<xsl:text> rim:Organization_o1</xsl:text>
 		</xsl:if>
 		<!-- associations -->
 		<xsl:if test="//tmp:localName[text() = 'Language' or text() = 'ParentIdentifier' or text() = 'SpecificationTitle' or text() = 'Degree' or text() = 'SpecificationDateType'or text() = 'SpecificationDate' or text() = 'ConditionApplyingToAccessAndUse' or text() = 'OtherConstraints' or text() = 'AccessConstraints' or text() = 'Classification' or text() = 'OrganisationName']">
@@ -296,35 +300,35 @@ Transforms a CIM EP request to an ISO AP request.
 			<xsl:choose>
 				<xsl:when test="//*[tmp:PropertyName/tmp:step/tmp:localName/text() = 'ResponsiblePartyRole' and ogc:Literal/text() = 'publisher']">
 					<xsl:call-template name="createJoin">
-						<xsl:with-param name="targetObject" select="'$e7'"/>
+						<xsl:with-param name="targetObject" select="'$o1'"/>
 						<xsl:with-param name="assoc" select="'$a7'"/>
 						<xsl:with-param name="assocType" select="'urn:ogc:def:objectType:OGC-CSW-ebRIM-CIM::Publisher'"/>
 					</xsl:call-template>
 				</xsl:when>
 				<xsl:when test="//*[tmp:PropertyName/tmp:step/tmp:localName/text() = 'ResponsiblePartyRole' and ogc:Literal/text() = 'originator']">
 					<xsl:call-template name="createJoin">
-						<xsl:with-param name="targetObject" select="'$e7'"/>
+						<xsl:with-param name="targetObject" select="'$o1'"/>
 						<xsl:with-param name="assoc" select="'$a8'"/>
 						<xsl:with-param name="assocType" select="'urn:ogc:def:objectType:OGC-CSW-ebRIM-CIM::Originator'"/>
 					</xsl:call-template>
 				</xsl:when>
 				<xsl:when test="//*[tmp:PropertyName/tmp:step/tmp:localName/text() = 'ResponsiblePartyRole' and ogc:Literal/text() = 'author']">
 					<xsl:call-template name="createJoin">
-						<xsl:with-param name="targetObject" select="'$e7'"/>
+						<xsl:with-param name="targetObject" select="'$o1'"/>
 						<xsl:with-param name="assoc" select="'$a9'"/>
 						<xsl:with-param name="assocType" select="'urn:ogc:def:objectType:OGC-CSW-ebRIM-CIM::Author'"/>
 					</xsl:call-template>
 				</xsl:when>
 				<xsl:when test="//*[tmp:PropertyName/tmp:step/tmp:localName/text() = 'ResponsiblePartyRole' and ogc:Literal/text() = 'pointOfContact']">
 					<xsl:call-template name="createJoin">
-						<xsl:with-param name="targetObject" select="'$e7'"/>
+						<xsl:with-param name="targetObject" select="'$o1'"/>
 						<xsl:with-param name="assoc" select="'$a10'"/>
 						<xsl:with-param name="assocType" select="'urn:ogc:def:objectType:OGC-CSW-ebRIM-CIM::PointOfContact'"/>
 					</xsl:call-template>
 				</xsl:when>
 				<xsl:otherwise>
 					<xsl:call-template name="createJoin">
-						<xsl:with-param name="targetObject" select="'$e7'"/>
+						<xsl:with-param name="targetObject" select="'$o1'"/>
 						<xsl:with-param name="assoc" select="'$a11'"/>
 					</xsl:call-template>
 				</xsl:otherwise>
@@ -485,7 +489,7 @@ Transforms a CIM EP request to an ISO AP request.
 	
 	<!--  organisation name -->
 	<xsl:template match="tmp:PropertyName[tmp:step/tmp:localName/text() = 'OrganisationName']">
-		<ogc:PropertyName>$e7/rim:Name/rim:LocalizedString/@value</ogc:PropertyName>
+		<ogc:PropertyName>$o1/rim:Name/rim:LocalizedString/@value</ogc:PropertyName>
 	</xsl:template>
 	
 	<!-- metadata language -->
