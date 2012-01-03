@@ -1,9 +1,6 @@
 package de.conterra.smaad.inspiretm;
 
-import javax.xml.transform.Templates;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerConfigurationException;
-import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.*;
 import javax.xml.transform.stream.StreamSource;
 
 /**
@@ -16,16 +13,30 @@ public class TransformationEngineFactory {
     private Templates[] responseTemplates;
 
     /**
-     * Constructor. Loads the stylesheets provided as parameters  from the classpath.
+     * Constructor. Loads the stylesheets provided as parameters from the classpath.
      * @param requestTransform resource paths of the request transformers, in order of processing
      * @param responseTransform resource paths of the response transformers, in order of processing
      * @throws TransformerConfigurationException
      */
     public TransformationEngineFactory(String[] requestTransform, String[] responseTransform)
-            throws TransformerConfigurationException {
+            throws TransformerException {
         requestTemplates = new Templates[requestTransform.length];
         responseTemplates = new Templates[responseTransform.length];
         TransformerFactory transformerFactory = TransformerFactory.newInstance();
+
+        // install an error handler, it is possible that newTemplates returns null if an error is encountered
+        // without throwing an exception
+        transformerFactory.setErrorListener(new ErrorListener() {
+            public void warning(TransformerException exception) throws TransformerException {
+                throw exception;
+            }
+            public void error(TransformerException exception) throws TransformerException {
+                throw exception;
+            }
+            public void fatalError(TransformerException exception) throws TransformerException {
+                throw exception;
+            }
+        });
         for (int i = 0; i < requestTransform.length; i++) {
             requestTemplates[i] = transformerFactory.newTemplates(new
                     StreamSource(getClass().getResourceAsStream(requestTransform[i])));
