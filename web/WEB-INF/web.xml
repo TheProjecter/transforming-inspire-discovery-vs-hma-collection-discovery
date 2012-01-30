@@ -72,4 +72,8 @@
         <servlet-name>inspire</servlet-name>
         <url-pattern>/inspire</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>inspire</servlet-name>
+        <url-pattern>/isoap</url-pattern>
+    </servlet-mapping>
 </web-app>
