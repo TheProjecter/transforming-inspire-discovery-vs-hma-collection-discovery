@@ -18,7 +18,7 @@ Transforms a CIM EP request to an ISO AP request.
 	<!-- If you do not want to support this queryable, remove this template. -->
 	<xsl:template match="*[tmp:PropertyName/tmp:step/tmp:localName/text() = 'concept_uri']">
 		<xsl:choose>
-			<xsl:when test="../ogc:Or or ../ogc:Not">
+			<xsl:when test="local-name(..) = 'Or' or local-name(..) = 'Not'">
 				<ogc:And>
 					<xsl:call-template name="conceptUriIntern"/>
 				</ogc:And>
@@ -51,12 +51,13 @@ Transforms a CIM EP request to an ISO AP request.
 	<xsl:template match="tmp:*" mode="cswRecord"/>
 
 	<!-- ExtrinsicObject is in CIM the only type that can be requested -->
+	<!-- always request full -->
 	<xsl:template match="csw:ElementSetName">
 		<xsl:copy>
 			<xsl:attribute name="typeNames">
 				<xsl:value-of select="'$e1'"/>
 			</xsl:attribute>
-			<xsl:value-of select="text()"/>
+			<xsl:text>full</xsl:text>
 		</xsl:copy>
 	</xsl:template>
 	
@@ -186,14 +187,6 @@ Transforms a CIM EP request to an ISO AP request.
 		<xsl:if test="//tmp:localName/text() = $concept_uri">
 			<xsl:text>_c6</xsl:text>
 		</xsl:if>
-	</xsl:template>
-
-	<!-- always request full -->
-	<xsl:template match="csw:ElementSetName[text() != 'full']">
-		<xsl:copy>
-			<xsl:apply-templates select="@*"/>
-			<xsl:text>full</xsl:text>
-		</xsl:copy>
 	</xsl:template>
 
 	<!-- remove all temporary elements used for parsing the filter -->
@@ -545,7 +538,7 @@ Transforms a CIM EP request to an ISO AP request.
 		<xsl:call-template name="classification">
 			<xsl:with-param name="classification" select="'$c3'"/>
 			<xsl:with-param name="classificationScheme" select="'RestrictionCode'"/>
-			<xsl:with-param name="classifiedObject" select="'e5'"/>
+			<xsl:with-param name="classifiedObject" select="'$e5'"/>
 		</xsl:call-template>
 	</xsl:template>
 
@@ -564,7 +557,7 @@ Transforms a CIM EP request to an ISO AP request.
 		<xsl:param name="classificationScheme"/>
 		<xsl:param name="classifiedObject" select="'$e1'"/>
 		<xsl:choose>
-			<xsl:when test="../ogc:Or or ../ogc:Not">
+			<xsl:when test="local-name(..) = 'Or' or local-name(..) = 'Not'">
 				<ogc:And>
 					<xsl:call-template name="classificationComps">
 						<xsl:with-param name="classification" select="$classification"/>
