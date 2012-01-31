@@ -88,7 +88,7 @@ Transforms a CIM EP request to an ISO AP request.
 		<xsl:copy>
 			<xsl:apply-templates select="@*"/>
 			<ogc:PropertyName>apiso:type</ogc:PropertyName>
-			<ogc:Literal>series</ogc:Literal>
+			<ogc:Literal>datasetcollection</ogc:Literal>
 		</xsl:copy>
 	</xsl:template>
 
