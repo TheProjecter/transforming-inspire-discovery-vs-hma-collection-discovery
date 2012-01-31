@@ -412,7 +412,7 @@ Transforms a CIM EP request to an ISO AP request.
 			<xsl:with-param name="objectType" select="'urn:ogc:def:objectType:OGC-CSW-ebRIM-CIM::DataMetadata'"/>
 		</xsl:call-template>
 	</xsl:template>
-	<xsl:template match="*[tmp:PropertyName/tmp:step/tmp:localName/text() = 'type' and ogc:Literal = 'series']">
+	<xsl:template match="*[tmp:PropertyName/tmp:step/tmp:localName/text() = 'type' and (ogc:Literal = 'series' or ogc:Literal = 'datasetcollection')]">
 		<xsl:call-template name="resourceMetadata">
 			<xsl:with-param name="objectType" select="'urn:ogc:def:objectType:OGC-CSW-ebRIM-CIM::DatasetCollection'"/>
 		</xsl:call-template>
