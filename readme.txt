@@ -10,6 +10,6 @@ To install:
 
 3. modify log4j.xml as desired (optional)
 
-4. build via ant with build.xml
+4. build via ant with build.xml (see http://ant.apache.org/)
 
-5. deploy in tomcat
+5. deploy in tomcat (e.g. copy the war file to <tomcat>/webapps)
