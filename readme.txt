@@ -12,4 +12,4 @@ To install:
 
 4. build via ant with build.xml (see http://ant.apache.org/)
 
-5. deploy in tomcat (e.g. copy the war file to <tomcat>/webapps)
+5. deploy in tomcat (e.g. copy the generated war file from target folder to <tomcat>/webapps)
