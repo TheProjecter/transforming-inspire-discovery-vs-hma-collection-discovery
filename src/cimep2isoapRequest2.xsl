@@ -174,6 +174,29 @@ Transforms a CIM EP request to an ISO AP request.
 		<xsl:message terminate="yes"><xsl:value-of select="concat('Unknown classification scheme: ', text())"/></xsl:message>
 	</xsl:template>
 	
+	<!-- ServiceType (-Version) Mapping -->
+	<!--
+		Mapping serviceType/serviceType version is currently inconsistently defined in the specifications.
+		For example INSPIRE uses serviceTypes like _view_ and _download_ (without version infor), while AP ISO uses combinations like WMS/1.1.1, WMS/1.3.0, WCS/1.0.0. 
+		The CIM supports for classifying a metadata entry the following classification nodes:
+			<rim:ClassificationNode 
+				  objectType="urn:oasis:names:tc:ebxml-regrep:ObjectType:RegistryObject:ClassificationNode" 
+				  parent="urn:ogc:def:ebRIM-ClassificationNode:ISO-19119:2003:Service:Feature-Access" 
+				  code="WFS" 
+				  id="urn:ogc:serviceType:WebFeatureService:1.1">
+				  <rim:Name>
+					<rim:LocalizedString xml:lang="en" value="Web Feature Service (WFS), Version 1.1"/>
+				  </rim:Name>
+				</rim:ClassificationNode>
+			same for :
+				code="WMS" 
+				  id="urn:ogc:serviceType:WebMapService:1.3.0">
+
+				code="WCS" 
+				  id="urn:ogc:serviceType:WebCoverageService:1.1.2">
+
+		Consequence for the Adapters is that ServiceType mapping cannot be defined a priori - instead it must be defined project specific. 
+	-->
 	<!-- TODO: handle service type and service type version mapping in this template. -->
 	<!-- Current context node is the comparison operator. -->
 	<xsl:template name="serviceTypeMapping">
