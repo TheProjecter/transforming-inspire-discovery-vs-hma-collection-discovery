@@ -132,7 +132,7 @@ Transforms a CIM EP request to an ISO AP request.
 		<xsl:variable name="fileId" select="gmd:fileIdentifier/gco:CharacterString"/>
 		<xsl:variable name="elementSet" select="$requestDoc//csw:ElementSetName"/>
 		<wrs:ExtrinsicObject id="{concat('RM:', $fileId)}" lid="{concat('RM:', $fileId)}" status="urn:oasis:names:tc:ebxml-regrep:StatusType:Submitted">
-			<xsl:variable name="scopeCode" select="gmd:hierarchyLevel/gmd:MD_ScopeCode[@codeListValue = 'service']"/>
+			<xsl:variable name="scopeCode" select="gmd:hierarchyLevel/gmd:MD_ScopeCode/@codeListValue"/>
 			<xsl:attribute name="objectType">
 				<xsl:choose>
 					<xsl:when test="$scopeCode = 'service'">
@@ -151,7 +151,6 @@ Transforms a CIM EP request to an ISO AP request.
 			</xsl:attribute>
 			<xsl:if test="$elementSet != 'brief'">
 				<!-- ResourceMetadata slots -->
-				<!-- unclear: ObjectType -->
 				<xsl:call-template name="internationalSlot">
 					<xsl:with-param name="name" select="'http://purl.org/dc/terms/type'"/>
 					<xsl:with-param name="values" select="gmd:hierarchyLevel/gmd:MD_ScopeCode/@codeListValue"/>
@@ -192,7 +191,6 @@ Transforms a CIM EP request to an ISO AP request.
 					<xsl:with-param name="name" select="'urn:ogc:def:slot:OGC-CSW-ebRIM-CIM::ScaleDenominator'"/>
 					<xsl:with-param name="values" select="gmd:identificationInfo/*/gmd:spatialResolution/gmd:MD_Resolution/gmd:equivalentScale/gmd:MD_RepresentativeFraction/gmd:denominator/gco:Integer"/>
 				</xsl:call-template>
-				<!-- unclear: lineage/description slot soruce and onlineresource/linkage slot source? -->
 
 				<!-- rim:Name and rim:Description -->
 				<xsl:apply-templates select="gmd:identificationInfo/*/gmd:citation/gmd:CI_Citation/gmd:title/gco:CharacterString"/>
@@ -233,8 +231,8 @@ Transforms a CIM EP request to an ISO AP request.
 				<rim:ExternalIdentifier objectType="urn:oasis:names:tc:ebxml-regrep:ObjectType:RegistryObject:ExternalIdentifier" identificationScheme="urn:x-ogc:specification:csw-ebrim:EO:UnknownIdentifiers" value="{$resIdentifier}" id="{concat('EI:', $fileId)}" registryObject="{concat('RM:', $fileId)}"/>
 			</xsl:if>
 		</wrs:ExtrinsicObject>
+<!--
 		<xsl:if test="$elementSet = 'full'">
-			<!-- DataMetadata classification nodes -->
 			<xsl:call-template name="classificationNode">
 				<xsl:with-param name="classifiedObject" select="concat('RM:', $fileId)"/>
 				<xsl:with-param name="classificationScheme" select="'TopicCategory'"/>
@@ -259,33 +257,19 @@ Transforms a CIM EP request to an ISO AP request.
 				<xsl:with-param name="classifiedObject" select="concat('RM:', $fileId)"/>
 				<xsl:with-param name="values" select="gmd:identificationInfo/*/gmd:descriptiveKeywords/gmd:MD_Keywords/gmd:thesaurusName"/>
 			</xsl:call-template>
-			<!-- associated extrinsic objects -->
-			<!-- hierarchyLevel -->
-			<!--
-			<xsl:call-template name="hierarchyLevel"/>
-			-->
-			<!-- organization -->
 			<xsl:call-template name="responsibleParty">
 				<xsl:with-param name="values" select="gmd:identificationInfo[1]/*/gmd:pointOfContact/*[gmd:organisationName/gco:CharacterString != '']"/>
 			</xsl:call-template>
-			<!-- metadata information -->
 			<xsl:call-template name="metadataInformation"/>
-			<!-- legal constraints -->
 			<xsl:call-template name="legalConstraints"/>
-			<!-- security constraints -->
 			<xsl:call-template name="securityConstraints"/>
-			<!-- reference system information -->
 			<xsl:call-template name="referenceSystem"/>
-			<!-- graphic overview -->
 			<xsl:call-template name="graphicOverview"/>
-			<!-- graphic overview -->
-			<!-- unclear: ReferenceSpecification or QualityConformanceInformation -->
 			<xsl:call-template name="referenceSpecification"/>
-			<!-- parent identifier -->
 			<xsl:call-template name="parentIdentifier"/>
 		</xsl:if>
+-->
 	</xsl:template>
-	
 	<!-- title -->
 	<xsl:template match="gmd:title/gco:CharacterString">
 		<rim:Name>
@@ -305,7 +289,6 @@ Transforms a CIM EP request to an ISO AP request.
 		<xsl:variable name="values" select="gmd:identificationInfo/*/gmd:spatialResolution/gmd:MD_Resolution/gmd:distance/gco:Distance"/>
 		<xsl:if test="$values">
 			<rim:Slot name="urn:ogc:def:slot:OGC-CSW-ebRIM-CIM::Resolution" slotType="urn:ogc:def:dataType:gml:MeasureType">
-				<!-- TODO: check with Uwe if this is correct -->
 				<wrs:ValueList>
 					<xsl:for-each select="$values">
 						<wrs:AnyValue>
@@ -322,7 +305,6 @@ Transforms a CIM EP request to an ISO AP request.
 		<xsl:variable name="values" select="gmd:identificationInfo/*/gmd:extent/gmd:EX_Extent/gmd:geographicElement/gmd:EX_GeographicBoundingBox"/>
 		<xsl:if test="$values">
 			<rim:Slot name="urn:ogc:def:slot:OGC-CSW-ebRIM-CIM::Envelope" slotType="urn:ogc:def:dataType:ISO-19107:2003:GM_Envelope">
-				<!-- TODO: check with Uwe if this is correct -->
 				<wrs:ValueList>
 					<xsl:for-each select="$values">
 						<wrs:AnyValue>
@@ -352,33 +334,6 @@ Transforms a CIM EP request to an ISO AP request.
 			</rim:Slot>
 		</xsl:if>
 	</xsl:template>
-
-	<!-- hierarchyLevel +++ NOW PART OF THE ResourceMetadata objectType +++ -->
-	<!--
-	<xsl:template name="hierarchyLevel">
-		<xsl:variable name="sourceObject" select="concat('RM:', gmd:fileIdentifier/gco:CharacterString)"/>
-		<xsl:variable name="targetObject" select="concat('DO:', gmd:fileIdentifier/gco:CharacterString)"/>
-		<xsl:variable name="hlv" select="gmd:hierarchyLevel/gmd:MD_ScopeCode/@codeListValue"/>
-		<xsl:choose>
-			<xsl:when test="$hlv = 'series'">
-				<rim:ExtrinsicObject id="{$targetObject}" objectType="urn:ogc:def:objectType:OGC-CSW-ebRIM-CIM::DatasetCollection"/>
-				<rim:Association id="{concat($targetObject, ':Association')}" objectType="urn:oasis:names:tc:ebxml-regrep:ObjectType:RegistryObject:Association" associationType="urn:ogc:def:associationType:OGC-CSW-ebRIM-CIM::DatasetDescription" sourceObject="{$sourceObject}" targetObject="{$targetObject}"/>
-			</xsl:when>
-			<xsl:when test="$hlv = 'service'">
-				<rim:ExtrinsicObject id="{$targetObject}" objectType="urn:ogc:def:ebRIM-ObjectType:OGC::Service"/>
-				<rim:Association id="{concat($targetObject, ':Association')}" objectType="urn:oasis:names:tc:ebxml-regrep:ObjectType:RegistryObject:Association" associationType="urn:ogc:def:associationType:OGC-CSW-ebRIM-CIM::ServiceDescription" sourceObject="{$sourceObject}" targetObject="{$targetObject}"/>
-			</xsl:when>
-			<xsl:when test="$hlv = 'application'">
-				<rim:ExtrinsicObject id="{$targetObject}" objectType="urn:ogc:def:objectType:OGC-CSW-ebRIM-CIM::Application"/>
-				<rim:Association id="{concat($targetObject, ':Association')}" objectType="urn:oasis:names:tc:ebxml-regrep:ObjectType:RegistryObject:Association" associationType="urn:ogc:def:associationType:OGC-CSW-ebRIM-CIM::ApplicationDescription" sourceObject="{$sourceObject}" targetObject="{$targetObject}"/>
-			</xsl:when>
-			<xsl:otherwise>
-				<rim:ExtrinsicObject id="{$targetObject}" objectType="urn:ogc:def:objectType:OGC-CSW-ebRIM-CIM::Dataset"/>
-				<rim:Association id="{concat($targetObject, ':Association')}" objectType="urn:oasis:names:tc:ebxml-regrep:ObjectType:RegistryObject:Association" associationType="urn:ogc:def:associationType:OGC-CSW-ebRIM-CIM::DatasetDescription" sourceObject="{$sourceObject}" targetObject="{$targetObject}"/>
-			</xsl:otherwise>
-		</xsl:choose>
-	</xsl:template>
-	-->
 
 	<!-- responsible party -->
 	<xsl:template name="responsibleParty">
@@ -444,7 +399,6 @@ Transforms a CIM EP request to an ISO AP request.
 				<xsl:with-param name="values" select="gmd:dateStamp/gco:Date"/>
 			</xsl:call-template>
 			<xsl:call-template name="slot">
-				<!-- TODO: MetadataStandardNameAndVersion datatype, check with Uwe -->
 				<xsl:with-param name="name" select="'http://purl.org/dc/terms/conformsTo'"/>
 				<xsl:with-param name="values" select="gmd:metadataStandardName/gco:CharacterString"/>
 			</xsl:call-template>

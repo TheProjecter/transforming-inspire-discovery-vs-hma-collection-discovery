@@ -243,6 +243,7 @@ These annotations are removed again by another stylesheet during the second tran
 					</xsl:call-template>
 				</xsl:otherwise>
 			</xsl:choose>
+			<tmp:stepValue><xsl:value-of select="$pn"/></tmp:stepValue>
 		</tmp:step>
 	</xsl:template>
 
