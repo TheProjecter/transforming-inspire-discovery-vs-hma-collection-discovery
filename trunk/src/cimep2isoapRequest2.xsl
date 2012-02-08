@@ -222,7 +222,7 @@ Transforms a CIM EP request to an ISO AP request.
 			</xsl:when>
 			<xsl:when test="$scheme='ClassificationCode'">
 				<xsl:element name="{concat('ogc:', local-name(..))}">
-					<ogc:PropertyName>apiso:AccessConstraints</ogc:PropertyName>
+					<ogc:PropertyName>apiso:Classification</ogc:PropertyName>
 					<ogc:Literal><xsl:value-of select="substring-after($schemeAndValue, ':')"/></ogc:Literal>	
 				</xsl:element>
 			</xsl:when>
