@@ -93,6 +93,11 @@ Transforms a CIM EP request to an ISO AP request.
 		c5: KeywordScheme
 		c6: ThesaurusKeywordScheme
 	-->
+	<xsl:template match="csw:Query">
+		<csw:Query xmlns:rim="urn:oasis:names:tc:ebxml-regrep:xsd:rim:3.0">
+			<xsl:apply-templates select="@*|node()"/>
+		</csw:Query>
+	</xsl:template>
 	<xsl:template match="csw:Query[csw:Constraint]/@typeNames">
 		<xsl:attribute name="typeNames">
 			<xsl:call-template name="generateTypeNames"/>
@@ -478,7 +483,7 @@ Transforms a CIM EP request to an ISO AP request.
 	<xsl:template match="*[tmp:PropertyName[tmp:step/tmp:localName/text() = 'TopicCategory']]">
 		<xsl:call-template name="classification">
 			<xsl:with-param name="classification" select="'$c2'"/>
-			<xsl:with-param name="classificationScheme" select="'TopicCategory'"/>
+			<xsl:with-param name="classificationScheme" select="'TopicCategoryCode'"/>
 		</xsl:call-template>
 	</xsl:template>
 
@@ -565,6 +570,9 @@ Transforms a CIM EP request to an ISO AP request.
 		</ogc:PropertyName>
 	</xsl:template>
 	<xsl:template match="*[tmp:PropertyName[tmp:step/tmp:localName/text() = 'SpecificationDateType']]"/>
+	<xsl:template match="ogc:And[count(*) = 2 and */tmp:PropertyName/tmp:step/tmp:localName[text() = 'SpecificationDate'] and */tmp:PropertyName/tmp:step/tmp:localName[text() = 'SpecificationDateType']]">
+		<xsl:apply-templates select="*"/>
+	</xsl:template>
 	
 	<!-- condition applying to access and use -->
 	<xsl:template match="tmp:PropertyName[tmp:step/tmp:localName/text() = 'ConditionApplyingToAccessAndUse']">
