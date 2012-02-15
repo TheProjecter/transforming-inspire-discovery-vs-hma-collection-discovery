@@ -111,7 +111,7 @@ Transforms a CIM EP request to an ISO AP request.
 	
 	<xsl:template name="generateTypeNames">
 		<xsl:text>rim:ExtrinsicObject_e1</xsl:text>
-		<xsl:if test="//tmp:localName[text() = 'Language' or text() = 'ParentIdentifier']">
+		<xsl:if test="//tmp:localName[text() = 'Language' or text() = 'ParentIdentifier' or text() = 'Identifier' or text() = 'identifier']">
 			<xsl:text>_e2</xsl:text>
 		</xsl:if>
 		<xsl:if test="//tmp:localName[text() = 'SpecificationTitle' or text() = 'Degree' or text() = 'SpecificationDateType'or text() = 'SpecificationDate']">
@@ -130,10 +130,10 @@ Transforms a CIM EP request to an ISO AP request.
 			<xsl:text> rim:Organization_o1</xsl:text>
 		</xsl:if>
 		<!-- associations -->
-		<xsl:if test="//tmp:localName[text() = 'Language' or text() = 'ParentIdentifier' or text() = 'SpecificationTitle' or text() = 'Degree' or text() = 'SpecificationDateType'or text() = 'SpecificationDate' or text() = 'ConditionApplyingToAccessAndUse' or text() = 'OtherConstraints' or text() = 'AccessConstraints' or text() = 'Classification' or text() = 'OrganisationName']">
+		<xsl:if test="//tmp:localName[text() = 'Language' or text() = 'ParentIdentifier' or text() = 'SpecificationTitle' or text() = 'Degree' or text() = 'SpecificationDateType'or text() = 'SpecificationDate' or text() = 'ConditionApplyingToAccessAndUse' or text() = 'OtherConstraints' or text() = 'AccessConstraints' or text() = 'Classification' or text() = 'OrganisationName' or text() = 'Identifier' or text() = 'identifier']">
 			<xsl:text> rim:Association</xsl:text>
 		</xsl:if>
-		<xsl:if test="//tmp:localName[text() = 'Language' or text() = 'ParentIdentifier']">
+		<xsl:if test="//tmp:localName[text() = 'Language' or text() = 'ParentIdentifier' or text() = 'Identifier']">
 			<xsl:text>_a2</xsl:text>
 		</xsl:if>
 		<xsl:if test="//tmp:localName[text() = 'SpecificationTitle' or text() = 'Degree' or text() = 'SpecificationDateType'or text() = 'SpecificationDate']">
@@ -277,7 +277,7 @@ Transforms a CIM EP request to an ISO AP request.
 				</xsl:call-template>
 			</ogc:Or>
 		</xsl:if>
-		<xsl:if test="//tmp:localName[text() = 'Language' or text() = 'ParentIdentifier']">
+		<xsl:if test="//tmp:localName[text() = 'Language' or text() = 'ParentIdentifier' or text() = 'Identifier'  or text() = 'identifier']">
 			<!-- identifier is mapped to ExtrinsicObject/@id -->
 			<xsl:call-template name="createJoin">
 				<xsl:with-param name="targetObject" select="'$e2'"/>
@@ -423,8 +423,8 @@ Transforms a CIM EP request to an ISO AP request.
 	<!-- TODO: ParentIdentifier -->
 
 	<!-- identifier -->
-	<xsl:template match="tmp:PropertyName[tmp:step/tmp:localName/text() = 'identifier']">
-		<ogc:PropertyName>$e1/@id</ogc:PropertyName>
+	<xsl:template match="tmp:PropertyName[tmp:step/tmp:localName/text() = 'Identifier' or tmp:step/tmp:localName/text() = 'identifier']">
+		<ogc:PropertyName>$e2/rim:Slot[@name='http://purl.org/dc/elements/1.1/identifier']/rim:ValueList/rim:Value</ogc:PropertyName>
 	</xsl:template>
 
 	<!-- title -->
