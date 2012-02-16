@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+   <soap:Body>
+      <csw:Capabilities version="2.0.2" xmlns:csw="http://www.opengis.net/cat/csw/2.0.2" xmlns:erdas="http://www.erdas.com/versions/720896" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ows="http://www.opengis.net/ows">
+         <ows:ServiceIdentification xmlns="http://www.opengis.net/ows">
+            <Title>Ionic Web Registry Service</Title>
+            <Abstract>A registry service that conforms the HTTP protocol binding of the OpenGIS Catalog Service Specification Version 2.0.2.</Abstract>
+            <Keywords>
+               <Keyword>CSW</Keyword>
+               <Keyword>CSW-ebRIM</Keyword>
+               <Keyword>Geospatial</Keyword>
+               <Keyword>Registry</Keyword>
+               <Keyword>ERDAS</Keyword>
+            </Keywords>
+            <ServiceType>CSW</ServiceType>
+            <ServiceTypeVersion>2.0.2</ServiceTypeVersion>
+            <Fees>NONE</Fees>
+            <AccessConstraints>Access</AccessConstraints>
+         </ows:ServiceIdentification>
+         <ows:ServiceProvider xmlns="http://www.opengis.net/ows">
+            <ProviderName>ERDAS, SA</ProviderName>
+            <ProviderSite xlink:href="http://www.erdas.com" xlink:type="simple"/>
+            <ServiceContact>
+               <IndividualName>Luc Donea</IndividualName>
+               <PositionName>Product Manager</PositionName>
+               <ContactInfo>
+                  <Phone>
+                     <Voice>+32 4 364 0 364</Voice>
+                     <Voice>+32 4 364 0 364</Voice>
+                     <Facsimile>NoFax</Facsimile>
+                  </Phone>
+                  <Address>
+                     <DeliveryPoint>Quai Timmermans, 14/01</DeliveryPoint>
+                     <City>Liege</City>
+                     <AdministrativeArea>Liege</AdministrativeArea>
+                     <PostalCode>4000</PostalCode>
+                     <Country>Belgium</Country>
+                     <ElectronicMailAddress>luc.donea@erdas.com</ElectronicMailAddress>
+                     <ElectronicMailAddress>support@erdas.com</ElectronicMailAddress>
+                  </Address>
+                  <OnlineResource xlink:href="http://www.erdas.com" xlink:type="simple"/>
+                  <HoursOfService>9-18</HoursOfService>
+                  <ContactInstructions>Call Me</ContactInstructions>
+               </ContactInfo>
+               <Role codeSpace="Space1">Computer Engineer</Role>
+            </ServiceContact>
+         </ows:ServiceProvider>
+         <ows:OperationsMetadata xmlns="http://www.opengis.net/ows">
+            <Operation name="GetCapabilities">
+               <DCP>
+                  <HTTP>
+                     <Get xlink:href="http://projects-eu.erdas.com:80/erdas-georeg/wrs/SPB?" xlink:type="simple"/>
+                     <Post xlink:href="http://projects-eu.erdas.com:80/erdas-georeg/wrs/SPB" xlink:type="simple"/>
+                  </HTTP>
+               </DCP>
+               <Parameter name="AcceptVersions">
+                  <Value>2.0.2</Value>
+               </Parameter>
+               <Parameter name="AcceptFormats">
+                  <Value>text/xml</Value>
+                  <Value>application/xml</Value>
+               </Parameter>
+               <Parameter name="sections">
+                  <Value>ServiceIdentification</Value>
+                  <Value>ServiceProvider</Value>
+                  <Value>OperationsMetadata</Value>
+                  <Value>Filter_Capabilities</Value>
+               </Parameter>
+            </Operation>
+            <Operation name="GetRecords">
+               <DCP>
+                  <HTTP>
+                     <Get xlink:href="http://projects-eu.erdas.com:80/erdas-georeg/wrs/SPB?" xlink:type="simple"/>
+                     <Post xlink:href="http://projects-eu.erdas.com:80/erdas-georeg/wrs/SPB" xlink:type="simple"/>
+                  </HTTP>
+               </DCP>
+               <Parameter name="resultType">
+                  <Value>hits</Value>
+                  <Value>results</Value>
+                  <Value>validate</Value>
+               </Parameter>
+               <Parameter name="CONSTRAINTLANGUAGE">
+                  <Value>FILTER</Value>
+               </Parameter>
+               <Parameter name="DistributedSearch">
+                  <Value>FALSE</Value>
+               </Parameter>
+               <Parameter name="outputFormat">
+                  <Value>application/xml</Value>
+                  <Value>text/xml</Value>
+                  <Value>multipart/related</Value>
+               </Parameter>
+               <Parameter name="typeNames">
+                  <Value>csw:Record</Value>
+               </Parameter>
+               <Parameter name="outputSchema">
+                  <Value>http://www.opengis.net/cat/csw/2.0.2</Value>
+               </Parameter>
+            </Operation>
+            <Operation name="GetRecordById">
+               <DCP>
+                  <HTTP>
+                     <Get xlink:href="http://projects-eu.erdas.com:80/erdas-georeg/wrs/SPB?" xlink:type="simple"/>
+                     <Post xlink:href="http://projects-eu.erdas.com:80/erdas-georeg/wrs/SPB" xlink:type="simple"/>
+                  </HTTP>
+               </DCP>
+               <Parameter name="outputFormat">
+                  <Value>application/xml</Value>
+                  <Value>text/xml</Value>
+                  <Value>multipart/related</Value>
+               </Parameter>
+               <Parameter name="elementSetName">
+                  <Value>full</Value>
+                  <Value>brief</Value>
+                  <Value>summary</Value>
+               </Parameter>
+               <Parameter name="outputSchema">
+                  <Value>http://www.opengis.net/cat/csw/2.0.2</Value>
+               </Parameter>
+            </Operation>
+            <Operation name="Harvest">
+               <DCP>
+                  <HTTP>
+                     <Get xlink:href="http://projects-eu.erdas.com:80/erdas-georeg/wrs/SPB?" xlink:type="simple"/>
+                     <Post xlink:href="http://projects-eu.erdas.com:80/erdas-georeg/wrs/SPB" xlink:type="simple"/>
+                  </HTTP>
+               </DCP>
+               <Parameter name="resourceType">
+                  <Value>http://www.opengis.net/atm/2.0</Value>
+                  <Value>http://earth.esa.int/sar</Value>
+                  <Value>ISO19139IONIC</Value>
+                  <Value>WMS</Value>
+                  <Value>http://www.opengis.net/lmb/2.0</Value>
+                  <Value>OPT</Value>
+                  <Value>OPT2</Value>
+                  <Value>Context</Value>
+                  <Value>SAR</Value>
+                  <Value>http://www.opengis.net/sar/2.0</Value>
+                  <Value>WFS</Value>
+                  <Value>ISO19139-OLD</Value>
+                  <Value>http://earth.esa.int/eop</Value>
+                  <Value>EOP</Value>
+                  <Value>http://www.opengis.net/ssp/2.0</Value>
+                  <Value>http://earth.esa.int/opt</Value>
+                  <Value>SAR022</Value>
+                  <Value>http://www.opengis.net/eop/2.0</Value>
+                  <Value>EOP022</Value>
+                  <Value>http://www.opengis.net/opt/2.0</Value>
+                  <Value>SensorML</Value>
+                  <Value>Phenomenon</Value>
+                  <Value>SensorML_EOPlatform</Value>
+                  <Value>http://www.opengis.net/alt/2.0</Value>
+                  <Value>SensorML_EOInstrument</Value>
+                  <Value>OPT022</Value>
+                  <Value>ISO19139</Value>
+                  <Value>FGDC</Value>
+                  <Value>SOS</Value>
+                  <Value>WCS</Value>
+                  <Value>SensorML_EODetector</Value>
+               </Parameter>
+            </Operation>
+            <Operation name="DescribeRecord">
+               <DCP>
+                  <HTTP>
+                     <Get xlink:href="http://projects-eu.erdas.com:80/erdas-georeg/wrs/SPB?" xlink:type="simple"/>
+                     <Post xlink:href="http://projects-eu.erdas.com:80/erdas-georeg/wrs/SPB" xlink:type="simple"/>
+                  </HTTP>
+               </DCP>
+               <Parameter name="outputFormat">
+                  <Value>application/xml</Value>
+                  <Value>text/xml</Value>
+               </Parameter>
+               <Parameter name="schemaLanguage">
+                  <Value>http://www.w3.org/TR/xmlschema-1/</Value>
+               </Parameter>
+               <Parameter name="TypeName">
+                  <Value>csw:Record</Value>
+               </Parameter>
+            </Operation>
+            <Operation name="GetRepositoryItem">
+               <DCP>
+                  <HTTP>
+                     <Get xlink:href="http://projects-eu.erdas.com:80/erdas-georeg/wrs/SPB?" xlink:type="simple"/>
+                     <Post xlink:href="http://projects-eu.erdas.com:80/erdas-georeg/wrs/SPB" xlink:type="simple"/>
+                  </HTTP>
+               </DCP>
+            </Operation>
+            <Operation name="DeleteResource">
+               <DCP>
+                  <HTTP>
+                     <Get xlink:href="http://projects-eu.erdas.com:80/erdas-georeg/wrs/SPB?" xlink:type="simple"/>
+                  </HTTP>
+               </DCP>
+            </Operation>
+            <Operation name="Transaction">
+               <DCP>
+                  <HTTP>
+                     <Post xlink:href="http://projects-eu.erdas.com:80/erdas-georeg/wrs/SPB" xlink:type="simple"/>
+                  </HTTP>
+               </DCP>
+            </Operation>
+            <Parameter name="service">
+               <Value>http://www.opengis.net/cat/csw/2.0.2</Value>
+            </Parameter>
+            <Parameter name="version">
+               <Value>2.0.2</Value>
+            </Parameter>
+            <Constraint name="PostEncoding">
+               <Value>XML</Value>
+               <Value>SOAP</Value>
+               <Value>SOAP1.1</Value>
+            </Constraint>
+            <Constraint name="Content-Type">
+               <Value>text/xml</Value>
+               <Value>application/xml</Value>
+               <Value>application/soap+xml</Value>
+            </Constraint>
+         </ows:OperationsMetadata>
+         <Filter_Capabilities xmlns="http://www.opengis.net/ogc">
+            <Spatial_Capabilities>
+               <GeometryOperands xmlns:gml="http://www.opengis.net/gml">
+                  <GeometryOperand>gml:Point</GeometryOperand>
+                  <GeometryOperand>gml:LineString</GeometryOperand>
+                  <GeometryOperand>gml:Polygon</GeometryOperand>
+                  <GeometryOperand>gml:Envelope</GeometryOperand>
+               </GeometryOperands>
+               <SpatialOperators>
+                  <SpatialOperator name="BBOX"/>
+                  <SpatialOperator name="Equals"/>
+                  <SpatialOperator name="Disjoint"/>
+                  <SpatialOperator name="Intersects"/>
+                  <SpatialOperator name="Touches"/>
+                  <SpatialOperator name="Crosses"/>
+                  <SpatialOperator name="Within"/>
+                  <SpatialOperator name="Contains"/>
+                  <SpatialOperator name="Overlaps"/>
+                  <SpatialOperator name="Beyond"/>
+                  <SpatialOperator name="DWithin"/>
+               </SpatialOperators>
+            </Spatial_Capabilities>
+            <Scalar_Capabilities>
+               <LogicalOperators/>
+               <ComparisonOperators>
+                  <ComparisonOperator>LessThan</ComparisonOperator>
+                  <ComparisonOperator>GreaterThan</ComparisonOperator>
+                  <ComparisonOperator>LessThanEqualTo</ComparisonOperator>
+                  <ComparisonOperator>GreaterThanEqualTo</ComparisonOperator>
+                  <ComparisonOperator>EqualTo</ComparisonOperator>
+                  <ComparisonOperator>NotEqualTo</ComparisonOperator>
+                  <ComparisonOperator>Like</ComparisonOperator>
+                  <ComparisonOperator>Between</ComparisonOperator>
+                  <ComparisonOperator>NullCheck</ComparisonOperator>
+               </ComparisonOperators>
+               <ArithmeticOperators>
+                  <SimpleArithmetic/>
+               </ArithmeticOperators>
+            </Scalar_Capabilities>
+            <Id_Capabilities>
+               <EID/>
+            </Id_Capabilities>
+         </Filter_Capabilities>
+      </csw:Capabilities>
+   </soap:Body>
+</soap:Envelope>
