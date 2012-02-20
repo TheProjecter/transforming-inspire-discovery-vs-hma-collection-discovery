@@ -133,7 +133,7 @@ Transforms a CIM EP request to an ISO AP request.
 		<xsl:if test="//tmp:localName[text() = 'Language' or text() = 'ParentIdentifier' or text() = 'SpecificationTitle' or text() = 'Degree' or text() = 'SpecificationDateType'or text() = 'SpecificationDate' or text() = 'ConditionApplyingToAccessAndUse' or text() = 'OtherConstraints' or text() = 'AccessConstraints' or text() = 'Classification' or text() = 'OrganisationName' or text() = 'Identifier' or text() = 'identifier']">
 			<xsl:text> rim:Association</xsl:text>
 		</xsl:if>
-		<xsl:if test="//tmp:localName[text() = 'Language' or text() = 'ParentIdentifier' or text() = 'Identifier']">
+		<xsl:if test="//tmp:localName[text() = 'Language' or text() = 'ParentIdentifier' or text() = 'Identifier' or text() = 'identifier']">
 			<xsl:text>_a2</xsl:text>
 		</xsl:if>
 		<xsl:if test="//tmp:localName[text() = 'SpecificationTitle' or text() = 'Degree' or text() = 'SpecificationDateType'or text() = 'SpecificationDate']">
