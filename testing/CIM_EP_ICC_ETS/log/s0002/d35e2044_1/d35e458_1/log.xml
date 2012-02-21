@@ -1,0 +1,44 @@
+<log>
+<starttest local-name="ICC.GetRecords-Specification" prefix="csw" namespace-uri="http://www.opengis.net/cat/csw/2.0.2" path="s0001/d35e2044_1/d35e458_1" file="C:\Users\uvo\AppData\Local\Temp\te_work\C~3A~5CVoges~5CETS_4_CIM_0_1_12_ICC_1_0_r4~5Cctl~5Cmain.ctl\csw$ICC.GetRecords-Specification.test">
+<assertion>
+	The GetRecords request (sent via HTTP/SOAP/POST/XML) response must satisfy the applicable assertions:
+	1.	the filter request is understood by the server and no exception concerning the request is thrown 
+	2. each ExtrinsicObject within the GetRecordsResponse which is in the Namespace “urn:oasis:names:tc:ebxml-regrep:xsd:rim:3.0” must be conformant http://schemas.opengis.net/csw/2.0.2/profiles/ebrim/1.0/csw-ebrim.xsd     
+     </assertion>
+<params xmlns:rim="urn:oasis:names:tc:ebxml-regrep:xsd:rim:3.0"
+        xmlns:sec="http://www.intecs.it/sec"
+        xmlns:ctlp="http://www.occamlab.com/te/parsers"
+        xmlns:xlink="http://www.w3.org/1999/xlink"
+        xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+        xmlns:saxon="http://saxon.sf.net/"
+        xmlns:xs="http://www.w3.org/2001/XMLSchema"
+        xmlns:util="http://www.occamlab.com/te/util"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:dct="http://purl.org/dc/terms/"
+        xmlns:ctl="http://www.occamlab.com/ctl"
+        xmlns:wrs="http://www.opengis.net/cat/wrs/1.0"
+        xmlns:gmd="http://www.isotc211.org/2005/gmd"
+        xmlns:csw="http://www.opengis.net/cat/csw/2.0.2"
+        xmlns:tec="java:com.occamlab.te.TECore"
+        xmlns:parsers="http://www.occamlab.com/te/parsers"
+        xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"
+        xmlns:te="http://www.occamlab.com/te"
+        xmlns:dc="http://purl.org/dc/elements/1.1/"
+        xmlns:ows="http://www.opengis.net/ows/2.0"
+        xmlns:ogc="http://www.opengis.net/ogc"
+        xmlns:xi="http://www.w3.org/2001/XInclude">
+   <param local-name="csw.GetRecords.soap.url" namespace-uri="" prefix=""
+          type="document-node()">
+      <value>http://46.51.189.235/inspiretm/cimep</value>
+   </param>
+</params>
+</starttest>
+<message id="d35e947_1"><![CDATA[Here is: csw:ICC.GetRecords-Specification]]></message>
+<message id="d35e950_1"><![CDATA[http://46.51.189.235/inspiretm/cimep]]></message>
+<soap-request id="d35e955_1">
+<ctl:soap-request xmlns:ctl="http://www.occamlab.com/ctl" xmlns:rim="urn:oasis:names:tc:ebxml-regrep:xsd:rim:3.0" xmlns:sec="http://www.intecs.it/sec" xmlns:ctlp="http://www.occamlab.com/te/parsers" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:saxon="http://saxon.sf.net/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:util="http://www.occamlab.com/te/util" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dct="http://purl.org/dc/terms/" xmlns:wrs="http://www.opengis.net/cat/wrs/1.0" xmlns:gmd="http://www.isotc211.org/2005/gmd" xmlns:csw="http://www.opengis.net/cat/csw/2.0.2" xmlns:tec="java:com.occamlab.te.TECore" xmlns:parsers="http://www.occamlab.com/te/parsers" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:te="http://www.occamlab.com/te" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:ows="http://www.opengis.net/ows/2.0" xmlns:ogc="http://www.opengis.net/ogc" xmlns:xi="http://www.w3.org/2001/XInclude" version="1.2" charset="UTF-8"><ctl:url>http://46.51.189.235/inspiretm/cimep</ctl:url><ctl:action>http://www.opengis.net/cat/csw/2.0.2/requests#GetRecords</ctl:action><ctl:body><csw:GetRecords xmlns:gml="http://www.opengis.net/gml" maxRecords="5" outputFormat="application/xml" outputSchema="urn:oasis:names:tc:ebxml-regrep:xsd:rim:3.0" resultType="results" service="CSW" startPosition="1" version="2.0.2"><csw:Query typeNames="wrs:ExtrinsicObject_e1 rim:ExtrinsicObject_e2_e3 rim:Association_a1_a2"><csw:ElementSetName typeNames="$e1">full</csw:ElementSetName><csw:Constraint version="1.1.0"><ogc:Filter><ogc:And><ogc:PropertyIsEqualTo><ogc:PropertyName>$a1/@associationType</ogc:PropertyName><ogc:Literal>urn:ogc:def:associationType:OGC-CSW-ebRIM-CIM::ResourceMetadataInformation</ogc:Literal></ogc:PropertyIsEqualTo><ogc:PropertyIsEqualTo><ogc:PropertyName>$a1/@sourceObject</ogc:PropertyName><ogc:PropertyName>$e1/@id</ogc:PropertyName></ogc:PropertyIsEqualTo><ogc:PropertyIsEqualTo><ogc:PropertyName>$e2/@id</ogc:PropertyName><ogc:PropertyName>$a1/@targetObject</ogc:PropertyName></ogc:PropertyIsEqualTo><ogc:PropertyIsEqualTo><ogc:PropertyName>$e1/@objectType</ogc:PropertyName><ogc:Literal>urn:ogc:def:objectType:OGC-CSW-ebRIM-CIM::DataMetadata</ogc:Literal></ogc:PropertyIsEqualTo><ogc:PropertyIsEqualTo><ogc:PropertyName>$e2/@objectType</ogc:PropertyName><ogc:Literal>urn:ogc:def:objectType:OGC-CSW-ebRIM-CIM::MetadataInformation</ogc:Literal></ogc:PropertyIsEqualTo><ogc:PropertyIsEqualTo><ogc:PropertyName>$a2/@associationType</ogc:PropertyName><ogc:Literal>urn:ogc:def:associationType:OGC-CSW-ebRIM-CIM::Specification</ogc:Literal></ogc:PropertyIsEqualTo><ogc:PropertyIsEqualTo><ogc:PropertyName>$a2/@sourceObject</ogc:PropertyName><ogc:PropertyName>$e1/@id</ogc:PropertyName></ogc:PropertyIsEqualTo><ogc:PropertyIsEqualTo><ogc:PropertyName>$e3/@id</ogc:PropertyName><ogc:PropertyName>$a2/@targetObject</ogc:PropertyName></ogc:PropertyIsEqualTo><ogc:PropertyIsEqualTo><ogc:PropertyName>$e3/@objectType</ogc:PropertyName><ogc:Literal>urn:ogc:def:objectType:OGC-CSW-ebRIM-CIM::ReferenceSpecification</ogc:Literal></ogc:PropertyIsEqualTo></ogc:And></ogc:Filter></csw:Constraint></csw:Query></csw:GetRecords></ctl:body></ctl:soap-request>
+<response><parser/><content><soapenv:Envelope xmlns:soapenv="http://www.w3.org/2003/05/soap-envelope" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><soapenv:Body><csw:GetRecordsResponse xmlns:csw="http://www.opengis.net/cat/csw/2.0.2"><csw:RequestId/><csw:SearchStatus/><csw:SearchResults numberOfRecordsMatched="0" numberOfRecordsReturned="0"/></csw:GetRecordsResponse></soapenv:Body></soapenv:Envelope></content></response>
+<!-- elapsed time :227 (milliseconds) --></soap-request>
+<message id="d35e1078_1"><![CDATA[0 wrs:ExtrinsicObject of type DatasetCollection found.]]></message>
+<endtest result="0"/>
+</log>

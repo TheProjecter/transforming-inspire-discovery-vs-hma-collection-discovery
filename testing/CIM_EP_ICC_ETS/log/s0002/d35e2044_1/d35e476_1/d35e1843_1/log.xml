@@ -1,0 +1,607 @@
+<log>
+<starttest local-name="XMLValidatingParser" prefix="ctl" namespace-uri="http://www.occamlab.com/ctl" path="s0001/d35e2044_1/d35e476_1/d35e1843_1" file="C:\Users\uvo\AppData\Local\Temp\te_work\C~3A~5CVoges~5CETS_4_CIM_0_1_12_ICC_1_0_r4~5Cctl~5Cmain.ctl\ctl$XMLValidatingParser.test">
+<assertion>Validates the XML instance against the set of XML Schemas specified using the given instruction parameter.</assertion>
+<params xmlns:rim="urn:oasis:names:tc:ebxml-regrep:xsd:rim:3.0"
+        xmlns:sec="http://www.intecs.it/sec"
+        xmlns:ctlp="http://www.occamlab.com/te/parsers"
+        xmlns:xlink="http://www.w3.org/1999/xlink"
+        xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+        xmlns:saxon="http://saxon.sf.net/"
+        xmlns:xs="http://www.w3.org/2001/XMLSchema"
+        xmlns:util="http://www.occamlab.com/te/util"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:dct="http://purl.org/dc/terms/"
+        xmlns:ctl="http://www.occamlab.com/ctl"
+        xmlns:wrs="http://www.opengis.net/cat/wrs/1.0"
+        xmlns:gmd="http://www.isotc211.org/2005/gmd"
+        xmlns:csw="http://www.opengis.net/cat/csw/2.0.2"
+        xmlns:tec="java:com.occamlab.te.TECore"
+        xmlns:parsers="http://www.occamlab.com/te/parsers"
+        xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"
+        xmlns:te="http://www.occamlab.com/te"
+        xmlns:dc="http://purl.org/dc/elements/1.1/"
+        xmlns:ows="http://www.opengis.net/ows/2.0"
+        xmlns:ogc="http://www.opengis.net/ogc"
+        xmlns:xi="http://www.w3.org/2001/XInclude">
+   <param local-name="doc" namespace-uri="" prefix=""
+          type="document-node(element({http://www.isotc211.org/2005/gmd}MD_Metadata, xs:anyType))">
+      <value>
+         <gmd:MD_Metadata xmlns:eum="http://www.eumetsat.int/2008/gmi"
+                          xmlns:gco="http://www.isotc211.org/2005/gco"
+                          xmlns:gmi="http://www.isotc211.org/2005/gmi"
+                          xmlns:soap12="http://www.w3.org/2003/05/soap-envelope"
+                          xmlns:soapenv="http://www.w3.org/2003/05/soap-envelope">
+            <gmd:fileIdentifier xmlns="http://www.isotc211.org/2005/gmd"
+                                xmlns:date="http://exslt.org/dates-and-times"
+                                xmlns:fn="http://www.w3.org/TR/xpath-functions"
+                                xmlns:gml="http://www.opengis.net/gml"
+                                xmlns:str="http://exslt.org/strings"
+                                xmlns:xdt="http://www.w3.org/2005/02/xpath-datatypes">
+               <gco:CharacterString>urn:ogc:def:EOP:EUM:acronym:MSG15:fileid:EO:EUM:DAT:MSG:HRSEVIRI</gco:CharacterString>
+            </gmd:fileIdentifier>
+            <gmd:language xmlns="http://www.isotc211.org/2005/gmd"
+                          xmlns:date="http://exslt.org/dates-and-times"
+                          xmlns:fn="http://www.w3.org/TR/xpath-functions"
+                          xmlns:gml="http://www.opengis.net/gml"
+                          xmlns:str="http://exslt.org/strings"
+                          xmlns:xdt="http://www.w3.org/2005/02/xpath-datatypes">
+               <gmd:LanguageCode codeList="http://www.w3.org/WAI/ER/IG/ert/iso639.htm" codeListValue="eng"/>
+            </gmd:language>
+            <gmd:hierarchyLevel xmlns="http://www.isotc211.org/2005/gmd"
+                                xmlns:date="http://exslt.org/dates-and-times"
+                                xmlns:fn="http://www.w3.org/TR/xpath-functions"
+                                xmlns:gml="http://www.opengis.net/gml"
+                                xmlns:str="http://exslt.org/strings"
+                                xmlns:xdt="http://www.w3.org/2005/02/xpath-datatypes">
+               <gmd:MD_ScopeCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/Codelist/gmxCodelists.xml#MD_ScopeCode"
+                                 codeListValue="series"/>
+            </gmd:hierarchyLevel>
+            <gmd:hierarchyLevelName xmlns="http://www.isotc211.org/2005/gmd"
+                                    xmlns:date="http://exslt.org/dates-and-times"
+                                    xmlns:fn="http://www.w3.org/TR/xpath-functions"
+                                    xmlns:gml="http://www.opengis.net/gml"
+                                    xmlns:str="http://exslt.org/strings"
+                                    xmlns:xdt="http://www.w3.org/2005/02/xpath-datatypes">
+               <gco:CharacterString>sat.MSG1</gco:CharacterString>
+            </gmd:hierarchyLevelName>
+            <gmd:hierarchyLevelName xmlns="http://www.isotc211.org/2005/gmd"
+                                    xmlns:date="http://exslt.org/dates-and-times"
+                                    xmlns:fn="http://www.w3.org/TR/xpath-functions"
+                                    xmlns:gml="http://www.opengis.net/gml"
+                                    xmlns:str="http://exslt.org/strings"
+                                    xmlns:xdt="http://www.w3.org/2005/02/xpath-datatypes">
+               <gco:CharacterString>sat.MSG2</gco:CharacterString>
+            </gmd:hierarchyLevelName>
+            <gmd:hierarchyLevelName xmlns="http://www.isotc211.org/2005/gmd"
+                                    xmlns:date="http://exslt.org/dates-and-times"
+                                    xmlns:fn="http://www.w3.org/TR/xpath-functions"
+                                    xmlns:gml="http://www.opengis.net/gml"
+                                    xmlns:str="http://exslt.org/strings"
+                                    xmlns:xdt="http://www.w3.org/2005/02/xpath-datatypes">
+               <gco:CharacterString>theme.par.Observation</gco:CharacterString>
+            </gmd:hierarchyLevelName>
+            <gmd:hierarchyLevelName xmlns="http://www.isotc211.org/2005/gmd"
+                                    xmlns:date="http://exslt.org/dates-and-times"
+                                    xmlns:fn="http://www.w3.org/TR/xpath-functions"
+                                    xmlns:gml="http://www.opengis.net/gml"
+                                    xmlns:str="http://exslt.org/strings"
+                                    xmlns:xdt="http://www.w3.org/2005/02/xpath-datatypes">
+               <gco:CharacterString>theme.par.Satellite_Data</gco:CharacterString>
+            </gmd:hierarchyLevelName>
+            <gmd:hierarchyLevelName xmlns="http://www.isotc211.org/2005/gmd"
+                                    xmlns:date="http://exslt.org/dates-and-times"
+                                    xmlns:fn="http://www.w3.org/TR/xpath-functions"
+                                    xmlns:gml="http://www.opengis.net/gml"
+                                    xmlns:str="http://exslt.org/strings"
+                                    xmlns:xdt="http://www.w3.org/2005/02/xpath-datatypes">
+               <gco:CharacterString>theme.par.GEONETCast</gco:CharacterString>
+            </gmd:hierarchyLevelName>
+            <gmd:hierarchyLevelName xmlns="http://www.isotc211.org/2005/gmd"
+                                    xmlns:date="http://exslt.org/dates-and-times"
+                                    xmlns:fn="http://www.w3.org/TR/xpath-functions"
+                                    xmlns:gml="http://www.opengis.net/gml"
+                                    xmlns:str="http://exslt.org/strings"
+                                    xmlns:xdt="http://www.w3.org/2005/02/xpath-datatypes">
+               <gco:CharacterString>SBA.Weather</gco:CharacterString>
+            </gmd:hierarchyLevelName>
+            <gmd:hierarchyLevelName xmlns="http://www.isotc211.org/2005/gmd"
+                                    xmlns:date="http://exslt.org/dates-and-times"
+                                    xmlns:fn="http://www.w3.org/TR/xpath-functions"
+                                    xmlns:gml="http://www.opengis.net/gml"
+                                    xmlns:str="http://exslt.org/strings"
+                                    xmlns:xdt="http://www.w3.org/2005/02/xpath-datatypes">
+               <gco:CharacterString>dis.EUMETSATArchive</gco:CharacterString>
+            </gmd:hierarchyLevelName>
+            <gmd:hierarchyLevelName xmlns="http://www.isotc211.org/2005/gmd"
+                                    xmlns:date="http://exslt.org/dates-and-times"
+                                    xmlns:fn="http://www.w3.org/TR/xpath-functions"
+                                    xmlns:gml="http://www.opengis.net/gml"
+                                    xmlns:str="http://exslt.org/strings"
+                                    xmlns:xdt="http://www.w3.org/2005/02/xpath-datatypes">
+               <gco:CharacterString>dis.EUMETCast-Europe</gco:CharacterString>
+            </gmd:hierarchyLevelName>
+            <gmd:hierarchyLevelName xmlns="http://www.isotc211.org/2005/gmd"
+                                    xmlns:date="http://exslt.org/dates-and-times"
+                                    xmlns:fn="http://www.w3.org/TR/xpath-functions"
+                                    xmlns:gml="http://www.opengis.net/gml"
+                                    xmlns:str="http://exslt.org/strings"
+                                    xmlns:xdt="http://www.w3.org/2005/02/xpath-datatypes">
+               <gco:CharacterString>dis.EUMETCast-Africa</gco:CharacterString>
+            </gmd:hierarchyLevelName>
+            <gmd:hierarchyLevelName xmlns="http://www.isotc211.org/2005/gmd"
+                                    xmlns:date="http://exslt.org/dates-and-times"
+                                    xmlns:fn="http://www.w3.org/TR/xpath-functions"
+                                    xmlns:gml="http://www.opengis.net/gml"
+                                    xmlns:str="http://exslt.org/strings"
+                                    xmlns:xdt="http://www.w3.org/2005/02/xpath-datatypes">
+               <gco:CharacterString>dis.EUMETCast-Americas</gco:CharacterString>
+            </gmd:hierarchyLevelName>
+            <gmd:hierarchyLevelName xmlns="http://www.isotc211.org/2005/gmd"
+                                    xmlns:date="http://exslt.org/dates-and-times"
+                                    xmlns:fn="http://www.w3.org/TR/xpath-functions"
+                                    xmlns:gml="http://www.opengis.net/gml"
+                                    xmlns:str="http://exslt.org/strings"
+                                    xmlns:xdt="http://www.w3.org/2005/02/xpath-datatypes">
+               <gco:CharacterString>dis.EUMETCast</gco:CharacterString>
+            </gmd:hierarchyLevelName>
+            <gmd:contact xmlns="http://www.isotc211.org/2005/gmd"
+                         xmlns:date="http://exslt.org/dates-and-times"
+                         xmlns:fn="http://www.w3.org/TR/xpath-functions"
+                         xmlns:gml="http://www.opengis.net/gml"
+                         xmlns:str="http://exslt.org/strings"
+                         xmlns:xdt="http://www.w3.org/2005/02/xpath-datatypes">
+               <gmd:CI_ResponsibleParty>
+                  <gmd:organisationName>
+                     <gco:CharacterString>EUMETSAT</gco:CharacterString>
+                  </gmd:organisationName>
+                  <gmd:contactInfo>
+                     <gmd:CI_Contact>
+                        <gmd:address>
+                           <gmd:CI_Address>
+                              <gmd:deliveryPoint>
+                                 <gco:CharacterString>EUMETSAT Allee 1</gco:CharacterString>
+                              </gmd:deliveryPoint>
+                              <gmd:city>
+                                 <gco:CharacterString>Darmstadt</gco:CharacterString>
+                              </gmd:city>
+                              <gmd:administrativeArea>
+                                 <gco:CharacterString>Hessen</gco:CharacterString>
+                              </gmd:administrativeArea>
+                              <gmd:postalCode>
+                                 <gco:CharacterString>64295</gco:CharacterString>
+                              </gmd:postalCode>
+                              <gmd:country>
+                                 <gco:CharacterString>Germany</gco:CharacterString>
+                              </gmd:country>
+                              <gmd:electronicMailAddress>
+                                 <gco:CharacterString>ops@eumetsat.int</gco:CharacterString>
+                              </gmd:electronicMailAddress>
+                           </gmd:CI_Address>
+                        </gmd:address>
+                        <gmd:onlineResource>
+                           <gmd:CI_OnlineResource>
+                              <gmd:linkage>
+                                 <gmd:URL>http://www.eumetsat.int</gmd:URL>
+                              </gmd:linkage>
+                           </gmd:CI_OnlineResource>
+                        </gmd:onlineResource>
+                     </gmd:CI_Contact>
+                  </gmd:contactInfo>
+                  <gmd:role>
+                     <gmd:CI_RoleCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/Codelist/ML_gmxCodelists.xml#MD_ScopeCode"
+                                      codeListValue="pointOfContact">pointOfContact</gmd:CI_RoleCode>
+                  </gmd:role>
+               </gmd:CI_ResponsibleParty>
+            </gmd:contact>
+            <gmd:dateStamp xmlns="http://www.isotc211.org/2005/gmd"
+                           xmlns:date="http://exslt.org/dates-and-times"
+                           xmlns:fn="http://www.w3.org/TR/xpath-functions"
+                           xmlns:gml="http://www.opengis.net/gml"
+                           xmlns:str="http://exslt.org/strings"
+                           xmlns:xdt="http://www.w3.org/2005/02/xpath-datatypes">
+               <gco:Date>2011-11-29</gco:Date>
+            </gmd:dateStamp>
+            <gmd:metadataStandardName xmlns="http://www.isotc211.org/2005/gmd"
+                                      xmlns:date="http://exslt.org/dates-and-times"
+                                      xmlns:fn="http://www.w3.org/TR/xpath-functions"
+                                      xmlns:gml="http://www.opengis.net/gml"
+                                      xmlns:str="http://exslt.org/strings"
+                                      xmlns:xdt="http://www.w3.org/2005/02/xpath-datatypes">
+               <gco:CharacterString>ISO19115</gco:CharacterString>
+            </gmd:metadataStandardName>
+            <gmd:metadataStandardVersion xmlns="http://www.isotc211.org/2005/gmd"
+                                         xmlns:date="http://exslt.org/dates-and-times"
+                                         xmlns:fn="http://www.w3.org/TR/xpath-functions"
+                                         xmlns:gml="http://www.opengis.net/gml"
+                                         xmlns:str="http://exslt.org/strings"
+                                         xmlns:xdt="http://www.w3.org/2005/02/xpath-datatypes">
+               <gco:CharacterString>2003/Cor.1:2006</gco:CharacterString>
+            </gmd:metadataStandardVersion>
+            <gmd:identificationInfo xmlns="http://www.isotc211.org/2005/gmd"
+                                    xmlns:date="http://exslt.org/dates-and-times"
+                                    xmlns:fn="http://www.w3.org/TR/xpath-functions"
+                                    xmlns:gml="http://www.opengis.net/gml"
+                                    xmlns:str="http://exslt.org/strings"
+                                    xmlns:xdt="http://www.w3.org/2005/02/xpath-datatypes">
+               <gmd:MD_DataIdentification>
+                  <gmd:citation>
+                     <gmd:CI_Citation>
+                        <gmd:title>
+                           <gco:CharacterString>High Rate SEVIRI Level 1.5 Image Data - MSG - 0 degree</gco:CharacterString>
+                        </gmd:title>
+                        <gmd:alternateTitle>
+                           <gco:CharacterString>HRSEVIRI</gco:CharacterString>
+                        </gmd:alternateTitle>
+                        <gmd:alternateTitle>
+                           <gco:CharacterString>MSG15</gco:CharacterString>
+                        </gmd:alternateTitle>
+                        <gmd:date>
+                           <gmd:CI_Date>
+                              <gmd:date>
+                                 <gco:Date>2009-03-23</gco:Date>
+                              </gmd:date>
+                              <gmd:dateType>
+                                 <gmd:CI_DateTypeCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/Codelist/gmxCodelists.xml#CI_DateTypeCode"
+                                                      codeListValue="creation"/>
+                              </gmd:dateType>
+                           </gmd:CI_Date>
+                        </gmd:date>
+                        <gmd:date>
+                           <gmd:CI_Date>
+                              <gmd:date>
+                                 <gco:Date>2010-09-21</gco:Date>
+                              </gmd:date>
+                              <gmd:dateType>
+                                 <gmd:CI_DateTypeCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/Codelist/gmxCodelists.xml#CI_DateTypeCode"
+                                                      codeListValue="revision"/>
+                              </gmd:dateType>
+                           </gmd:CI_Date>
+                        </gmd:date>
+                        <gmd:date>
+                           <gmd:CI_Date>
+                              <gmd:date>
+                                 <gco:Date>2009-04-23</gco:Date>
+                              </gmd:date>
+                              <gmd:dateType>
+                                 <gmd:CI_DateTypeCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/Codelist/gmxCodelists.xml#CI_DateTypeCode"
+                                                      codeListValue="publication"/>
+                              </gmd:dateType>
+                           </gmd:CI_Date>
+                        </gmd:date>
+                        <gmd:identifier>
+                           <gmd:MD_Identifier>
+                              <gmd:code>
+                                 <gco:CharacterString>EO:EUM:DAT:MSG:HRSEVIRI</gco:CharacterString>
+                              </gmd:code>
+                           </gmd:MD_Identifier>
+                        </gmd:identifier>
+                        <gmd:citedResponsibleParty>
+                           <gmd:CI_ResponsibleParty>
+                              <gmd:contactInfo>
+                                 <gmd:CI_Contact>
+                                    <gmd:onlineResource>
+                                       <gmd:CI_OnlineResource>
+                                          <gmd:linkage>
+                                             <gmd:URL>http://www.eumetsat.int/Home/Main/DataProducts/HowtoUseOurProducts/SP_20110131154217380?l=en</gmd:URL>
+                                          </gmd:linkage>
+                                          <gmd:name>
+                                             <gco:CharacterString>Using SEVIRI data</gco:CharacterString>
+                                          </gmd:name>
+                                          <gmd:function>
+                                             <gmd:CI_OnLineFunctionCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/Codelist/gmxCodelists.xml#CI_OnLineFunctionCode"
+                                                                        codeListValue="information"/>
+                                          </gmd:function>
+                                       </gmd:CI_OnlineResource>
+                                    </gmd:onlineResource>
+                                 </gmd:CI_Contact>
+                              </gmd:contactInfo>
+                              <gmd:role>
+                                 <gmd:CI_RoleCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/Codelist/gmxCodelists.xml#CI_RoleCode"
+                                                  codeListValue="author"/>
+                              </gmd:role>
+                           </gmd:CI_ResponsibleParty>
+                        </gmd:citedResponsibleParty>
+                     </gmd:CI_Citation>
+                  </gmd:citation>
+                  <gmd:abstract>
+                     <gco:CharacterString>Rectified (level 1.5) Meteosat SEVIRI image data. The data is transmitted as High Rate transmissions in 12 spectral channels. Level 1.5 image data corresponds to the geolocated and radiometrically pre-processed image data, ready for further processing, e.g. the extraction of meteorological products. Any spacecraft specific effects have been removed, and in particular, linearisation and equalisation of the image radiometry has been performed for all SEVIRI channels. The on-board blackbody data has been processed. Both radiometric and geometric quality control information is included.</gco:CharacterString>
+                  </gmd:abstract>
+                  <gmd:status>
+                     <gmd:MD_ProgressCode codeList="http://navigator.eumetsat.int/metadata_schema/eum/resources/Codelist/eum_gmxCodelists.xml#MD_ProgressCode"
+                                          codeListValue="Operational"/>
+                  </gmd:status>
+                  <gmd:pointOfContact>
+                     <gmd:CI_ResponsibleParty>
+                        <gmd:individualName>
+                           <gco:CharacterString>European Organisation for the Exploitation of Meteorological Satellites</gco:CharacterString>
+                        </gmd:individualName>
+                        <gmd:organisationName>
+                           <gco:CharacterString>EUMETSAT</gco:CharacterString>
+                        </gmd:organisationName>
+                        <gmd:contactInfo>
+                           <gmd:CI_Contact>
+                              <gmd:phone>
+                                 <gmd:CI_Telephone>
+                                    <gmd:voice>
+                                       <gco:CharacterString>+49(0)6151-807 366/377</gco:CharacterString>
+                                    </gmd:voice>
+                                    <gmd:facsimile>
+                                       <gco:CharacterString>+49(0)6151-807 379</gco:CharacterString>
+                                    </gmd:facsimile>
+                                 </gmd:CI_Telephone>
+                              </gmd:phone>
+                              <gmd:address>
+                                 <gmd:CI_Address>
+                                    <gmd:deliveryPoint>
+                                       <gco:CharacterString>EUMETSAT Allee 1</gco:CharacterString>
+                                    </gmd:deliveryPoint>
+                                    <gmd:city>
+                                       <gco:CharacterString>Darmstadt</gco:CharacterString>
+                                    </gmd:city>
+                                    <gmd:administrativeArea>
+                                       <gco:CharacterString>Hessen</gco:CharacterString>
+                                    </gmd:administrativeArea>
+                                    <gmd:postalCode>
+                                       <gco:CharacterString>64295</gco:CharacterString>
+                                    </gmd:postalCode>
+                                    <gmd:country>
+                                       <gco:CharacterString>Germany</gco:CharacterString>
+                                    </gmd:country>
+                                    <gmd:electronicMailAddress>
+                                       <gco:CharacterString>ops@eumetsat.int</gco:CharacterString>
+                                    </gmd:electronicMailAddress>
+                                 </gmd:CI_Address>
+                              </gmd:address>
+                              <gmd:onlineResource>
+                                 <gmd:CI_OnlineResource>
+                                    <gmd:linkage>
+                                       <gmd:URL>http://www.eumetsat.int</gmd:URL>
+                                    </gmd:linkage>
+                                 </gmd:CI_OnlineResource>
+                              </gmd:onlineResource>
+                           </gmd:CI_Contact>
+                        </gmd:contactInfo>
+                        <gmd:role>
+                           <gmd:CI_RoleCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/Codelist/ML_gmxCodelists.xml#MD_ScopeCode"
+                                            codeListValue="originator">originator</gmd:CI_RoleCode>
+                        </gmd:role>
+                     </gmd:CI_ResponsibleParty>
+                  </gmd:pointOfContact>
+                  <gmd:graphicOverview>
+                     <gmd:MD_BrowseGraphic>
+                        <gmd:fileName>
+                           <gco:CharacterString>/smartEditor/preview/msg-level-1-5.jpg</gco:CharacterString>
+                        </gmd:fileName>
+                        <gmd:fileDescription>
+                           <gco:CharacterString>preview</gco:CharacterString>
+                        </gmd:fileDescription>
+                        <gmd:fileType>
+                           <gco:CharacterString>jpg</gco:CharacterString>
+                        </gmd:fileType>
+                     </gmd:MD_BrowseGraphic>
+                  </gmd:graphicOverview>
+                  <gmd:descriptiveKeywords>
+                     <gmd:MD_Keywords>
+                        <gmd:keyword>
+                           <gco:CharacterString>Atmospheric conditions</gco:CharacterString>
+                        </gmd:keyword>
+                        <gmd:type>
+                           <gmd:MD_KeywordTypeCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/Codelist/gmxCodelists.xml#MD_KeywordTypeCode"
+                                                   codeListValue="theme"/>
+                        </gmd:type>
+                        <gmd:thesaurusName>
+                           <gmd:CI_Citation>
+                              <gmd:title>
+                                 <gco:CharacterString>GEMET - INSPIRE themes, version 1.0</gco:CharacterString>
+                              </gmd:title>
+                              <gmd:date>
+                                 <gmd:CI_Date>
+                                    <gmd:date>
+                                       <gco:Date>2008-06-01</gco:Date>
+                                    </gmd:date>
+                                    <gmd:dateType>
+                                       <gmd:CI_DateTypeCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/Codelist/gmxCodelists.xml#CI_DateTypeCode"
+                                                            codeListValue="publication">publication</gmd:CI_DateTypeCode>
+                                    </gmd:dateType>
+                                 </gmd:CI_Date>
+                              </gmd:date>
+                           </gmd:CI_Citation>
+                        </gmd:thesaurusName>
+                     </gmd:MD_Keywords>
+                  </gmd:descriptiveKeywords>
+                  <gmd:descriptiveKeywords>
+                     <gmd:MD_Keywords>
+                        <gmd:keyword>
+                           <gco:CharacterString>Weather</gco:CharacterString>
+                        </gmd:keyword>
+                        <gmd:type>
+                           <gmd:MD_KeywordTypeCode codeList="http://navigator.eumetsat.int/metadata_schema/eum/resources/Codelist/eum_gmxCodelists.xml#MD_KeywordTypeCode"
+                                                   codeListValue="socialBenefitArea"/>
+                        </gmd:type>
+                     </gmd:MD_Keywords>
+                  </gmd:descriptiveKeywords>
+                  <gmd:descriptiveKeywords>
+                     <gmd:MD_Keywords>
+                        <gmd:keyword>
+                           <gco:CharacterString>Observation</gco:CharacterString>
+                        </gmd:keyword>
+                        <gmd:keyword>
+                           <gco:CharacterString>Satellite Data</gco:CharacterString>
+                        </gmd:keyword>
+                        <gmd:type>
+                           <gmd:MD_KeywordTypeCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/Codelist/gmxCodelists.xml#MD_KeywordTypeCode"
+                                                   codeListValue="theme"/>
+                        </gmd:type>
+                     </gmd:MD_Keywords>
+                  </gmd:descriptiveKeywords>
+                  <gmd:descriptiveKeywords>
+                     <gmd:MD_Keywords>
+                        <gmd:keyword>
+                           <gco:CharacterString>Satellite Data</gco:CharacterString>
+                        </gmd:keyword>
+                        <gmd:type>
+                           <gmd:MD_KeywordTypeCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/Codelist/gmxCodelists.xml#MD_KeywordTypeCode"
+                                                   codeListValue="discipline"/>
+                        </gmd:type>
+                     </gmd:MD_Keywords>
+                  </gmd:descriptiveKeywords>
+                  <gmd:descriptiveKeywords>
+                     <gmd:MD_Keywords>
+                        <gmd:keyword>
+                           <gco:CharacterString>EUMETCast-Europe</gco:CharacterString>
+                        </gmd:keyword>
+                        <gmd:keyword>
+                           <gco:CharacterString>EUMETCast-Africa</gco:CharacterString>
+                        </gmd:keyword>
+                        <gmd:keyword>
+                           <gco:CharacterString>EUMETCast-Americas</gco:CharacterString>
+                        </gmd:keyword>
+                        <gmd:keyword>
+                           <gco:CharacterString>EUMETCast</gco:CharacterString>
+                        </gmd:keyword>
+                        <gmd:type>
+                           <gmd:MD_KeywordTypeCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/Codelist/gmxCodelists.xml#"
+                                                   codeListValue="place"/>
+                        </gmd:type>
+                     </gmd:MD_Keywords>
+                  </gmd:descriptiveKeywords>
+                  <gmd:resourceConstraints>
+                     <gmd:MD_LegalConstraints>
+                        <gmd:useLimitation>
+                           <gco:CharacterString>-</gco:CharacterString>
+                        </gmd:useLimitation>
+                        <gmd:accessConstraints>
+                           <gmd:MD_RestrictionCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/Codelist/gmxCodelists.xml#MD_RestrictionCode"
+                                                   codeListValue="license"/>
+                        </gmd:accessConstraints>
+                        <gmd:useConstraints>
+                           <gmd:MD_RestrictionCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/Codelist/gmxCodelists.xml#MD_RestrictionCode"
+                                                   codeListValue="license"/>
+                        </gmd:useConstraints>
+                     </gmd:MD_LegalConstraints>
+                  </gmd:resourceConstraints>
+                  <gmd:resourceConstraints>
+                     <gmd:MD_SecurityConstraints>
+                        <gmd:classification>
+                           <gmd:MD_ClassificationCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/Codelist/gmxCodelists.xml#MD_ClassificationCode"
+                                                      codeListValue="restricted"/>
+                        </gmd:classification>
+                     </gmd:MD_SecurityConstraints>
+                  </gmd:resourceConstraints>
+                  <gmd:spatialRepresentationType>
+                     <gmd:MD_SpatialRepresentationTypeCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/Codelist/gmxCodelists.xml#MD_SpatialRepresentationTypeCode"
+                                                           codeListValue="grid"/>
+                  </gmd:spatialRepresentationType>
+                  <gmd:language>
+                     <gmd:LanguageCode codeList="http://www.w3.org/WAI/ER/IG/ert/iso639.htm" codeListValue="eng"/>
+                  </gmd:language>
+                  <gmd:characterSet>
+                     <gmd:MD_CharacterSetCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/Codelist/gmxCodelists.xml#CI_CharacterSetCode"
+                                              codeListValue="utf8"/>
+                  </gmd:characterSet>
+                  <gmd:topicCategory>
+                     <gmd:MD_TopicCategoryCode>climatologyMeteorologyAtmosphere</gmd:MD_TopicCategoryCode>
+                  </gmd:topicCategory>
+                  <gmd:extent>
+                     <gmd:EX_Extent>
+                        <gmd:geographicElement>
+                           <gmd:EX_GeographicBoundingBox>
+                              <gmd:extentTypeCode>
+                                 <gco:Boolean>true</gco:Boolean>
+                              </gmd:extentTypeCode>
+                              <gmd:westBoundLongitude>
+                                 <gco:Decimal>-79.0</gco:Decimal>
+                              </gmd:westBoundLongitude>
+                              <gmd:eastBoundLongitude>
+                                 <gco:Decimal>79.0</gco:Decimal>
+                              </gmd:eastBoundLongitude>
+                              <gmd:southBoundLatitude>
+                                 <gco:Decimal>-81.0</gco:Decimal>
+                              </gmd:southBoundLatitude>
+                              <gmd:northBoundLatitude>
+                                 <gco:Decimal>81.0</gco:Decimal>
+                              </gmd:northBoundLatitude>
+                           </gmd:EX_GeographicBoundingBox>
+                        </gmd:geographicElement>
+                     </gmd:EX_Extent>
+                  </gmd:extent>
+                  <gmd:extent>
+                     <gmd:EX_Extent>
+                        <gmd:geographicElement>
+                           <gmd:EX_GeographicDescription>
+                              <gmd:geographicIdentifier>
+                                 <gmd:MD_Identifier>
+                                    <gmd:code>
+                                       <gco:CharacterString>Full Disk 0 degrees</gco:CharacterString>
+                                    </gmd:code>
+                                 </gmd:MD_Identifier>
+                              </gmd:geographicIdentifier>
+                           </gmd:EX_GeographicDescription>
+                        </gmd:geographicElement>
+                     </gmd:EX_Extent>
+                  </gmd:extent>
+               </gmd:MD_DataIdentification>
+            </gmd:identificationInfo>
+            <gmd:dataQualityInfo xmlns="http://www.isotc211.org/2005/gmd"
+                                 xmlns:date="http://exslt.org/dates-and-times"
+                                 xmlns:fn="http://www.w3.org/TR/xpath-functions"
+                                 xmlns:gml="http://www.opengis.net/gml"
+                                 xmlns:str="http://exslt.org/strings"
+                                 xmlns:xdt="http://www.w3.org/2005/02/xpath-datatypes">
+               <gmd:DQ_DataQuality>
+                  <gmd:scope>
+                     <gmd:DQ_Scope>
+                        <gmd:level>
+                           <gmd:MD_ScopeCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/Codelist/gmxCodelists.xml#MD_ScopeCode"
+                                             codeListValue="series"/>
+                        </gmd:level>
+                     </gmd:DQ_Scope>
+                  </gmd:scope>
+                  <gmd:lineage>
+                     <gmd:LI_Lineage>
+                        <gmd:statement>
+                           <gco:CharacterString>not yet defined</gco:CharacterString>
+                        </gmd:statement>
+                     </gmd:LI_Lineage>
+                  </gmd:lineage>
+               </gmd:DQ_DataQuality>
+            </gmd:dataQualityInfo>
+            <gmd:metadataConstraints xmlns="http://www.isotc211.org/2005/gmd"
+                                     xmlns:date="http://exslt.org/dates-and-times"
+                                     xmlns:fn="http://www.w3.org/TR/xpath-functions"
+                                     xmlns:gml="http://www.opengis.net/gml"
+                                     xmlns:str="http://exslt.org/strings"
+                                     xmlns:xdt="http://www.w3.org/2005/02/xpath-datatypes">
+               <gmd:MD_Constraints>
+                  <gmd:useLimitation>
+                     <gco:CharacterString>http://navigator.eumetsat.int/metadata_schema#IOPAccess</gco:CharacterString>
+                  </gmd:useLimitation>
+               </gmd:MD_Constraints>
+            </gmd:metadataConstraints>
+            <gmd:metadataConstraints xmlns="http://www.isotc211.org/2005/gmd"
+                                     xmlns:date="http://exslt.org/dates-and-times"
+                                     xmlns:fn="http://www.w3.org/TR/xpath-functions"
+                                     xmlns:gml="http://www.opengis.net/gml"
+                                     xmlns:str="http://exslt.org/strings"
+                                     xmlns:xdt="http://www.w3.org/2005/02/xpath-datatypes">
+               <gmd:MD_Constraints>
+                  <gmd:useLimitation>
+                     <gco:CharacterString>http://navigator.eumetsat.int/metadata_schema#ShownAsEUMETSATData</gco:CharacterString>
+                  </gmd:useLimitation>
+               </gmd:MD_Constraints>
+            </gmd:metadataConstraints>
+         </gmd:MD_Metadata>
+      </value>
+   </param>
+   <param local-name="instruction" namespace-uri="" prefix=""
+          type="document-node(element({http://www.occamlab.com/te/parsers}schemas, xs:anyType))">
+      <value>
+         <parsers:schemas>
+            <parsers:schema type="url">http://schemas.opengis.net/iso/19139/20060504/gmd/gmd.xsd</parsers:schema>
+         </parsers:schemas>
+      </value>
+   </param>
+</params>
+</starttest>
+<endtest result="0"/>
+</log>
