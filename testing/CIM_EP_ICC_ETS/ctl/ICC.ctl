@@ -55,13 +55,12 @@ xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:saxon="http://saxon.sf.net/" xm
          <xsl:value-of select="$csw.getrepositoryitem.url"/>
       </xsl:variable>
 -->
-<!--
+
       <ctl:call-test name="csw:ICC.GetCapabilities">
         <ctl:with-param name="csw.GetCapabilities.get.url" select="$csw.GetCapabilities.get.url"/>
       </ctl:call-test>
--->
-<!--
-       <ctl:call-test name="csw:ICC.GetRecords-BBoxFilter">
+
+      <ctl:call-test name="csw:ICC.GetRecords-BBoxFilter">
         <ctl:with-param name="csw.GetRecords.soap.url" select="$csw.GetRecords.soap.url"/>
       </ctl:call-test>
 
@@ -80,22 +79,21 @@ xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:saxon="http://saxon.sf.net/" xm
     <ctl:call-test name="csw:ICC.GetRecords-INSPIREQueryablesComplexFilter">
         <ctl:with-param name="csw.GetRecords.soap.url" select="$csw.GetRecords.soap.url"/>
       </ctl:call-test>
--->
+
 <!--
    <ctl:call-test name="csw:ICC.GetRecords-INSPIREServicesFilter">
         <ctl:with-param name="csw.GetRecords.soap.url" select="$csw.GetRecords.soap.url"/>
       </ctl:call-test>
--->
+
      <ctl:call-test name="csw:ICC.GetRecords-SyntaxError">
         <ctl:with-param name="csw.GetRecords.soap.url" select="$csw.GetRecords.soap.url"/>
       </ctl:call-test>
-<!--
+
       <ctl:call-test name="csw:CIM.GetRecords-SemanticAnnotation">
         <ctl:with-param name="csw.GetRecords.soap.url" select="$csw.GetRecords.soap.url"/>
       </ctl:call-test>
 -->
 
-<!--
   <ctl:call-test name="csw:ICC.GetRecordById">
         <ctl:with-param name="csw.GetRecords.soap.url" select="$csw.GetRecords.soap.url"/>
       </ctl:call-test>
@@ -104,7 +102,7 @@ xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:saxon="http://saxon.sf.net/" xm
         <ctl:with-param name="csw.GetRecords.soap.url" select="$csw.GetRecords.soap.url"/>
         <ctl:with-param name="csw.getrepositoryitem.url" select="$csw.getrepositoryitem.url"/>
       </ctl:call-test>
--->
+
     </ctl:code>
   </ctl:test>
 
@@ -188,8 +186,8 @@ xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:saxon="http://saxon.sf.net/" xm
     <ctl:assertion>
 	The GetRecords request (sent via HTTP/SOAP/POST/XML) response must satisfy the applicable assertions:
 	1.	the filter request is understood by the server and no exception concerning the request is thrown 
-	2. the response includes at minimum 1 ‘full’ metadata entry returned 
-	3. the response includes association link(s) ‘ResourceMetadataInformation’ from DataMetadata to ‘MetadataInformation’ 
+	2. the response includes at minimum 1 ‘full’ metadata entry returned of type DatasetCollection
+	3. the response includes an ExternalIdentifier for the metadata entry found
 	4.	the XML representation is valid structured concerning the CSW 2.0.2 and the CSW-ebRIM Registry Service and the corresponding xml schemas. 
      </ctl:assertion>
     <ctl:comment>Pass if the assertions hold.</ctl:comment>
@@ -204,22 +202,22 @@ xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:saxon="http://saxon.sf.net/" xm
           </ctl:url>
 		  <ctl:action>http://www.opengis.net/cat/csw/2.0.2/requests#GetRecords</ctl:action>  
 		 <ctl:body>
-			 <csw:GetRecords maxRecords="5" outputFormat="application/xml" outputSchema="urn:oasis:names:tc:ebxml-regrep:xsd:rim:3.0" resultType="results" service="CSW" startPosition="1" version="2.0.2" xmlns:csw="http://www.opengis.net/cat/csw/2.0.2" xmlns:ogc="http://www.opengis.net/ogc" xmlns:wrs="http://www.opengis.net/cat/wrs/1.0" xmlns:rim="urn:oasis:names:tc:ebxml-regrep:xsd:rim:3.0" xmlns:gml="http://www.opengis.net/gml">
-				<csw:Query typeNames="wrs:ExtrinsicObject_e1">
-					<csw:ElementSetName typeNames="$e1">full</csw:ElementSetName>
-					<csw:Constraint version="1.1.0">
-						<ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
-								<ogc:BBOX>
-									<ogc:PropertyName>$e1/rim:Slot[@name='urn:ogc:def:slot:OGC-CSW-ebRIM-CIM::Envelope']/wrs:ValueList/wrs:AnyValue</ogc:PropertyName>
-									<gml:Envelope srsName="urn:ogc:def:crs:EPSG:4326">
-										<gml:lowerCorner>-90.0 -180.0</gml:lowerCorner>
-										<gml:upperCorner>90.0 180.0</gml:upperCorner>
-									</gml:Envelope>
-								</ogc:BBOX>
-						</ogc:Filter>
-					</csw:Constraint>
-				</csw:Query>
-			</csw:GetRecords>
+		<csw:GetRecords maxRecords="5" outputFormat="application/xml" outputSchema="urn:oasis:names:tc:ebxml-regrep:xsd:rim:3.0" resultType="results" service="CSW" startPosition="1" version="2.0.2" xmlns:csw="http://www.opengis.net/cat/csw/2.0.2" xmlns:ogc="http://www.opengis.net/ogc" xmlns:wrs="http://www.opengis.net/cat/wrs/1.0" xmlns:rim="urn:oasis:names:tc:ebxml-regrep:xsd:rim:3.0" xmlns:gml="http://www.opengis.net/gml">
+			<csw:Query typeNames="wrs:ExtrinsicObject_e1">
+				<csw:ElementSetName typeNames="$e1">full</csw:ElementSetName>
+				<csw:Constraint version="1.1.0">
+					<ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
+							<ogc:BBOX>
+								<ogc:PropertyName>$e1/rim:Slot[@name='urn:ogc:def:slot:OGC-CSW-ebRIM-CIM::Envelope']/wrs:ValueList/wrs:AnyValue</ogc:PropertyName>
+								<gml:Envelope srsName="urn:ogc:def:crs:EPSG:4326">
+									<gml:lowerCorner>-80.0 -170.0</gml:lowerCorner>
+									<gml:upperCorner>80.0 170.0</gml:upperCorner>
+								</gml:Envelope>
+							</ogc:BBOX>
+					</ogc:Filter>
+				</csw:Constraint>
+			</csw:Query>
+		</csw:GetRecords>
 		</ctl:body>
        </ctl:soap-request>
       </xsl:variable>
@@ -260,14 +258,14 @@ xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:saxon="http://saxon.sf.net/" xm
 	</ctl:call-test>
 -->
 
-     <ctl:message><xsl:value-of select="count($responsesoap//wrs:ExtrinsicObject[@objectType='urn:ogc:def:objectType:OGC-CSW-ebRIM-CIM::DataMetadata'])"/> wrs:ExtrinsicObject of type DataMetadata found.</ctl:message>
+     <ctl:message><xsl:value-of select="count($responsesoap//wrs:ExtrinsicObject[@objectType='urn:ogc:def:objectType:OGC-CSW-ebRIM-CIM::DatasetCollection'])"/> wrs:ExtrinsicObject of type DatasetCollection found.</ctl:message>
 
-     <xsl:if test="not(count($responsesoap//wrs:ExtrinsicObject[@objectType='urn:ogc:def:objectType:OGC-CSW-ebRIM-CIM::DataMetadata'])>0)">
+     <xsl:if test="not(count($responsesoap//wrs:ExtrinsicObject[@objectType='urn:ogc:def:objectType:OGC-CSW-ebRIM-CIM::DatasetCollection'])>0)">
         <ctl:message>FAILURE: assertion 2 failed</ctl:message>
         <ctl:fail/>
       </xsl:if>
 
-     <xsl:if test="not(count($responsesoap//rim:Association[@associationtType='urn:ogc:def:associationType:OGC-CSW-ebRIM-CIM::ResourceMetadataInformation'])>0)">
+     <xsl:if test="not(count($responsesoap//rim:ExternalIdentifier)>0)">
         <ctl:message>FAILURE: assertion 3 failed</ctl:message>
         <ctl:fail/>
       </xsl:if>
@@ -287,8 +285,8 @@ xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:saxon="http://saxon.sf.net/" xm
     <ctl:assertion>
 	The GetRecords request (sent via HTTP/SOAP/POST/XML) response must satisfy the applicable assertions:
 	1.	the filter request is understood by the server and no exception concerning the request is thrown 
-	2. the response includes at minimum 1 ‘full’ metadata entry returned 
-	3. the response includes association link(s) ‘ResourceMetadataInformation’ from DataMetadata to ‘MetadataInformation’ 
+	2. the response includes at minimum 1 ‘full’ metadata entry returned of type DatasetCollection
+	3. the response includes an ExternalIdentifier for the metadata entry found
 	4. each ExtrinsicObject within the GetRecordsResponse which is in the Namespace “urn:oasis:names:tc:ebxml-regrep:xsd:rim:3.0” must be conformant http://schemas.opengis.net/csw/2.0.2/profiles/ebrim/1.0/csw-ebrim.xsd     
 	</ctl:assertion>
     <ctl:comment>Pass if the assertions hold.</ctl:comment>
@@ -324,7 +322,7 @@ xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:saxon="http://saxon.sf.net/" xm
 								</ogc:PropertyIsEqualTo>
 								<ogc:PropertyIsEqualTo>
 									<ogc:PropertyName>$e1/@objectType</ogc:PropertyName>
-									<ogc:Literal>urn:ogc:def:objectType:OGC-CSW-ebRIM-CIM::DataMetadata</ogc:Literal>
+									<ogc:Literal>urn:ogc:def:objectType:OGC-CSW-ebRIM-CIM::DatasetCollection</ogc:Literal>
 								</ogc:PropertyIsEqualTo>
 								<ogc:PropertyIsEqualTo>
 									<ogc:PropertyName>$e2/@objectType</ogc:PropertyName>
@@ -339,15 +337,16 @@ xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:saxon="http://saxon.sf.net/" xm
 		</ctl:body>
        </ctl:soap-request>
       </xsl:variable>
+ 
       
-     <ctl:message><xsl:value-of select="count($responsesoap//wrs:ExtrinsicObject[@objectType='urn:ogc:def:objectType:OGC-CSW-ebRIM-CIM::DataMetadata'])"/> wrs:ExtrinsicObject of type DataMetadata found.</ctl:message>
+  <ctl:message><xsl:value-of select="count($responsesoap//wrs:ExtrinsicObject[@objectType='urn:ogc:def:objectType:OGC-CSW-ebRIM-CIM::DatasetCollection'])"/> wrs:ExtrinsicObject of type DatasetCollection found.</ctl:message>
 
-     <xsl:if test="not(count($responsesoap//wrs:ExtrinsicObject[@objectType='urn:ogc:def:objectType:OGC-CSW-ebRIM-CIM::DataMetadata'])>0)">
+     <xsl:if test="not(count($responsesoap//wrs:ExtrinsicObject[@objectType='urn:ogc:def:objectType:OGC-CSW-ebRIM-CIM::DatasetCollection'])>0)">
         <ctl:message>FAILURE: assertion 2 failed</ctl:message>
         <ctl:fail/>
       </xsl:if>
 
-      <xsl:if test="not(count($responsesoap//rim:Association[@associationtType='urn:ogc:def:associationType:OGC-CSW-ebRIM-CIM::ResourceMetadataInformation'])>0)">
+     <xsl:if test="not(count($responsesoap//rim:ExternalIdentifier)>0)">
         <ctl:message>FAILURE: assertion 3 failed</ctl:message>
         <ctl:fail/>
       </xsl:if>
@@ -396,20 +395,31 @@ xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:saxon="http://saxon.sf.net/" xm
 		  <ctl:action>http://www.opengis.net/cat/csw/2.0.2/requests#GetRecords</ctl:action>  
 		 <ctl:body>
 
-						
 <csw:GetRecords maxRecords="5" outputFormat="application/xml" outputSchema="urn:oasis:names:tc:ebxml-regrep:xsd:rim:3.0" resultType="results" service="CSW" startPosition="1" version="2.0.2" xmlns:csw="http://www.opengis.net/cat/csw/2.0.2" xmlns:ogc="http://www.opengis.net/ogc" xmlns:wrs="http://www.opengis.net/cat/wrs/1.0" xmlns:rim="urn:oasis:names:tc:ebxml-regrep:xsd:rim:3.0" xmlns:gml="http://www.opengis.net/gml">
-	<csw:Query typeNames="wrs:ExtrinsicObject rim:Classification_c1">
+	<csw:Query xmlns:csw="http://www.opengis.net/cat/csw/2.0.2" xmlns:rim="urn:oasis:names:tc:ebxml-regrep:xsd:rim:3.0" typeNames="rim:ExtrinsicObject_e1 rim:Classification_c2 rim:ClassificationNode_cn2">
 		<csw:ElementSetName typeNames="wrs:ExtrinsicObject">summary</csw:ElementSetName>
 		<csw:Constraint version="1.1.0">
 			<ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
 				<ogc:And>
 					<ogc:PropertyIsEqualTo>
-						<ogc:PropertyName>/wrs:ExtrinsicObject/@id</ogc:PropertyName>
-						<ogc:PropertyName>$c1/@classifiedObject</ogc:PropertyName>
+						<ogc:PropertyName>$e1/@objectType</ogc:PropertyName>
+						<ogc:Literal>urn:ogc:def:objectType:OGC-CSW-ebRIM-CIM::DatasetCollection</ogc:Literal>
 					</ogc:PropertyIsEqualTo>
 					<ogc:PropertyIsEqualTo>
-						<ogc:PropertyName>$c1/@classificationNode</ogc:PropertyName>
-						<ogc:Literal>urn:ogc:def:classificationScheme:OGC-CSW-ebRIM-CIM::TopicCategory:biota</ogc:Literal>
+						<ogc:PropertyName>$e1/@id</ogc:PropertyName>
+						<ogc:PropertyName>$c2/@classifiedObject</ogc:PropertyName>
+					</ogc:PropertyIsEqualTo>
+					<ogc:PropertyIsEqualTo>
+						<ogc:PropertyName>$c2/@classificationScheme</ogc:PropertyName>
+						<ogc:Literal>urn:ogc:def:classificationScheme:OGC-CSW-ebRIM-CIM::TopicCategoryCode</ogc:Literal>
+					</ogc:PropertyIsEqualTo>
+					<ogc:PropertyIsEqualTo>
+						<ogc:PropertyName>$c2/@classificationNode</ogc:PropertyName>
+						<ogc:PropertyName>$cn2/@id</ogc:PropertyName>
+					</ogc:PropertyIsEqualTo>
+					<ogc:PropertyIsEqualTo>
+						<ogc:PropertyName>$cn2/@code</ogc:PropertyName>
+						<ogc:Literal>climatologyMeteorologyAtmosphere</ogc:Literal>
 					</ogc:PropertyIsEqualTo>
 				</ogc:And>
 			</ogc:Filter>
@@ -422,8 +432,9 @@ xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:saxon="http://saxon.sf.net/" xm
        </ctl:soap-request>
       </xsl:variable>
       
-     <ctl:message><xsl:value-of select="count($responsesoap//wrs:ExtrinsicObject)" /> wrs:ExtrinsicObject elements found.</ctl:message>
+ <ctl:message><xsl:value-of select="count($responsesoap//wrs:ExtrinsicObject[@objectType='urn:ogc:def:objectType:OGC-CSW-ebRIM-CIM::DatasetCollection'])"/> wrs:ExtrinsicObject of type DatasetCollection found.</ctl:message>
 
+ 
     </ctl:code>
   </ctl:test>
 
@@ -438,8 +449,7 @@ xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:saxon="http://saxon.sf.net/" xm
     <ctl:assertion>
 	The GetRecords request (sent via HTTP/SOAP/POST/XML) response must satisfy the applicable assertions:
 	1.	the filter request is understood by the server and no exception concerning the request is thrown 
-	2. the response includes association link(s) ‘ResourceMetadataInformation’ from DataMetadata to ‘MetadataInformation’ 
-	3. each ExtrinsicObject within the GetRecordsResponse which is in the Namespace “urn:oasis:names:tc:ebxml-regrep:xsd:rim:3.0” must be conformant http://schemas.opengis.net/csw/2.0.2/profiles/ebrim/1.0/csw-ebrim.xsd     
+	2. each ExtrinsicObject within the GetRecordsResponse which is in the Namespace “urn:oasis:names:tc:ebxml-regrep:xsd:rim:3.0” must be conformant http://schemas.opengis.net/csw/2.0.2/profiles/ebrim/1.0/csw-ebrim.xsd     
      </ctl:assertion>
     <ctl:comment>Pass if the assertions hold.</ctl:comment>
     <ctl:code>
@@ -510,7 +520,7 @@ xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:saxon="http://saxon.sf.net/" xm
 			<ctl:fail/>
 		  </xsl:if>
  
-     <ctl:message><xsl:value-of select="count($responsesoap//wrs:ExtrinsicObject[@objectType='urn:ogc:def:objectType:OGC-CSW-ebRIM-CIM::DataMetadata'])"/> wrs:ExtrinsicObject of type DataMetadata found.</ctl:message>
+	 <ctl:message><xsl:value-of select="count($responsesoap//wrs:ExtrinsicObject[@objectType='urn:ogc:def:objectType:OGC-CSW-ebRIM-CIM::DatasetCollection'])"/> wrs:ExtrinsicObject of type DatasetCollection found.</ctl:message>
 
 	<xsl:for-each select="$responsesoap//rim:ExtrinsicObject">
 			<ctl:call-test name="ctl:XMLValidatingParser">
@@ -552,8 +562,8 @@ xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:saxon="http://saxon.sf.net/" xm
 		  <ctl:action>http://www.opengis.net/cat/csw/2.0.2/requests#GetRecords</ctl:action>  
 		 <ctl:body>
 	
-	<csw:GetRecords maxRecords="5" outputFormat="application/xml" outputSchema="urn:oasis:names:tc:ebxml-regrep:xsd:rim:3.0" resultType="results" service="CSW" startPosition="1" version="2.0.2" xmlns:csw="http://www.opengis.net/cat/csw/2.0.2" xmlns:ogc="http://www.opengis.net/ogc" xmlns:wrs="http://www.opengis.net/cat/wrs/1.0" xmlns:rim="urn:oasis:names:tc:ebxml-regrep:xsd:rim:3.0" xmlns:gml="http://www.opengis.net/gml">
-	<csw:Query typeNames="wrs:ExtrinsicObject_e1_e2_e4 rim:RegistryObject_r1 rim:Association_a1_a2_a4 rim:Classification_c1_c2">
+<csw:GetRecords maxRecords="5" outputFormat="application/xml" outputSchema="urn:oasis:names:tc:ebxml-regrep:xsd:rim:3.0" resultType="results" service="CSW" startPosition="1" version="2.0.2" xmlns:csw="http://www.opengis.net/cat/csw/2.0.2" xmlns:ogc="http://www.opengis.net/ogc" xmlns:wrs="http://www.opengis.net/cat/wrs/1.0" xmlns:rim="urn:oasis:names:tc:ebxml-regrep:xsd:rim:3.0" xmlns:gml="http://www.opengis.net/gml">
+	<csw:Query typeNames="wrs:ExtrinsicObject_e1 wrs:ExtrinsicObject_e2_e4 rim:RegistryObject_r1 rim:Association_a1_a2_a4 rim:Classification_c1_c2 rim:ClassificationNode_cn2">
 		<csw:ElementSetName typeNames="$e1">full</csw:ElementSetName>
 		<csw:Constraint version="1.1.0">
 			<ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
@@ -594,13 +604,9 @@ xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:saxon="http://saxon.sf.net/" xm
 						<ogc:PropertyName>$r1/@objectType</ogc:PropertyName>
 						<ogc:Literal>urn:ogc:def:objectType:OGC-CSW-ebRIM-CIM::Organization</ogc:Literal>
 					</ogc:PropertyIsEqualTo>
-					<ogc:PropertyIsEqualTo>
-						<ogc:PropertyName>wrs:ExtrinsicObject/rim:Slot[@name='urn:ogc:def:slot:OGC-CSW-ebRIM-CIM::Lineage']/wrs:ValueList/wrs:Value</ogc:PropertyName>
-						<ogc:Literal>xxx</ogc:Literal>
-					</ogc:PropertyIsEqualTo>
 					<ogc:PropertyIsLike escapeChar="\" singleChar="?" wildCard="*">
 						<ogc:PropertyName>$r1/rim:Name</ogc:PropertyName>
-						<ogc:Literal>*e*</ogc:Literal>
+						<ogc:Literal>*</ogc:Literal>
 					</ogc:PropertyIsLike>
 					<ogc:PropertyIsLike escapeChar="\" singleChar="?" wildCard="*">
 						<ogc:PropertyName>$e1/rim:Slot[@name='urn:ogc:def:slot:OGC-CSW-ebRIM-CIM::Lineage']/rim:ValueList/rim:Value</ogc:PropertyName>
@@ -627,14 +633,23 @@ xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:saxon="http://saxon.sf.net/" xm
 						<ogc:PropertyName>$c1/@classifiedObject</ogc:PropertyName>
 					</ogc:PropertyIsEqualTo>
 					<ogc:PropertyIsEqualTo>
-						<ogc:PropertyName>$c1/@classificationNode</ogc:PropertyName>
-						<ogc:Literal>urn:ogc:def:classificationScheme:OGC-CSW-ebRIM-CIM::ClassificationCode:unclassified</ogc:Literal>
+						<ogc:PropertyName>$c1/@classificationScheme</ogc:PropertyName>
+						<ogc:Literal>urn:ogc:def:classificationScheme:OGC-CSW-ebRIM-CIM::ClassificationCode</ogc:Literal>
 					</ogc:PropertyIsEqualTo>
+					<ogc:PropertyIsEqualTo>
+						<ogc:PropertyName>$c1/@classificationNode</ogc:PropertyName>
+						<ogc:PropertyName>$cn2/@id</ogc:PropertyName>
+					</ogc:PropertyIsEqualTo>
+					<ogc:PropertyIsEqualTo>
+						<ogc:PropertyName>$cn2/@code</ogc:PropertyName>
+						<ogc:Literal>unclassified</ogc:Literal>
+					</ogc:PropertyIsEqualTo>
+
 				</ogc:And>
 			</ogc:Filter>
 		</csw:Constraint>
 	</csw:Query>
-</csw:GetRecords>
+</csw:GetRecords>	
 
 		</ctl:body>
        </ctl:soap-request>
@@ -645,8 +660,9 @@ xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:saxon="http://saxon.sf.net/" xm
 			<ctl:fail/>
 		  </xsl:if>
 
-     <ctl:message><xsl:value-of select="count($responsesoap//wrs:ExtrinsicObject[@objectType='urn:ogc:def:objectType:OGC-CSW-ebRIM-CIM::DataMetadata'])"/> wrs:ExtrinsicObject of type DataMetadata found.</ctl:message>
+	 <ctl:message><xsl:value-of select="count($responsesoap//wrs:ExtrinsicObject[@objectType='urn:ogc:def:objectType:OGC-CSW-ebRIM-CIM::DatasetCollection'])"/> wrs:ExtrinsicObject of type DatasetCollection found.</ctl:message>
 
+ 
     </ctl:code>
   </ctl:test>
   
@@ -680,27 +696,30 @@ xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:saxon="http://saxon.sf.net/" xm
 		 <ctl:body>
 
 <csw:GetRecords maxRecords="10" outputFormat="application/xml" outputSchema="urn:oasis:names:tc:ebxml-regrep:xsd:rim:3.0" resultType="results" service="CSW" startPosition="1" version="2.0.2" xmlns:csw="http://www.opengis.net/cat/csw/2.0.2" xmlns:ogc="http://www.opengis.net/ogc" xmlns:wrs="http://www.opengis.net/cat/wrs/1.0" xmlns:rim="urn:oasis:names:tc:ebxml-regrep:xsd:rim:3.0">
-	<csw:Query typeNames="wrs:ExtrinsicObject rim:Classification">
-		<csw:ElementSetName typeNames="wrs:ExtrinsicObject">brief</csw:ElementSetName>
+	<csw:Query typeNames="wrs:ExtrinsicObject_e1 rim:Classification rim:ClassificationNode">
+		<csw:ElementSetName typeNames="rim:ExtrinsicObject">brief</csw:ElementSetName>
 		<csw:Constraint version="1.1.0">
 			<ogc:Filter>
 				<ogc:And>
 					<ogc:PropertyIsEqualTo>
-						<ogc:PropertyName>wrs:ExtrinsicObject/@objectType</ogc:PropertyName>
+						<ogc:PropertyName>$e1/@objectType</ogc:PropertyName>
 						<ogc:Literal>urn:ogc:def:objectType:OGC-CSW-ebRIM-CIM::ServiceMetadata</ogc:Literal>
 					</ogc:PropertyIsEqualTo>
 					<ogc:PropertyIsEqualTo>
-						<ogc:PropertyName>wrs:ExtrinsicObject/@id</ogc:PropertyName>
+						<ogc:PropertyName>$e1/@id</ogc:PropertyName>
 						<ogc:PropertyName>rim:Classification/@classifiedObject</ogc:PropertyName>
 					</ogc:PropertyIsEqualTo>
 					<ogc:PropertyIsEqualTo>
-						<ogc:PropertyName>rim:Classification/@classificationNode</ogc:PropertyName>
-						<ogc:Literal>WMS</ogc:Literal>
+						<ogc:PropertyName>rim:Classification/@classificationScheme</ogc:PropertyName>
+						<ogc:Literal>urn:ogc:def:ebRIM-ClassificationScheme:ISO-19119:2005:Services</ogc:Literal>
 					</ogc:PropertyIsEqualTo>
-
 					<ogc:PropertyIsEqualTo>
-						<ogc:PropertyName>$c1/@classificationNode</ogc:PropertyName>
-						<ogc:Literal>urn:ogc:def:ebRIM-ClassificationScheme:ISO-19119:2005:Services::WMS</ogc:Literal>
+						<ogc:PropertyName>rim:Classification/@classificationNode</ogc:PropertyName>
+						<ogc:PropertyName>rim:ClassificationNode/@id</ogc:PropertyName>
+					</ogc:PropertyIsEqualTo>
+					<ogc:PropertyIsEqualTo>
+						<ogc:PropertyName>rim:ClassificationNode/@code</ogc:PropertyName>
+						<ogc:Literal>WMS</ogc:Literal>
 					</ogc:PropertyIsEqualTo>
 
 
@@ -719,7 +738,8 @@ xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:saxon="http://saxon.sf.net/" xm
 			<ctl:fail/>
 		  </xsl:if>
 
-     <ctl:message><xsl:value-of select="count($responsesoap//wrs:ExtrinsicObject[@objectType='urn:ogc:def:objectType:OGC-CSW-ebRIM-CIM::DataMetadata'])"/> wrs:ExtrinsicObject of type DataMetadata found.</ctl:message>
+ <ctl:message><xsl:value-of select="count($responsesoap//wrs:ExtrinsicObject[@objectType='urn:ogc:def:objectType:OGC-CSW-ebRIM-CIM::DatasetCollection'])"/> wrs:ExtrinsicObject of type DatasetCollection found.</ctl:message>
+
 
     </ctl:code>
   </ctl:test>  
@@ -775,6 +795,10 @@ xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:saxon="http://saxon.sf.net/" xm
         <ctl:fail/>
       </xsl:if>
 
+     <xsl:if test="not(count($responsesoap//ows:ExceptionReport)>0)">
+        <ctl:message>FAILURE: assertion failed</ctl:message>
+        <ctl:fail/>
+      </xsl:if>
  
     </ctl:code>
   </ctl:test>
@@ -826,15 +850,15 @@ xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:saxon="http://saxon.sf.net/" xm
        </ctl:soap-request>
       </xsl:variable>
           
-     <ctl:message><xsl:value-of select="count($responsesoap//wrs:ExtrinsicObject[@objectType='urn:ogc:def:objectType:OGC-CSW-ebRIM-CIM::DataMetadata'])"/> wrs:ExtrinsicObject of type DataMetadata found.</ctl:message>
+     <ctl:message><xsl:value-of select="count($responsesoap//wrs:ExtrinsicObject[@objectType='urn:ogc:def:objectType:OGC-CSW-ebRIM-CIM::DatasetCollection'])"/> wrs:ExtrinsicObject of type DatasetCollection found.</ctl:message>
 
-     <xsl:if test="not(count($responsesoap//wrs:ExtrinsicObject[@objectType='urn:ogc:def:objectType:OGC-CSW-ebRIM-CIM::DataMetadata'])>0)">
+     <xsl:if test="not(count($responsesoap//wrs:ExtrinsicObject[@objectType='urn:ogc:def:objectType:OGC-CSW-ebRIM-CIM::DatasetCollection'])>0)">
         <ctl:message>FAILURE: no record for subsequent GetRecordById avaialble: precondition for testing GetRecordById not fullfilled!!</ctl:message>
         <ctl:fail/>
       </xsl:if>
 
-      <ctl:message>At minimum one DataMetadata Extrinsic Object found with id:</ctl:message>
-	  <ctl:message><xsl:value-of select="$responsesoap//wrs:ExtrinsicObject[1]/@id[../@objectType='urn:ogc:def:objectType:OGC-CSW-ebRIM-CIM::DataMetadata']"></xsl:value-of></ctl:message>
+      <ctl:message>At minimum one DatasetCollection Extrinsic Object found with id:</ctl:message>
+	  <ctl:message><xsl:value-of select="$responsesoap//wrs:ExtrinsicObject[1]/@id[../@objectType='urn:ogc:def:objectType:OGC-CSW-ebRIM-CIM::DatasetCollection']"></xsl:value-of></ctl:message>
 
        <xsl:variable name="responsesoap2">        
         <ctl:soap-request version="1.2" charset="UTF-8">
@@ -847,7 +871,7 @@ xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:saxon="http://saxon.sf.net/" xm
 			xmlns:csw="http://www.opengis.net/cat/csw/2.0.2" xmlns:ogc="http://www.opengis.net/ogc" 
 			xmlns:wrs="http://www.opengis.net/cat/wrs/1.0" xmlns:rim="urn:oasis:names:tc:ebxml-regrep:xsd:rim:3.0" xmlns:gml="http://www.opengis.net/gml">
 					<!--1 or more repetitions:-->
-					 <csw:Id><xsl:value-of select="$responsesoap//wrs:ExtrinsicObject[1]/@id[../@objectType='urn:ogc:def:objectType:OGC-CSW-ebRIM-CIM::DataMetadata']"></xsl:value-of></csw:Id>
+					 <csw:Id><xsl:value-of select="$responsesoap//wrs:ExtrinsicObject[1]/@id[../@objectType='urn:ogc:def:objectType:OGC-CSW-ebRIM-CIM::DatasetCollection']"></xsl:value-of></csw:Id>
 					 <!--Optional:-->
 					 <csw:ElementSetName>full</csw:ElementSetName>
 				  </csw:GetRecordById>
@@ -860,16 +884,15 @@ xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:saxon="http://saxon.sf.net/" xm
         <ctl:fail/>
       </xsl:if>
 
-     <xsl:if test="not(count($responsesoap2//wrs:ExtrinsicObject[@objectType='urn:ogc:def:objectType:OGC-CSW-ebRIM-CIM::DataMetadata'])>0)">
+     <xsl:if test="not(count($responsesoap2//wrs:ExtrinsicObject[@objectType='urn:ogc:def:objectType:OGC-CSW-ebRIM-CIM::DatasetCollection'])>0)">
         <ctl:message>FAILURE: assertion 3 failed</ctl:message>
         <ctl:fail/>
       </xsl:if>
 
-     <xsl:if test="not(count($responsesoap2//rim:Association[@associationtType='urn:ogc:def:associationType:OGC-CSW-ebRIM-CIM::ResourceMetadataInformation'])>0)">
-        <ctl:message>FAILURE: assertion 3 failed</ctl:message>
+    <xsl:if test="not(count($responsesoap//rim:ExternalIdentifier)>0)">
+        <ctl:message>FAILURE: assertion 4 failed</ctl:message>
         <ctl:fail/>
       </xsl:if>
-
 
 	<xsl:for-each select="$responsesoap2//rim:ExtrinsicObject">
 			<ctl:call-test name="ctl:XMLValidatingParser">
@@ -933,15 +956,15 @@ xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:saxon="http://saxon.sf.net/" xm
        </ctl:soap-request>
       </xsl:variable>
           
-     <ctl:message><xsl:value-of select="count($responsesoap//wrs:ExtrinsicObject[@objectType='urn:ogc:def:objectType:OGC-CSW-ebRIM-CIM::DataMetadata'])"/> wrs:ExtrinsicObject of type DataMetadata found.</ctl:message>
+     <ctl:message><xsl:value-of select="count($responsesoap//wrs:ExtrinsicObject[@objectType='urn:ogc:def:objectType:OGC-CSW-ebRIM-CIM::DatasetCollection'])"/> wrs:ExtrinsicObject of type DatasetCollection found.</ctl:message>
 
-     <xsl:if test="not(count($responsesoap//wrs:ExtrinsicObject[@objectType='urn:ogc:def:objectType:OGC-CSW-ebRIM-CIM::DataMetadata'])>0)">
+     <xsl:if test="not(count($responsesoap//wrs:ExtrinsicObject[@objectType='urn:ogc:def:objectType:OGC-CSW-ebRIM-CIM::DatasetCollection'])>0)">
         <ctl:message>FAILURE: no record for subsequent GetRepositoryItem avaialble: precondition for testing GetRepositoryItem not fullfilled!!</ctl:message>
         <ctl:fail/>
       </xsl:if>
 
-      <ctl:message>At minimum one DataMetadata Extrinsic Object found with id:</ctl:message>
-	  <ctl:message><xsl:value-of select="$responsesoap//wrs:ExtrinsicObject[1]/@id[../@objectType='urn:ogc:def:objectType:OGC-CSW-ebRIM-CIM::DataMetadata']"></xsl:value-of></ctl:message>
+      <ctl:message>At minimum one DatasetCollection Extrinsic Object found with id:</ctl:message>
+	  <ctl:message><xsl:value-of select="$responsesoap//wrs:ExtrinsicObject[1]/@id[../@objectType='urn:ogc:def:objectType:OGC-CSW-ebRIM-CIM::DatasetCollection']"></xsl:value-of></ctl:message>
 
       <xsl:variable name="response2">
         <ctl:request>
@@ -951,7 +974,7 @@ xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:saxon="http://saxon.sf.net/" xm
           <ctl:method>GET</ctl:method>
           <ctl:param name="service">CSW-ebRIM</ctl:param>
           <ctl:param name="request">GetRepositoryItem</ctl:param>
-          <ctl:param name="Id"><xsl:value-of select="$responsesoap//wrs:ExtrinsicObject[1]/@id[../@objectType='urn:ogc:def:objectType:OGC-CSW-ebRIM-CIM::DataMetadata']"></xsl:value-of></ctl:param> 
+          <ctl:param name="Id"><xsl:value-of select="$responsesoap//wrs:ExtrinsicObject[1]/@id[../@objectType='urn:ogc:def:objectType:OGC-CSW-ebRIM-CIM::DatasetCollection']"></xsl:value-of></ctl:param> 
 	  </ctl:request>
       </xsl:variable>
 
@@ -1019,7 +1042,7 @@ xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:saxon="http://saxon.sf.net/" xm
 									<ogc:Literal>$n1/@id</ogc:Literal>
 								</ogc:PropertyIsEqualTo>
 								<ogc:PropertyIsEqualTo>
-									<ogc:PropertyName>$n1/rim:Slot[@name='urn:ogc:def:slot:OGC-CSW-ebRIM-CIM::Url']/wrs:ValueList/wrs:AnyValue</ogc:PropertyName>
+									<ogc:PropertyName>$n1/rim:Slot[@name='urn:ogc:def:slot:OGC-CSW-ebRIM-CIM::Url']/rim:ValueList/rim:Value</ogc:PropertyName>
 									<ogc:Literal>http://anyURL</ogc:Literal>
 								</ogc:PropertyIsEqualTo>
 							</ogc:And>
