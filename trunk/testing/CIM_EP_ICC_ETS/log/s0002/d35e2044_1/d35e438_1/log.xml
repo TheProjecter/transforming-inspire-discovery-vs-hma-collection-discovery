@@ -1,0 +1,263 @@
+<log>
+<starttest local-name="ICC.GetCapabilities" prefix="csw" namespace-uri="http://www.opengis.net/cat/csw/2.0.2" path="s0001/d35e2044_1/d35e438_1" file="C:\Users\uvo\AppData\Local\Temp\te_work\C~3A~5CVoges~5CETS_4_CIM_0_1_12_ICC_1_0_r4~5Cctl~5Cmain.ctl\csw$ICC.GetCapabilities.test">
+<assertion>
+      The response to a GetCapabilities request (HTTP/GET request where KVP´s  must be defined as follows: service = &amp;quot;CSW&amp;quot;, request = &amp;quot;GetCapabilities&amp;quot;) must satisfy 
+      the applicable assertion:
+		1.	the response is a well formed XML Document with a root node named &amp;quot;Capabilities&amp;quot; which is defined within the &amp;quot;http://www.opengis.net/cat/wrs/1.0&amp;quot; namespace. 
+		2.	it contains the XML representation of a capabilities document, which can be validated against the XML schema http://schemas.opengis.net/csw/2.0.2/profiles/ebrim/1.0/csw-ebrim.xsd
+		3.	must include a Filter_Capabilities section to describe which operands and operators are supported
+    </assertion>
+<params xmlns:rim="urn:oasis:names:tc:ebxml-regrep:xsd:rim:3.0"
+        xmlns:sec="http://www.intecs.it/sec"
+        xmlns:ctlp="http://www.occamlab.com/te/parsers"
+        xmlns:xlink="http://www.w3.org/1999/xlink"
+        xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+        xmlns:saxon="http://saxon.sf.net/"
+        xmlns:xs="http://www.w3.org/2001/XMLSchema"
+        xmlns:util="http://www.occamlab.com/te/util"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:dct="http://purl.org/dc/terms/"
+        xmlns:ctl="http://www.occamlab.com/ctl"
+        xmlns:wrs="http://www.opengis.net/cat/wrs/1.0"
+        xmlns:gmd="http://www.isotc211.org/2005/gmd"
+        xmlns:csw="http://www.opengis.net/cat/csw/2.0.2"
+        xmlns:tec="java:com.occamlab.te.TECore"
+        xmlns:parsers="http://www.occamlab.com/te/parsers"
+        xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"
+        xmlns:te="http://www.occamlab.com/te"
+        xmlns:dc="http://purl.org/dc/elements/1.1/"
+        xmlns:ows="http://www.opengis.net/ows/2.0"
+        xmlns:ogc="http://www.opengis.net/ogc"
+        xmlns:xi="http://www.w3.org/2001/XInclude">
+   <param local-name="csw.GetCapabilities.get.url" namespace-uri="" prefix=""
+          type="document-node()">
+      <value>http://46.51.189.235/inspiretm/cimep?</value>
+   </param>
+</params>
+</starttest>
+<message id="d35e499_1"><![CDATA[Here is: csw:ICC.GetCapabilities]]></message>
+<message id="d35e502_1"><![CDATA[http://46.51.189.235/inspiretm/cimep?]]></message>
+<message id="d35e527_1"><![CDATA[!!! When you get the message: - Cannot resolve the name 'xml:lang' - this curiousely depend on slow internet connections - try again....]]></message>
+<request id="d35e507_1">
+<ctl:request xmlns:ctl="http://www.occamlab.com/ctl" xmlns:rim="urn:oasis:names:tc:ebxml-regrep:xsd:rim:3.0" xmlns:sec="http://www.intecs.it/sec" xmlns:ctlp="http://www.occamlab.com/te/parsers" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:saxon="http://saxon.sf.net/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:util="http://www.occamlab.com/te/util" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dct="http://purl.org/dc/terms/" xmlns:wrs="http://www.opengis.net/cat/wrs/1.0" xmlns:gmd="http://www.isotc211.org/2005/gmd" xmlns:csw="http://www.opengis.net/cat/csw/2.0.2" xmlns:tec="java:com.occamlab.te.TECore" xmlns:parsers="http://www.occamlab.com/te/parsers" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:te="http://www.occamlab.com/te" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:ows="http://www.opengis.net/ows/2.0" xmlns:ogc="http://www.opengis.net/ogc" xmlns:xi="http://www.w3.org/2001/XInclude"><ctl:url>http://46.51.189.235/inspiretm/cimep?</ctl:url><ctl:method>GET</ctl:method><ctl:param name="service">CSW-ebRIM</ctl:param><ctl:param name="request">GetCapabilities</ctl:param><ctl:param name="acceptversion">2.0.2</ctl:param><parsers:XMLValidatingParser><parsers:schemas><parsers:schema type="url">http://schemas.opengis.net/csw/2.0.2/profiles/ebrim/1.0/csw-ebrim.xsd</parsers:schema></parsers:schemas></parsers:XMLValidatingParser></ctl:request>
+<response><parser local-name="XMLValidatingParser" namespace-uri="http://www.occamlab.com/te/parsers" prefix="parsers"/><content><!-- ========================================================================
+* Topic:        		Generic Capabilities document for the CSW 2.0.2 AP ebRIM EP CIM                
+* Date:				17.02.2011                                                                                                             
+* Update:  		18.02.2011 (Added SOAP operation constraint and GetCapabilities/GetRepositoryItem operations)
+* Update:  		28.02.2011 (Added operation constraint for INSPIRE conformance class)
+* Author:       	Dr. Uwe Voges, con terra GmbH						                                                         
+=========================================================================== --><wrs:Capabilities xmlns:wrs="http://www.opengis.net/cat/wrs/1.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:ogc="http://www.opengis.net/ogc" xmlns:dct="http://purl.org/dc/terms/" xmlns:ows="http://www.opengis.net/ows" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:gml="http://www.opengis.net/gml" xmlns:csw="http://www.opengis.net/cat/csw/2.0.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:rim="urn:oasis:names:tc:ebxml-regrep:xsd:rim:3.0" version="1.0.1" xsi:schemaLocation="http://www.opengis.net/cat/wrs/1.0 http://schemas.opengis.net/csw/2.0.2/profiles/ebrim/1.0/csw-ebrim.xsd">
+	<ows:ServiceIdentification>
+		<ows:Title>OGC CSW 2.0.2 AP ebRIM EP CIM (INSPIRE Conformance Class) Catalogue Service</ows:Title>
+		<ows:Abstract>This is an OGC CSW 2.0.2 AP ebRIM EP CIM (INSPIRE Conformance Class) Facade sitting on top of an OGC CSW 2.0.2 AP ISO (INSPIRE) Catalogue Service developed by con terra within the ESA SMAAD project</ows:Abstract>
+		<ows:Keywords>
+			<ows:Keyword>CSW</ows:Keyword>
+			<ows:Keyword>ebRIM</ows:Keyword>
+			<ows:Keyword>Catalogue Service</ows:Keyword>
+			<ows:Keyword>HMA</ows:Keyword>
+			<ows:Keyword>Registry</ows:Keyword>
+			<ows:Keyword>ESA</ows:Keyword>
+			<ows:Keyword>SMAAD</ows:Keyword>
+			<ows:Keyword>Metadata</ows:Keyword>
+			<ows:Keyword>CollectionCatalogue</ows:Keyword>
+			<ows:Keyword>GMES</ows:Keyword>
+			<ows:Keyword>INSPIRE</ows:Keyword>
+			<ows:Type codeSpace="http://www.conterra.de">theme</ows:Type>
+		</ows:Keywords>
+		<ows:ServiceType codeSpace="http://www.opengeospatial.org/ogcna">urn:ogc:serviceType:CatalogueService:2.0.2:HTTP:ebRIM</ows:ServiceType>
+		<ows:ServiceTypeVersion>1.0.1</ows:ServiceTypeVersion>
+		<ows:Fees>NONE</ows:Fees>
+		<ows:AccessConstraints>NONE</ows:AccessConstraints>
+	</ows:ServiceIdentification>
+	<ows:ServiceProvider>
+		<ows:ProviderName>con terra GmbH</ows:ProviderName>
+		<ows:ProviderSite xlink:href="http://www.conterra.de" xlink:type="simple"/>
+		<ows:ServiceContact>
+			<ows:IndividualName/>
+			<ows:PositionName/>
+			<ows:ContactInfo>
+				<ows:Phone>
+					<ows:Voice>+49-251-747452131</ows:Voice>
+					<ows:Facsimile>+49-251-74745 100</ows:Facsimile>
+				</ows:Phone>
+				<ows:Address>
+					<ows:DeliveryPoint>Martin-Luther-King-Weg 24</ows:DeliveryPoint>
+					<ows:City>Muenster</ows:City>
+					<ows:AdministrativeArea>NRW</ows:AdministrativeArea>
+					<ows:PostalCode>48155</ows:PostalCode>
+					<ows:Country>Germany</ows:Country>
+					<ows:ElectronicMailAddress>conterra@conterra.de</ows:ElectronicMailAddress>
+				</ows:Address>
+				<ows:OnlineResource xlink:href="mailto:conterra@conterra.de"/>
+			</ows:ContactInfo>
+		</ows:ServiceContact>
+	</ows:ServiceProvider>
+	<ows:OperationsMetadata>
+		<ows:Operation name="GetCapabilities">
+			<ows:DCP>
+				<ows:HTTP>
+					<ows:Get xlink:href="http://corona.dev.esri-de.com:8091/inspiretm/cimep?"/>
+				</ows:HTTP>
+			</ows:DCP>
+		</ows:Operation>
+		<ows:Operation name="GetRecords">
+			<ows:DCP>
+				<ows:HTTP>
+					<ows:Post xlink:href="http://corona.dev.esri-de.com:8091/inspiretm/cimep">
+						<ows:Constraint name="PostEncoding">
+							<ows:Value>SOAP</ows:Value>
+						</ows:Constraint>
+					</ows:Post>
+				</ows:HTTP>
+			</ows:DCP>
+			<ows:Parameter name="typeNames">
+				<ows:Value>rim:ExtrinsicObject</ows:Value>
+			</ows:Parameter>
+			<ows:Parameter name="outputFormat">
+				<ows:Value>text/xml</ows:Value>
+				<ows:Value>application/xml</ows:Value>
+			</ows:Parameter>
+			<ows:Parameter name="outputSchema">
+				<ows:Value>urn:oasis:names:tc:ebxml-regrep:xsd:rim:3.0</ows:Value>
+				<ows:Value>csw:Record</ows:Value>
+			</ows:Parameter>
+			<ows:Parameter name="resultType">
+				<ows:Value>hits</ows:Value>
+				<ows:Value>results</ows:Value>
+			</ows:Parameter>
+			<ows:Parameter name="ElementSetName">
+				<ows:Value>brief</ows:Value>
+				<ows:Value>summary</ows:Value>
+				<ows:Value>full</ows:Value>
+			</ows:Parameter>
+			<ows:Parameter name="CONSTRAINTLANGUAGE">
+				<ows:Value>Filter</ows:Value>
+			</ows:Parameter>
+		</ows:Operation>
+		<ows:Operation name="GetRecordById">
+			<ows:DCP>
+				<ows:HTTP>
+					<ows:Post xlink:href="http://corona.dev.esri-de.com:8091/inspiretm/cimep">
+						<ows:Constraint name="PostEncoding">
+							<ows:Value>SOAP</ows:Value>
+						</ows:Constraint>
+					</ows:Post>
+				</ows:HTTP>
+			</ows:DCP>
+			<ows:Parameter name="ElementSetName">
+				<ows:Value>brief</ows:Value>
+				<ows:Value>summary</ows:Value>
+				<ows:Value>full</ows:Value>
+			</ows:Parameter>
+		</ows:Operation>
+		<ows:Operation name="GetRepositoryItem">
+			<ows:DCP>
+				<ows:HTTP>
+					<ows:Get xlink:href="http://corona.dev.esri-de.com:8091/inspiretm/cimep?"/>
+				</ows:HTTP>
+			</ows:DCP>
+		</ows:Operation>
+		<ows:Constraint name="ConformanceClasses">
+			<ows:Value>INSPIRE</ows:Value>
+		</ows:Constraint>
+		<ows:ExtendedCapabilities>
+			<rim:ExtrinsicObject id="" objectType="urn:ogc:def:objectType:OGC-CSW-ebRIM-CIM::DataMetadata"/>
+			<rim:ExtrinsicObject id="" objectType="urn:ogc:def:objectType:OGC-CSW-ebRIM-CIM::DatasetCollection"/>
+			<rim:ExtrinsicObject id="" objectType="urn:ogc:def:objectType:OGC-CSW-ebRIM-CIM::MetadataInformation"/>
+			<rim:ExtrinsicObject id="" objectType="urn:ogc:def:objectType:OGC-CSW-ebRIM-CIM::LegalConstraints"/>
+			<rim:ExtrinsicObject id="" objectType="urn:ogc:def:objectType:OGC-CSW-ebRIM-CIM::Image"/>
+			<rim:ExtrinsicObject id="" objectType="urn:ogc:def:objectType:OGC-CSW-ebRIM-CIM::LegalConstraints"/>
+			<rim:ExtrinsicObject id="" objectType="urn:ogc:def:objectType:OGC-CSW-ebRIM-CIM::ReferenceSpecification"/>
+			<rim:Organization id="" objectType="urn:oasis:names:tc:ebxml-regrep:ObjectType:RegistryObject:Organization"/>
+			<rim:Slot name="urn:ogc:def:slot:OGC-CSW-ebRIM-CIM::Envelope" slotType="urn:ogc:def:dataType:ISO-19107:2003:GM_Envelope">
+				<rim:ValueList/>
+			</rim:Slot>
+			<rim:Slot name="http://purl.org/dc/terms/type" slotType="urn:oasis:names:tc:ebxmlregrep:DataType:InternationalString">
+				<rim:ValueList/>
+			</rim:Slot>
+			<rim:Slot name="http://purl.org/dc/terms/created" slotType="urn:oasis:names:tc:ebxml-regrep:DataType:DateTime">
+				<rim:ValueList/>
+			</rim:Slot>
+			<rim:Slot name="http://purl.org/dc/terms/modified" slotType="urn:oasis:names:tc:ebxml-regrep:DataType:DateTime">
+				<rim:ValueList/>
+			</rim:Slot>
+			<rim:Slot name="http://purl.org/dc/terms/issued" slotType="urn:oasis:names:tc:ebxml-regrep:DataType:DateTime">
+				<rim:ValueList/>
+			</rim:Slot>
+			<rim:Slot name="urn:ogc:def:slot:OGC-CSW-ebRIM-CIM::Conformance" slotType="urn:oasis:names:tc:ebxmlregrep:DataType:InternationalString">
+				<rim:ValueList/>
+			</rim:Slot>
+			<rim:Slot name="http://purl.org/dc/elements/1.1/language" slotType="urn:oasis:names:tc:ebxmlregrep:DataType:InternationalString">
+				<rim:ValueList/>
+			</rim:Slot>
+			<rim:Slot name="http://purl.org/dc/terms/temporal" slotType="urn:ogc:def:dataType:ISO-19108:2002:TM_Period">
+				<rim:ValueList/>
+			</rim:Slot>
+			<rim:Slot name="http://purl.org/dc/elements/1.1/Identifier" slotType="urn:oasis:names:tc:ebxmlregrep:DataType:InternationalString">
+				<rim:ValueList/>
+			</rim:Slot>
+			<rim:Slot name="http://purl.org/dc/elements/1.1/date" slotType="urn:oasis:names:tc:ebxml-regrep:DataType:DateTime">
+				<rim:ValueList/>
+			</rim:Slot>
+			<rim:Slot name="http://purl.org/dc/terms/conformsTo" slotType="urn:oasis:names:tc:ebxmlregrep:DataType:InternationalString">
+				<rim:ValueList/>
+			</rim:Slot>
+			<rim:Slot name="urn:ogc:def:slot:OGC-CSW-ebRIM-CIM::Lineage" slotType="urn:oasis:names:tc:ebxmlregrep:DataType:InternationalString">
+				<rim:ValueList/>
+			</rim:Slot>
+			<rim:Slot name="http://purl.org/dc/elements/1.1/abstract" slotType="urn:oasis:names:tc:ebxmlregrep:DataType:InternationalString">
+				<rim:ValueList/>
+			</rim:Slot>
+			<rim:Slot name="urn:ogc:def:slot:OGC-CSW-ebRIM-CIM::Resolution" slotType="urn:ogc:def:dataType:gml:MeasureType">
+				<rim:ValueList/>
+			</rim:Slot>
+			<rim:Slot name="urn:ogc:def:slot:OGC-CSW-ebRIM-CIM::ScaleDenominator" slotType="urn:oasis:names:tc:ebxml-regrep:DataType:Integer">
+				<rim:ValueList/>
+			</rim:Slot>
+			<rim:Slot name="http://purl.org/dc/terms/title" slotType="urn:oasis:names:tc:ebxmlregrep:DataType:InternationalString">
+				<rim:ValueList/>
+			</rim:Slot>
+			<rim:Association associationType="urn:ogc:def:associationType:OGC-CSW-ebRIM-CIM::DatasetDescription" id="" sourceObject="" targetObject=""/>
+			<rim:Association associationType="urn:ogc:def:associationType:OGC-CSW-ebRIM-CIM::Originator" id="" sourceObject="" targetObject=""/>
+			<rim:Association associationType="urn:ogc:def:associationType:OGC-CSW-ebRIM-CIM::ResourceMetadataInformation" id="" sourceObject="" targetObject=""/>
+			<rim:Association associationType="urn:ogc:def:associationType:OGC-CSW-ebRIM-CIM::ResourceConstraints" id="" sourceObject="" targetObject=""/>
+			<rim:Association associationType="urn:ogc:def:associationType:OGC-CSW-ebRIM-CIM::GraphicOverview" id="" sourceObject="" targetObject=""/>
+			<rim:Association associationType="urn:ogc:def:associationType:OGC-CSW-ebRIM-CIM:Specification" id="" sourceObject="" targetObject=""/>
+			<rim:Association associationType="urn:ogc:def:associationType:OGC-CSW-ebRIM-CIM:MetadataPointOfContact" id="" sourceObject="" targetObject=""/>
+			<rim:Classification classificationScheme="urn:ogc:def:classificationScheme:OGC-CSW-ebRIM-CIM::TopicCategory" classifiedObject="" id=""/>
+			<rim:Classification classificationScheme="urn:ogc:def:classificationScheme:OGC-CSW-ebRIM-CIM::SpatialRepresentationType" classifiedObject="" id=""/>
+			<rim:Classification classificationScheme="urn:ogc:def:classificationScheme:OGC-CSW-ebRIM-CIM::KeywordType" classifiedObject="" id=""/>
+			<rim:Classification classificationScheme="urn:ogc:def:classificationScheme:OGC-CSW-ebRIM-CIM::KeywordScheme" classifiedObject="" id=""/>
+			<rim:Classification classificationScheme="urn:ogc:def:classificationScheme:OGC-CSW-ebRIM-CIM::RestrictionCode" classifiedObject="" id=""/>
+		</ows:ExtendedCapabilities>
+	</ows:OperationsMetadata>
+	<ogc:Filter_Capabilities>
+		<ogc:Spatial_Capabilities>
+			<ogc:GeometryOperands>
+				<ogc:GeometryOperand>gml:Envelope</ogc:GeometryOperand>
+			</ogc:GeometryOperands>
+			<ogc:SpatialOperators>
+				<ogc:SpatialOperator name="BBOX"/>
+				<ogc:SpatialOperator name="Intersects"/>
+			</ogc:SpatialOperators>
+		</ogc:Spatial_Capabilities>
+		<ogc:Scalar_Capabilities>
+			<ogc:LogicalOperators/>
+			<ogc:ComparisonOperators>
+				<ogc:ComparisonOperator>EqualTo</ogc:ComparisonOperator>
+				<ogc:ComparisonOperator>Like</ogc:ComparisonOperator>
+				<ogc:ComparisonOperator>LessThan</ogc:ComparisonOperator>
+				<ogc:ComparisonOperator>GreaterThan</ogc:ComparisonOperator>
+				<ogc:ComparisonOperator>Between</ogc:ComparisonOperator>
+			</ogc:ComparisonOperators>
+		</ogc:Scalar_Capabilities>
+		<ogc:Id_Capabilities>
+			<ogc:FID/>
+		</ogc:Id_Capabilities>
+	</ogc:Filter_Capabilities>
+</wrs:Capabilities></content></response>
+</request>
+<message id="d35e543_1"><![CDATA[Capa Doc received and validated !!!!!]]></message>
+<message id="d35e557_1"><![CDATA[WARNING!! No Operation Constraint ConformanceClasses with value INSPIRE defined]]></message>
+<endtest result="0"/>
+</log>
