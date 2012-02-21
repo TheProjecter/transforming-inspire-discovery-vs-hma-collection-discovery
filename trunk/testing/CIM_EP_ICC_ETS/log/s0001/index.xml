@@ -46,15 +46,15 @@
 <test xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ctl="http://www.occamlab.com/ctl" xmlns:te="http://www.occamlab.com/te" file="file:/C:/Users/uvo/AppData/Local/Temp/te_work/C~3A~5CVoges~5CETS_4_CIM_0_1_12_ICC_1_0_r4~5Cctl~5Cmain.ctl/csw$ICC.GetRecords-BBoxFilter.test" local-name="ICC.GetRecords-BBoxFilter" namespace-uri="http://www.opengis.net/cat/csw/2.0.2" prefix="csw" uses-context="false"><param local-name="csw.GetRecords.soap.url" namespace-uri="" prefix=""/><assertion>
 	The GetRecords request (sent via HTTP/SOAP/POST/XML) response must satisfy the applicable assertions:
 	1.	the filter request is understood by the server and no exception concerning the request is thrown 
-	2. the response includes at minimum 1 ‘full’ metadata entry returned 
-	3. the response includes association link(s) ‘ResourceMetadataInformation’ from DataMetadata to ‘MetadataInformation’ 
+	2. the response includes at minimum 1 ‘full’ metadata entry returned of type DatasetCollection
+	3. the response includes an ExternalIdentifier for the metadata entry found
 	4.	the XML representation is valid structured concerning the CSW 2.0.2 and the CSW-ebRIM Registry Service and the corresponding xml schemas. 
      </assertion></test>
 <test xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ctl="http://www.occamlab.com/ctl" xmlns:te="http://www.occamlab.com/te" file="file:/C:/Users/uvo/AppData/Local/Temp/te_work/C~3A~5CVoges~5CETS_4_CIM_0_1_12_ICC_1_0_r4~5Cctl~5Cmain.ctl/csw$ICC.GetRecords-Association.test" local-name="ICC.GetRecords-Association" namespace-uri="http://www.opengis.net/cat/csw/2.0.2" prefix="csw" uses-context="false"><param local-name="csw.GetRecords.soap.url" namespace-uri="" prefix=""/><assertion>
 	The GetRecords request (sent via HTTP/SOAP/POST/XML) response must satisfy the applicable assertions:
 	1.	the filter request is understood by the server and no exception concerning the request is thrown 
-	2. the response includes at minimum 1 ‘full’ metadata entry returned 
-	3. the response includes association link(s) ‘ResourceMetadataInformation’ from DataMetadata to ‘MetadataInformation’ 
+	2. the response includes at minimum 1 ‘full’ metadata entry returned of type DatasetCollection
+	3. the response includes an ExternalIdentifier for the metadata entry found
 	4. each ExtrinsicObject within the GetRecordsResponse which is in the Namespace “urn:oasis:names:tc:ebxml-regrep:xsd:rim:3.0�? must be conformant http://schemas.opengis.net/csw/2.0.2/profiles/ebrim/1.0/csw-ebrim.xsd     
 	</assertion></test>
 <test xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ctl="http://www.occamlab.com/ctl" xmlns:te="http://www.occamlab.com/te" file="file:/C:/Users/uvo/AppData/Local/Temp/te_work/C~3A~5CVoges~5CETS_4_CIM_0_1_12_ICC_1_0_r4~5Cctl~5Cmain.ctl/csw$ICC.GetRecords-Classification.test" local-name="ICC.GetRecords-Classification" namespace-uri="http://www.opengis.net/cat/csw/2.0.2" prefix="csw" uses-context="false"><param local-name="csw.GetRecords.soap.url" namespace-uri="" prefix=""/><assertion>
@@ -64,8 +64,7 @@
 <test xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ctl="http://www.occamlab.com/ctl" xmlns:te="http://www.occamlab.com/te" file="file:/C:/Users/uvo/AppData/Local/Temp/te_work/C~3A~5CVoges~5CETS_4_CIM_0_1_12_ICC_1_0_r4~5Cctl~5Cmain.ctl/csw$ICC.GetRecords-Specification.test" local-name="ICC.GetRecords-Specification" namespace-uri="http://www.opengis.net/cat/csw/2.0.2" prefix="csw" uses-context="false"><param local-name="csw.GetRecords.soap.url" namespace-uri="" prefix=""/><assertion>
 	The GetRecords request (sent via HTTP/SOAP/POST/XML) response must satisfy the applicable assertions:
 	1.	the filter request is understood by the server and no exception concerning the request is thrown 
-	2. the response includes association link(s) ‘ResourceMetadataInformation’ from DataMetadata to ‘MetadataInformation’ 
-	3. each ExtrinsicObject within the GetRecordsResponse which is in the Namespace “urn:oasis:names:tc:ebxml-regrep:xsd:rim:3.0�? must be conformant http://schemas.opengis.net/csw/2.0.2/profiles/ebrim/1.0/csw-ebrim.xsd     
+	2. each ExtrinsicObject within the GetRecordsResponse which is in the Namespace “urn:oasis:names:tc:ebxml-regrep:xsd:rim:3.0�? must be conformant http://schemas.opengis.net/csw/2.0.2/profiles/ebrim/1.0/csw-ebrim.xsd     
      </assertion></test>
 <test xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ctl="http://www.occamlab.com/ctl" xmlns:te="http://www.occamlab.com/te" file="file:/C:/Users/uvo/AppData/Local/Temp/te_work/C~3A~5CVoges~5CETS_4_CIM_0_1_12_ICC_1_0_r4~5Cctl~5Cmain.ctl/csw$ICC.GetRecords-INSPIREQueryablesComplexFilter.test" local-name="ICC.GetRecords-INSPIREQueryablesComplexFilter" namespace-uri="http://www.opengis.net/cat/csw/2.0.2" prefix="csw" uses-context="false"><param local-name="csw.GetRecords.soap.url" namespace-uri="" prefix=""/><assertion>
 	The GetRecords request (sent via HTTP/SOAP/POST/XML) response must satisfy the applicable assertions:
