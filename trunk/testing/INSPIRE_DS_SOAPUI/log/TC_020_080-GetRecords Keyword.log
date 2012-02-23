@@ -1529,4 +1529,4 @@
          </csw:SearchResults>
       </csw:GetRecordsResponse>
    </soap:Body>
-</soap:Envelope><!--Request internally processed by ERDAS APOLLO HMA component 11.0.0 (http://projects-eu.erdas.com:80/erdas-georeg/wrs/SPB) in 204 ms (including 125 ms of output encoding)-->
+</soap:Envelope><!--Request internally processed by ERDAS APOLLO HMA component 11.0.0 (http://projects-eu.erdas.com:80/erdas-georeg/wrs/SPB) in 172 ms (including 109 ms of output encoding)-->
