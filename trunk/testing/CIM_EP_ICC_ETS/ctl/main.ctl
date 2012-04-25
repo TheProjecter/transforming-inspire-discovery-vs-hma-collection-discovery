@@ -43,9 +43,14 @@
     <ctl:code>
 		<!-- ************************************************************************************************* -->
 		<!-- DEFINITION OF COMMON PARAMETERS -->
+		<!--
 		<xsl:variable name="csw.capabilities.url">http://46.51.189.235/inspiretm/cimep?</xsl:variable>
 		<xsl:variable name="csw.getrecords.url">http://46.51.189.235/inspiretm/cimep</xsl:variable>
 		<xsl:variable name="csw.getrepositoryitem.url">http://46.51.189.235/inspiretm/cimep?</xsl:variable>
+		-->
+		<xsl:variable name="csw.capabilities.url">http://veoportal.eumetsat.int/inspiretm/cimep?</xsl:variable>
+		<xsl:variable name="csw.getrecords.url">http://veoportal.eumetsat.int/inspiretm/cimep</xsl:variable>
+		<xsl:variable name="csw.getrepositoryitem.url">http://veoportal.eumetsat.int/inspiretm/cimep?</xsl:variable>
           <ctl:message>URL og getCapabilities:</ctl:message>
           <ctl:message><xsl:value-of select="$csw.capabilities.url"/></ctl:message>
     
