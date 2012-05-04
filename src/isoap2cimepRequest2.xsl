@@ -683,12 +683,16 @@ Transforms a CIM EP request to an ISO AP request.
 	<xsl:template name="conceptUriIntern">
 		<xsl:copy>
 			<xsl:apply-templates select="@*"/>
-			<ogc:PropertyName>$c6/rim:Slot[@name='urn:ogc:def:slot:OGC-CSW-ebRIM-CIM::url']/rim:ValueList/rim:Value</ogc:PropertyName>
+			<ogc:PropertyName>$cn6/rim:Slot[@name='urn:ogc:def:slot:OGC-CSW-ebRIM-CIM::url']/rim:ValueList/rim:Value</ogc:PropertyName>
 			<ogc:Literal><xsl:value-of select="ogc:Literal"/></ogc:Literal>
 		</xsl:copy>
 		<ogc:PropertyIsEqualTo>
-			<ogc:PropertyName><xsl:value-of select="'$e1/@id'"/></ogc:PropertyName>
-			<ogc:PropertyName><xsl:value-of select="'$c6/@classifiedObject'"/></ogc:PropertyName>
+			<ogc:PropertyName>$e1/@id</ogc:PropertyName>
+			<ogc:PropertyName>$c6/@classifiedObject</ogc:PropertyName>
+		</ogc:PropertyIsEqualTo>
+		<ogc:PropertyIsEqualTo>
+			<ogc:PropertyName>$cn6/@id</ogc:PropertyName>
+			<ogc:PropertyName>$c6/@classificationNode</ogc:PropertyName>
 		</ogc:PropertyIsEqualTo>
 	</xsl:template>
 
