@@ -31,7 +31,7 @@ Transforms a CIM EP request to an ISO AP request.
 	</xsl:template>
 	
 	<!-- transform the metadata records -->
-	<xsl:template match="*[@objectType = 'urn:ogc:def:objectType:OGC-CSW-ebRIM-CIM::DataMetadata' or @objectType = 'urn:ogc:def:objectType:OGC-CSW-ebRIM-CIM::ServiceMetadata']">
+	<xsl:template match="*[@objectType = 'urn:ogc:def:ebRIM-ObjectType:OGC-I15::ElementaryDataset' or @objectType = 'urn:ogc:def:ebRIM-ObjectType:OGC-I15::ServiceMetadata']">
 		<xsl:variable name="elementSet" select="$requestDoc//csw:ElementSetName/text()"/>
 		<xsl:variable name="rmId" select="@id"/>
 		<gmd:MD_Metadata>
@@ -64,10 +64,10 @@ Transforms a CIM EP request to an ISO AP request.
 					<gco:CharacterString>2003/Cor.1:2006</gco:CharacterString>
 				</gmd:metadataStandardVersion>
 			</xsl:if>
-			<xsl:apply-templates select="../rim:Association[@sourceObject=$rmId and @associationType='urn:ogc:def:associationType:OGC-CSW-ebRIM-CIM::ResourceReferenceSystem']" mode="assoc"/>
+			<xsl:apply-templates select="../rim:Association[@sourceObject=$rmId and @associationType='urn:ogc:def:ebRIM-AssociationType:OGC-I15::ResourceReferenceSystem']" mode="assoc"/>
 			<gmd:identificationInfo>
 				<xsl:choose>
-					<xsl:when test="@objectType = 'urn:ogc:def:objectType:OGC-CSW-ebRIM-CIM::ServiceMetadata'">
+					<xsl:when test="@objectType = 'urn:ogc:def:ebRIM-ObjectType:OGC-I15::ServiceMetadata'">
 						<srv:SV_ServiceIdentification>
 							<gmd:citation>
 								<xsl:call-template name="citation">
@@ -88,10 +88,10 @@ Transforms a CIM EP request to an ISO AP request.
 								</gmd:MD_BrowseGraphic>
 							</gmd:graphicOverview>
 							<xsl:if test="$elementSet = 'full'">
-								<xsl:apply-templates select="rim:Classification[@classifiedObject = $rmId and @classificationScheme='urn:ogc:def:classificationScheme:OGC-CSW-ebRIM-CIM::KeywordScheme']" mode="cls"/>
+								<xsl:apply-templates select="rim:Classification[@classifiedObject = $rmId and @classificationScheme='urn:ogc:def:ebRIM-ClassificationScheme:OGC-I15::KeywordScheme']" mode="cls"/>
 							</xsl:if>
 							<xsl:if test="$elementSet != 'brief'">
-								<xsl:apply-templates select="../rim:Association[@associationType = 'urn:ogc:def:associationType:OGC-CSW-ebRIM-CIM::ResourceConstraints' and @sourceObject = $rmId]" mode="assoc"/>
+								<xsl:apply-templates select="../rim:Association[@associationType = 'urn:ogc:def:ebRIM-AssociationType:OGC-I15::ResourceConstraints' and @sourceObject = $rmId]" mode="assoc"/>
 							</xsl:if>
 							<!-- TODO: service type, service type version -->
 						</srv:SV_ServiceIdentification>
@@ -117,10 +117,10 @@ Transforms a CIM EP request to an ISO AP request.
 								</gmd:MD_BrowseGraphic>
 							</gmd:graphicOverview>
 							<xsl:if test="$elementSet = 'full'">
-								<xsl:apply-templates select="rim:Classification[@classifiedObject = $rmId and @classificationScheme='urn:ogc:def:classificationScheme:OGC-CSW-ebRIM-CIM::KeywordScheme']" mode="cls"/>
+								<xsl:apply-templates select="rim:Classification[@classifiedObject = $rmId and @classificationScheme='urn:ogc:def:ebRIM-ClassificationScheme:OGC-I15::KeywordScheme']" mode="cls"/>
 							</xsl:if>
 							<xsl:if test="$elementSet != 'brief'">
-								<xsl:apply-templates select="../rim:Association[@associationType = 'urn:ogc:def:associationType:OGC-CSW-ebRIM-CIM::ResourceConstraints' and @sourceObject = $rmId]" mode="assoc"/>
+								<xsl:apply-templates select="../rim:Association[@associationType = 'urn:ogc:def:ebRIM-AssociationType:OGC-I15::ResourceConstraints' and @sourceObject = $rmId]" mode="assoc"/>
 							</xsl:if>
 		<!--
 							<gmd:spatialRepresentationType>
@@ -128,28 +128,31 @@ Transforms a CIM EP request to an ISO AP request.
 							</gmd:spatialRepresentationType>
 		-->
 							<xsl:if test="$elementSet != 'brief'">
-								<xsl:apply-templates select="rim:Slot[@name = 'urn:ogc:def:slot:OGC-CSW-ebRIM-CIM::Resolution']/wrs:ValueList/wrs:AnyValue/gml:measure"/>
-								<xsl:apply-templates select="rim:Slot[@name= 'urn:ogc:def:slot:OGC-CSW-ebRIM-CIM::ScaleDenominator']/rim:ValueList/rim:Value"/>
+								<xsl:apply-templates select="rim:Slot[@name = 'urn:ogc:def:ebRIM-slot:OGC-I15::Resolution']/wrs:ValueList/wrs:AnyValue/gml:measure"/>
+								<xsl:apply-templates select="rim:Slot[@name= 'urn:ogc:def:ebRIM-slot:OGC-I15::ScaleDenominator']/rim:ValueList/rim:Value"/>
 							</xsl:if>
 							<gmd:language>
 								<gco:CharacterString><xsl:value-of select="rim:Slot[@name= 'http://purl.org/dc/elements/1.1/language']/rim:ValueList/rim:Value"/></gco:CharacterString>
 							</gmd:language>
-							<xsl:apply-templates select="rim:Classification[@classifiedObject = $rmId and @classificationScheme='urn:ogc:def:classificationScheme:OGC-CSW-ebRIM-CIM::TopicCategory']"/>
-							<xsl:apply-templates select="rim:Slot[@name= 'urn:ogc:def:slot:OGC-CSW-ebRIM-CIM::Envelope']/wrs:ValueList/wrs:AnyValue/gml:Envelope"/>
+							<xsl:apply-templates select="rim:Classification[@classifiedObject = $rmId and @classificationScheme='urn:ogc:def:ebRIM-ClassificationScheme:OGC-I15::TopicCategory']"/>
+							<xsl:apply-templates select="rim:Slot[@name= 'urn:ogc:def:ebRIM-slot:OGC-I15::Envelope']/wrs:ValueList/wrs:AnyValue/gml:Envelope"/>
+							<xsl:apply-templates select="rim:Slot[@name= 'urn:ogc:def:ebRIM-slot:OGC-I15::TemporalBegin']//rim:ValueList/rim:Value"/>
+<!--
 							<xsl:apply-templates select="rim:Slot[@name= 'http://purl.org/dc/terms/temporal']/wrs:ValueList/wrs:AnyValue/gml:TimePeriod"/>
+-->
 						</gmd:MD_DataIdentification>
 					</xsl:otherwise>
 				</xsl:choose>
 			</gmd:identificationInfo>
 			<xsl:if test="$elementSet = 'full'">
-				<xsl:apply-templates select="rim:Slot[@name= 'urn:ogc:def:slot:OGC-CSW-ebRIM-CIM::Lineage']/wrs:ValueList/wrs:AnyValue/rim:InternationalString/rim:LocalizedString/@value"/>
-				<xsl:apply-templates select="../rim:Association[@associationType = 'urn:ogc:def:associationType:OGC-CSW-ebRIM-CIM::Specification' and @sourceObject = $rmId]" mode="assoc"/>
+				<xsl:apply-templates select="rim:Slot[@name= 'urn:ogc:def:ebRIM-slot:OGC-I15::Lineage']/wrs:ValueList/wrs:AnyValue/rim:InternationalString/rim:LocalizedString/@value"/>
+				<xsl:apply-templates select="../rim:Association[@associationType = 'urn:ogc:def:ebRIM-AssociationType:OGC-I15::Specification' and @sourceObject = $rmId]" mode="assoc"/>
 			</xsl:if>
 		</gmd:MD_Metadata>
 	</xsl:template>
 	
 	<!-- lineage -->
-	<xsl:template match="rim:Slot[@name= 'urn:ogc:def:slot:OGC-CSW-ebRIM-CIM::Lineage']/wrs:ValueList/wrs:AnyValue/rim:InternationalString/rim:LocalizedString/@value">
+	<xsl:template match="rim:Slot[@name= 'urn:ogc:def:ebRIM-slot:OGC-I15::Lineage']/wrs:ValueList/wrs:AnyValue/rim:InternationalString/rim:LocalizedString/@value">
 		<gmd:dataQualityInfo>
 			<gmd:DQ_DataQuality>
 				<!-- scope is not clear -->
@@ -166,7 +169,7 @@ Transforms a CIM EP request to an ISO AP request.
 	</xsl:template>
 	
 	<!-- reference system -->
-	<xsl:template match="rim:Association[@associationType='urn:ogc:def:associationType:OGC-CSW-ebRIM-CIM::ResourceReferenceSystem']" mode="assoc">
+	<xsl:template match="rim:Association[@associationType='urn:ogc:def:ebRIM-AssociationType:OGC-I15::ResourceReferenceSystem']" mode="assoc">
 		<xsl:variable name="targetObject" select="@targetObject"/>
 		<xsl:apply-templates select="../rim:ExtrinsicObject[@id = $targetObject]" mode="referenceSystem"/>
 	</xsl:template>
@@ -181,7 +184,7 @@ Transforms a CIM EP request to an ISO AP request.
 							<gco:CharacterString><xsl:value-of select="rim:Name/rim:LocalizedString/@value"/></gco:CharacterString>
 						</gmd:code>
 						<xsl:variable name="sourceObject" select="@id"/>
-						<xsl:apply-templates select="../rim:Association[@sourceObject=$sourceObject and @associationType='urn:ogc:def:associationType:OGC-CSW-ebRIM-CIM::CodeSpace']" mode="assoc"/>
+						<xsl:apply-templates select="../rim:Association[@sourceObject=$sourceObject and @associationType='urn:ogc:def:ebRIM-AssociationType:OGC-I15::CodeSpace']" mode="assoc"/>
 					</gmd:RS_Identifier>
 				</gmd:referenceSystemIdentifier>
 			</gmd:MD_ReferenceSystem>
@@ -189,7 +192,7 @@ Transforms a CIM EP request to an ISO AP request.
 	</xsl:template>
 
 	<!-- reference system code space -->
-	<xsl:template match="rim:Association[@associationType = 'urn:ogc:def:associationType:OGC-CSW-ebRIM-CIM::CodeSpace']" mode="assoc">
+	<xsl:template match="rim:Association[@associationType = 'urn:ogc:def:ebRIM-AssociationType:OGC-I15::CodeSpace']" mode="assoc">
 		<xsl:variable name="targetObject" select="@targetObject"/>
 		<xsl:apply-templates select="../rim:ExtrinsicObject[@id = $targetObject]" mode="codeSpace"/>
 	</xsl:template>
@@ -202,13 +205,13 @@ Transforms a CIM EP request to an ISO AP request.
 	</xsl:template>
 
 	<!-- reference specification -->
-	<xsl:template match="rim:Association[@associationType = 'urn:ogc:def:associationType:OGC-CSW-ebRIM-CIM::Specification']" mode="assoc">
+	<xsl:template match="rim:Association[@associationType = 'urn:ogc:def:ebRIM-AssociationType:OGC-I15::Specification']" mode="assoc">
 		<xsl:variable name="targetObject" select="@targetObject"/>
 		<xsl:apply-templates select="../rim:ExtrinsicObject[@id = $targetObject]" mode="assoc"/>
 	</xsl:template>
 	
 	<!-- reference specification -->
-	<xsl:template match="rim:ExtrinsicObject[@objectType = 'urn:ogc:def:objectType:OGC-CSW-ebRIM-CIM::ReferenceSpecification']" mode="assoc">
+	<xsl:template match="rim:ExtrinsicObject[@objectType = 'urn:ogc:def:ebRIM-ObjectType:OGC-I15::ReferenceSpecification']" mode="assoc">
 		<gmd:dataQualityInfo>
 			<gmd:DQ_DataQuality>
 				<gmd:scope/>
@@ -223,7 +226,7 @@ Transforms a CIM EP request to an ISO AP request.
 									<gco:CharacterString/>
 								</gmd:explanation>
 								<gmd:pass>
-									<gco:Boolean><xsl:value-of select="rim:Slot[@name='urn:ogc:def:slot:OGC-CSW-ebRIM-CIM::Conformance']/rim:ValueList/rim:Value"/></gco:Boolean>
+									<gco:Boolean><xsl:value-of select="rim:Slot[@name='urn:ogc:def:ebRIM-slot:OGC-I15::Conformance']/rim:ValueList/rim:Value"/></gco:Boolean>
 								</gmd:pass>
 							</gmd:DQ_ConformanceResult>
 						</gmd:result>
@@ -239,8 +242,8 @@ Transforms a CIM EP request to an ISO AP request.
 		<gmd:CI_Citation>
 			<gmd:title>
 				<xsl:choose>
-					<xsl:when test="rim:Slot[@name='urn:ogc:def:slot:OGC-CSW-ebRIM-CIM::url']">
-						<gmx:Anchor xlink:href="{rim:Slot[@name='urn:ogc:def:slot:OGC-CSW-ebRIM-CIM::url']/rim:ValueList/rim:Value}"><xsl:value-of select="rim:Name/rim:LocalizedString/@value"/></gmx:Anchor>
+					<xsl:when test="rim:Slot[@name='urn:ogc:def:ebRIM-slot:OGC-I15::url']">
+						<gmx:Anchor xlink:href="{rim:Slot[@name='urn:ogc:def:ebRIM-slot:OGC-I15::url']/rim:ValueList/rim:Value}"><xsl:value-of select="rim:Name/rim:LocalizedString/@value"/></gmx:Anchor>
 					</xsl:when>
 					<xsl:otherwise>
 						<gco:CharacterString><xsl:value-of select="rim:Name/rim:LocalizedString/@value"/></gco:CharacterString>
@@ -272,14 +275,14 @@ Transforms a CIM EP request to an ISO AP request.
 	<!-- identifier -->
 	<xsl:template name="identifierValue">
 		<xsl:variable name="rmId" select="@id"/>
-		<xsl:variable name="targetObject" select="../rim:Association[@associationType = 'urn:ogc:def:associationType:OGC-CSW-ebRIM-CIM::ResourceMetadataInformation' and @sourceObject = $rmId]/@targetObject"/>
+		<xsl:variable name="targetObject" select="../rim:Association[@associationType = 'urn:ogc:def:ebRIM-AssociationType:OGC-I15::ResourceMetadataInformation' and @sourceObject = $rmId]/@targetObject"/>
 		<xsl:value-of select="../rim:ExtrinsicObject[@id = $targetObject]/rim:Slot[@name = 'http://purl.org/dc/elements/1.1/Identifier']/rim:ValueList/rim:Value"/>
 	</xsl:template>
 
 	<!-- metadata language -->
 	<xsl:template name="mdLanguageValue">
 		<xsl:variable name="rmId" select="@id"/>
-		<xsl:variable name="targetObject" select="../rim:Association[@associationType = 'urn:ogc:def:associationType:OGC-CSW-ebRIM-CIM::ResourceMetadataInformation' and @sourceObject = $rmId]/@targetObject"/>
+		<xsl:variable name="targetObject" select="../rim:Association[@associationType = 'urn:ogc:def:ebRIM-AssociationType:OGC-I15::ResourceMetadataInformation' and @sourceObject = $rmId]/@targetObject"/>
 		<xsl:value-of select="../rim:ExtrinsicObject[@id = $targetObject]/rim:Slot[@name = 'http://purl.org/dc/elements/1.1/language']/rim:ValueList/rim:Value"/>
 	</xsl:template>
 	
@@ -287,13 +290,13 @@ Transforms a CIM EP request to an ISO AP request.
 	<xsl:template name="hierarchyLevelValue">
 		<xsl:attribute name="codeListValue">
 			<xsl:choose>
-				<xsl:when test="@objectType = 'urn:ogc:def:objectType:OGC-CSW-ebRIM-CIM::ServiceMetadata'">
+				<xsl:when test="@objectType = 'urn:ogc:def:ebRIM-ObjectType:OGC-I15::ServiceMetadata'">
 					<xsl:value-of select="'service'"/>
 				</xsl:when>
-				<xsl:when test="@objectType = 'urn:ogc:def:objectType:OGC-CSW-ebRIM-CIM::DatasetCollection'">
+				<xsl:when test="@objectType = 'urn:ogc:def:ebRIM-ObjectType:OGC-I15::DatasetCollection'">
 					<xsl:value-of select="'series'"/>
 				</xsl:when>
-				<xsl:when test="@objectType = 'urn:ogc:def:objectType:OGC-CSW-ebRIM-CIM::Application'">
+				<xsl:when test="@objectType = 'urn:ogc:def:ebRIM-ObjectType:OGC-I15::Application'">
 					<xsl:value-of select="'application'"/>
 				</xsl:when>
 				<xsl:otherwise>
@@ -348,7 +351,7 @@ Transforms a CIM EP request to an ISO AP request.
 	<!-- metadata contact -->
 	<xsl:template name="mdContact">
 		<xsl:variable name="rmId" select="@id"/>
-		<xsl:variable name="miId" select="../rim:Association[@associationType = 'urn:ogc:def:associationType:OGC-CSW-ebRIM-CIM::ResourceMetadataInformation' and @sourceObject = $rmId]/@targetObject"/>
+		<xsl:variable name="miId" select="../rim:Association[@associationType = 'urn:ogc:def:ebRIM-AssociationType:OGC-I15::ResourceMetadataInformation' and @sourceObject = $rmId]/@targetObject"/>
 		<xsl:apply-templates select="../rim:Association[@sourceObject = $miId]" mode="contact"/>
 	</xsl:template>
 	
@@ -359,14 +362,14 @@ Transforms a CIM EP request to an ISO AP request.
 	</xsl:template>
 	
 	<!-- generic responsible party template -->
-	<xsl:template match="rim:Association[@associationType = 'urn:ogc:def:associationType:OGC-CSW-ebRIM-CIM::Publisher' or @associationType = 'urn:ogc:def:associationType:OGC-CSW-ebRIM-CIM::Originator' or @associationType = 'urn:ogc:def:associationType:OGC-CSW-ebRIM-CIM::Author'  or @associationType = 'urn:ogc:def:associationType:OGC-CSW-ebRIM-CIM::PointOfContact']" mode="contact">
+	<xsl:template match="rim:Association[@associationType = 'urn:ogc:def:ebRIM-AssociationType:OGC-I15::Publisher' or @associationType = 'urn:ogc:def:ebRIM-AssociationType:OGC-I15::Originator' or @associationType = 'urn:ogc:def:ebRIM-AssociationType:OGC-I15::Author'  or @associationType = 'urn:ogc:def:ebRIM-AssociationType:OGC-I15::PointOfContact']" mode="contact">
 		<gmd:contact>
 			<xsl:apply-templates select="." mode="responsibleParty"/>
 		</gmd:contact>
 	</xsl:template>
 	
 	<!-- generic responsible party template -->
-	<xsl:template match="rim:Association[@associationType = 'urn:ogc:def:associationType:OGC-CSW-ebRIM-CIM::Publisher' or @associationType = 'urn:ogc:def:associationType:OGC-CSW-ebRIM-CIM::Originator' or @associationType = 'urn:ogc:def:associationType:OGC-CSW-ebRIM-CIM::Author'  or @associationType = 'urn:ogc:def:associationType:OGC-CSW-ebRIM-CIM::PointOfContact']" mode="pointOfContact">
+	<xsl:template match="rim:Association[@associationType = 'urn:ogc:def:ebRIM-AssociationType:OGC-I15::Publisher' or @associationType = 'urn:ogc:def:ebRIM-AssociationType:OGC-I15::Originator' or @associationType = 'urn:ogc:def:ebRIM-AssociationType:OGC-I15::Author'  or @associationType = 'urn:ogc:def:ebRIM-AssociationType:OGC-I15::PointOfContact']" mode="pointOfContact">
 		<gmd:pointOfContact>
 			<xsl:apply-templates select="." mode="responsibleParty"/>
 		</gmd:pointOfContact>
@@ -375,7 +378,7 @@ Transforms a CIM EP request to an ISO AP request.
 	<!-- cerates a valid date stamp -->
 	<xsl:template name="dateStampValue">
 		<xsl:variable name="rmId" select="@id"/>
-		<xsl:variable name="targetObject" select="../rim:Association[@associationType = 'urn:ogc:def:associationType:OGC-CSW-ebRIM-CIM::ResourceMetadataInformation' and @sourceObject = $rmId]/@targetObject"/>
+		<xsl:variable name="targetObject" select="../rim:Association[@associationType = 'urn:ogc:def:ebRIM-AssociationType:OGC-I15::ResourceMetadataInformation' and @sourceObject = $rmId]/@targetObject"/>
 		<xsl:variable name="date" select="../rim:ExtrinsicObject[@id = $targetObject]/rim:Slot[@name = 'http://purl.org/dc/elements/1.1/date']/rim:ValueList/rim:Value"/>
 		<xsl:choose>
 			<xsl:when test="$date">
@@ -388,7 +391,7 @@ Transforms a CIM EP request to an ISO AP request.
 	</xsl:template>
 	
 	<!-- generic responsible party template -->
-	<xsl:template match="rim:Association[@associationType = 'urn:ogc:def:associationType:OGC-CSW-ebRIM-CIM::Publisher' or @associationType = 'urn:ogc:def:associationType:OGC-CSW-ebRIM-CIM::Originator' or @associationType = 'urn:ogc:def:associationType:OGC-CSW-ebRIM-CIM::Author'  or @associationType = 'urn:ogc:def:associationType:OGC-CSW-ebRIM-CIM::PointOfContact']" mode="responsibleParty">
+	<xsl:template match="rim:Association[@associationType = 'urn:ogc:def:ebRIM-AssociationType:OGC-I15::Publisher' or @associationType = 'urn:ogc:def:ebRIM-AssociationType:OGC-I15::Originator' or @associationType = 'urn:ogc:def:ebRIM-AssociationType:OGC-I15::Author'  or @associationType = 'urn:ogc:def:ebRIM-AssociationType:OGC-I15::PointOfContact']" mode="responsibleParty">
 		<xsl:variable name="targetObject" select="@targetObject"/>
 		<xsl:variable name="organization" select="../rim:Organization[@id = $targetObject]"/>
 		<gmd:CI_ResponsibleParty>
@@ -424,12 +427,12 @@ Transforms a CIM EP request to an ISO AP request.
 	<!-- graphic overview -->
 	<xsl:template name="browseGraphic">
 		<xsl:variable name="rmId" select="@id"/>
-		<xsl:variable name="targetObject" select="../rim:Association[@associationType = 'urn:ogc:def:associationType:OGC-CSW-ebRIM-CIM::GraphicOverview' and @sourceObject = $rmId]/@targetObject"/>
+		<xsl:variable name="targetObject" select="../rim:Association[@associationType = 'urn:ogc:def:ebRIM-AssociationType:OGC-I15::GraphicOverview' and @sourceObject = $rmId]/@targetObject"/>
 		<xsl:value-of select="../rim:ExtrinsicObject[@id = $targetObject]/rim:Name/rim:LocalizedString/@value"/>
 	</xsl:template>
 
 	<!-- keywords -->
-	<xsl:template match="rim:Classification[@classificationScheme='urn:ogc:def:classificationScheme:OGC-CSW-ebRIM-CIM::KeywordScheme']" mode="cls">
+	<xsl:template match="rim:Classification[@classificationScheme='urn:ogc:def:ebRIM-ClassificationScheme:OGC-I15::KeywordScheme']" mode="cls">
 		<xsl:variable name="nodeId" select="@classificationNode"/>
 		<xsl:apply-templates select="../../rim:ClassificationNode[@id = $nodeId]" mode="keyword"/>
 	</xsl:template>
@@ -450,11 +453,11 @@ Transforms a CIM EP request to an ISO AP request.
 	<!-- keyword with thesaurus -->
 	<!-- NOTE: this produces MD_Metadata that is not valid wrt the official apiso.xsd schema! -->
 	<!-- TODO: slot name/path -->
-	<xsl:template match="rim:ClassificationNode[rim:Slot/@name='urn:ogc:def:slot:OGC-CSW-ebRIM-CIM::url']" mode="keyword">
+	<xsl:template match="rim:ClassificationNode[rim:Slot/@name='urn:ogc:def:ebRIM-slot:OGC-I15::url']" mode="keyword">
 		<gmd:descriptiveKeywords>
 			<gmd:MD_Keywords>
 				<gmd:keyword>
-					<gmx:Anchor xlink:href="{rim:Slot[@name='urn:ogc:def:slot:OGC-CSW-ebRIM-CIM::url']/rim:ValueList/rim:Value}"><xsl:value-of select="@code"/></gmx:Anchor>
+					<gmx:Anchor xlink:href="{rim:Slot[@name='urn:ogc:def:ebRIM-slot:OGC-I15::url']/rim:ValueList/rim:Value}"><xsl:value-of select="@code"/></gmx:Anchor>
 				</gmd:keyword>
 				<xsl:variable name="nodeId" select="@id"/>
 				<xsl:apply-templates select="../rim:Association[@sourceObject = $nodeId]"/>
@@ -463,7 +466,7 @@ Transforms a CIM EP request to an ISO AP request.
 	</xsl:template>
 	
 	<!-- get the thesaurus for this keyword node -->
-	<xsl:template match="rim:Association[@associationType='urn:ogc:def:associationType:OGC-CSW-ebRIM-CIM::Thesaurus']" mode="assoc">
+	<xsl:template match="rim:Association[@associationType='urn:ogc:def:ebRIM-AssociationType:OGC-I15::Thesaurus']" mode="assoc">
 		<xsl:variable name="targetObject" select="@targetObject"/>
 		<xsl:apply-templates select="../rim:ExtrinsicObject[@id = $targetObject]" mode="thesaurus"/>
 	</xsl:template>
@@ -477,20 +480,20 @@ Transforms a CIM EP request to an ISO AP request.
 	</xsl:template>
 
 	<!-- resource constraints -->
-	<xsl:template match="rim:Association[@associationType = 'urn:ogc:def:associationType:OGC-CSW-ebRIM-CIM::ResourceConstraints']"  mode="assoc">
+	<xsl:template match="rim:Association[@associationType = 'urn:ogc:def:ebRIM-AssociationType:OGC-I15::ResourceConstraints']"  mode="assoc">
 		<xsl:variable name="targetObject" select="@targetObject"/>
 		<xsl:apply-templates select="../rim:ExtrinsicObject[@id = $targetObject]"  mode="assoc"/>
 	</xsl:template>
 	
 	<!-- legal constraints -->
-	<xsl:template match="rim:ExtrinsicObject[@objectType = 'urn:ogc:def:objectType:OGC-CSW-ebRIM-CIM::LegalConstraints']"  mode="assoc">
+	<xsl:template match="rim:ExtrinsicObject[@objectType = 'urn:ogc:def:ebRIM-ObjectType:OGC-I15::LegalConstraints']"  mode="assoc">
 		<gmd:resourceConstraints>
 			<gmd:MD_LegalConstraints>
 				<gmd:useLimitation>
-					<gco:CharacterString><xsl:value-of select="rim:Slot[@name = 'http://purl.org/dc/elements/1.1/abstract']/wrs:ValueList/wrs:AnyValue[1]/rim:InternationalString/rim:LocalizedString[1]/@value"/></gco:CharacterString>
+					<gco:CharacterString><xsl:value-of select="rim:Description/rim:LocalizedString/@value"/></gco:CharacterString>
 				</gmd:useLimitation>
 				<xsl:variable name="id" select="@id"/>
-				<xsl:apply-templates select="rim:Classification[@classifiedObject = $id and @classificationScheme='urn:ogc:def:classificationScheme:OGC-CSW-ebRIM-CIM::RestrictionCode']"  mode="assoc"/>
+				<xsl:apply-templates select="rim:Classification[@classifiedObject = $id and @classificationScheme='urn:ogc:def:ebRIM-ClassificationScheme:OGC-I15::RestrictionCode']"  mode="assoc"/>
 				<gmd:otherConstraints>
 					<gco:CharacterString><xsl:value-of select="rim:Slot[@name = 'http://purl.org/dc/elements/1.1/rigts']/wrs:ValueList/wrs:AnyValue[1]/rim:InternationalString/rim:LocalizedString[1]/@value"/></gco:CharacterString>
 				</gmd:otherConstraints>
@@ -499,20 +502,20 @@ Transforms a CIM EP request to an ISO AP request.
 	</xsl:template>
 
 	<!-- security constraints -->
-	<xsl:template match="rim:ExtrinsicObject[@objectType = 'urn:ogc:def:objectType:OGC-CSW-ebRIM-CIM::SecurityConstraints']"   mode="assoc">
+	<xsl:template match="rim:ExtrinsicObject[@objectType = 'urn:ogc:def:ebRIM-ObjectType:OGC-I15::SecurityConstraints']"   mode="assoc">
 		<gmd:resourceConstraints>
 			<gmd:MD_SecurityConstraints>
 				<gmd:useLimitation>
-					<gco:CharacterString><xsl:value-of select="rim:Slot[@name = 'http://purl.org/dc/elements/1.1/abstract']/wrs:ValueList/wrs:AnyValue[1]/rim:InternationalString/rim:LocalizedString[1]/@value"/></gco:CharacterString>
+					<gco:CharacterString><xsl:value-of select="rim:Description/rim:LocalizedString/@value"/></gco:CharacterString>
 				</gmd:useLimitation>
 				<xsl:variable name="id" select="@id"/>
-				<xsl:apply-templates select="rim:Classification[@classifiedObject = $id and @classificationScheme='urn:ogc:def:classificationScheme:OGC-CSW-ebRIM-CIM::ClassificationCode']"  mode="cls"/>
+				<xsl:apply-templates select="rim:Classification[@classifiedObject = $id and @classificationScheme='urn:ogc:def:ebRIM-ClassificationScheme:OGC-I15::ClassificationCode']"  mode="cls"/>
 			</gmd:MD_SecurityConstraints>
 		</gmd:resourceConstraints>
 	</xsl:template>
 
 	<!-- classification -->
-	<xsl:template match="rim:Classification[@classificationScheme='urn:ogc:def:classificationScheme:OGC-CSW-ebRIM-CIM::ClassificationCode']"  mode="cls">
+	<xsl:template match="rim:Classification[@classificationScheme='urn:ogc:def:ebRIM-ClassificationScheme:OGC-I15::ClassificationCode']"  mode="cls">
 		<xsl:variable name="nodeId" select="@classificationNode"/>
 		<xsl:apply-templates select="../../rim:ClassificationNode[@id = $nodeId]" mode="classification"/>
 	</xsl:template>
@@ -525,7 +528,7 @@ Transforms a CIM EP request to an ISO AP request.
 	</xsl:template>
 	
 	<!-- restriction -->
-	<xsl:template match="rim:Classification[@classificationScheme='urn:ogc:def:classificationScheme:OGC-CSW-ebRIM-CIM::RestrictionCode']" mode="cls">
+	<xsl:template match="rim:Classification[@classificationScheme='urn:ogc:def:ebRIM-ClassificationScheme:OGC-I15::RestrictionCode']" mode="cls">
 		<xsl:variable name="nodeId" select="@classificationNode"/>
 		<xsl:apply-templates select="../../rim:ClassificationNode[@id = $nodeId]" mode="restriction"/>
 	</xsl:template>
@@ -549,7 +552,7 @@ Transforms a CIM EP request to an ISO AP request.
 	</xsl:template>
 
 	<!-- scale denominator -->
-	<xsl:template match="rim:Slot[@name= 'urn:ogc:def:slot:OGC-CSW-ebRIM-CIM::ScaleDenominator']/rim:ValueList/rim:Value">
+	<xsl:template match="rim:Slot[@name= 'urn:ogc:def:ebRIM-slot:OGC-I15::ScaleDenominator']/rim:ValueList/rim:Value">
 		<gmd:spatialResolution>
 			<gmd:MD_Resolution>
 				<gmd:equivalentScale>
@@ -564,7 +567,7 @@ Transforms a CIM EP request to an ISO AP request.
 	</xsl:template>
 	
 	<!-- topic category -->
-	<xsl:template match="rim:Classification[@classificationScheme='urn:ogc:def:classificationScheme:OGC-CSW-ebRIM-CIM::TopicCategory']">
+	<xsl:template match="rim:Classification[@classificationScheme='urn:ogc:def:ebRIM-ClassificationScheme:OGC-I15::TopicCategory']">
 		<xsl:variable name="nodeId" select="@classificationNode"/>
 		<xsl:apply-templates select="../../rim:ClassificationNode[@id = $nodeId]" mode="topic"/>
 	</xsl:template>
@@ -601,6 +604,27 @@ Transforms a CIM EP request to an ISO AP request.
 	</xsl:template>
 	
 	<!-- temporal extent -->
+	<!-- scale denominator -->
+	<xsl:template match="rim:Slot[@name= 'urn:ogc:def:ebRIM-slot:OGC-I15::TemporalBegin']/rim:ValueList/rim:Value">
+		<gmd:extent>
+			<gmd:EX_Extent>
+				<gmd:temporalElement>
+					<gmd:EX_TemporalExtent>
+						<gmd:extent>
+							<gml:TimePeriod gml:id="{generate-id(.)}">
+								<gml:beginPosition><xsl:value-of select="text()"/></gml:beginPosition>
+								<xsl:variable name="tempEnd" select="../rim:Slot[@name= 'urn:ogc:def:ebRIM-slot:OGC-I15::TemporalEnd']/rim:ValueList/rim:Value"/>
+								<xsl:if test="$tempEnd">
+									<gml:endPosition><xsl:value-of select="$tempEnd"/></gml:endPosition>
+								</xsl:if>
+							</gml:TimePeriod>
+						</gmd:extent>
+					</gmd:EX_TemporalExtent>
+				</gmd:temporalElement>
+			</gmd:EX_Extent>
+		</gmd:extent>
+	</xsl:template>
+<!--
 	<xsl:template match="gml:TimePeriod">
 		<gmd:extent>
 			<gmd:EX_Extent>
@@ -614,7 +638,7 @@ Transforms a CIM EP request to an ISO AP request.
 			</gmd:EX_Extent>
 		</gmd:extent>
 	</xsl:template>
-
+-->
 	<!-- registry package -->
 	<xsl:template match="rim:RegistryPackage">
 		<xsl:apply-templates select="*"/>

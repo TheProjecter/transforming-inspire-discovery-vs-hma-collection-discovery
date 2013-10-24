@@ -86,7 +86,6 @@ Transforms a CIM EP request to an ISO AP request.
 		a10: PointOfContact
 		a11: Organization unclassified
 
-		c1: KeywordType
 		c2: TopicCategory
 		c3: AccessConstraints
 		c4: Classification
@@ -168,11 +167,8 @@ Transforms a CIM EP request to an ISO AP request.
 			</xsl:choose>
 		</xsl:if>
 		<!-- classifications -->
-		<xsl:if test="//tmp:localName[text() = 'KeywordType' or text() = 'TopicCategory' or text() = 'AccessConstraints' or text() = 'Classification' or text() = 'subject' or text() = $concept_uri]">
+		<xsl:if test="//tmp:localName[text() = 'TopicCategory' or text() = 'AccessConstraints' or text() = 'Classification' or text() = 'subject' or text() = $concept_uri]">
 			<xsl:text> rim:Classification</xsl:text>
-		</xsl:if>
-		<xsl:if test="//tmp:localName/text() = 'KeywordType'">
-			<xsl:text>_c1</xsl:text>
 		</xsl:if>
 		<xsl:if test="//tmp:localName/text() = 'TopicCategory'">
 			<xsl:text>_c2</xsl:text>
@@ -190,11 +186,8 @@ Transforms a CIM EP request to an ISO AP request.
 			<xsl:text>_c6</xsl:text>
 		</xsl:if>
 		<!-- classification nodes -->
-		<xsl:if test="//tmp:localName[text() = 'KeywordType' or text() = 'TopicCategory' or text() = 'AccessConstraints' or text() = 'Classification' or text() = 'subject' or text() = $concept_uri]">
+		<xsl:if test="//tmp:localName[text() = 'TopicCategory' or text() = 'AccessConstraints' or text() = 'Classification' or text() = 'subject' or text() = $concept_uri]">
 			<xsl:text> rim:ClassificationNode</xsl:text>
-		</xsl:if>
-		<xsl:if test="//tmp:localName/text() = 'KeywordType'">
-			<xsl:text>_cn1</xsl:text>
 		</xsl:if>
 		<xsl:if test="//tmp:localName/text() = 'TopicCategory'">
 			<xsl:text>_cn2</xsl:text>
@@ -264,16 +257,16 @@ Transforms a CIM EP request to an ISO AP request.
 		<xsl:if test="not(//tmp:localName[text() = 'type'])">
 			<ogc:Or>
 				<xsl:call-template name="resourceMetadata">
-					<xsl:with-param name="objectType" select="'urn:ogc:def:objectType:OGC-CSW-ebRIM-CIM::DataMetadata'"/>
+					<xsl:with-param name="objectType" select="'urn:ogc:def:ebRIM-ObjectType:OGC-I15::ElementaryDataset'"/>
 				</xsl:call-template>
 				<xsl:call-template name="resourceMetadata">
-					<xsl:with-param name="objectType" select="'urn:ogc:def:objectType:OGC-CSW-ebRIM-CIM::ServiceMetadata'"/>
+					<xsl:with-param name="objectType" select="'urn:ogc:def:ebRIM-ObjectType:OGC-I15::ServiceMetadata'"/>
 				</xsl:call-template>
 				<xsl:call-template name="resourceMetadata">
-					<xsl:with-param name="objectType" select="'urn:ogc:def:objectType:OGC-CSW-ebRIM-CIM::DatasetCollection'"/>
+					<xsl:with-param name="objectType" select="'urn:ogc:def:ebRIM-ObjectType:OGC-I15::DatasetCollection'"/>
 				</xsl:call-template>
 				<xsl:call-template name="resourceMetadata">
-					<xsl:with-param name="objectType" select="'urn:ogc:def:objectType:OGC-CSW-ebRIM-CIM::Application'"/>
+					<xsl:with-param name="objectType" select="'urn:ogc:def:ebRIM-ObjectType:OGC-I15::Application'"/>
 				</xsl:call-template>
 			</ogc:Or>
 		</xsl:if>
@@ -282,35 +275,35 @@ Transforms a CIM EP request to an ISO AP request.
 			<xsl:call-template name="createJoin">
 				<xsl:with-param name="targetObject" select="'$e2'"/>
 				<xsl:with-param name="assoc" select="'$a2'"/>
-				<xsl:with-param name="assocType" select="'urn:ogc:def:associationType:OGC-CSW-ebRIM-CIM::ResourceMetadataInformation'"/>
+				<xsl:with-param name="assocType" select="'urn:ogc:def:ebRIM-AssociationType:OGC-I15::ResourceMetadataInformation'"/>
 			</xsl:call-template>
 		</xsl:if>
 		<xsl:if test="//tmp:localName[text() = 'SpecificationTitle' or text() = 'Degree' or text() = 'SpecificationDateType'or text() = 'SpecificationDate']">
 			<xsl:call-template name="createJoin">
 				<xsl:with-param name="targetObject" select="'$e3'"/>
 				<xsl:with-param name="assoc" select="'$a3'"/>
-				<xsl:with-param name="assocType" select="'urn:ogc:def:objectType:OGC-CSW-ebRIM-CIM::Specification'"/>
+				<xsl:with-param name="assocType" select="'urn:ogc:def:ebRIM-ObjectType:OGC-I15::Specification'"/>
 			</xsl:call-template>
 		</xsl:if>
 		<xsl:if test="//tmp:localName[text() = 'ConditionApplyingToAccessAndUse']">
 			<xsl:call-template name="createJoin">
 				<xsl:with-param name="targetObject" select="'$e4'"/>
 				<xsl:with-param name="assoc" select="'$a4'"/>
-				<xsl:with-param name="assocType" select="'urn:ogc:def:objectType:OGC-CSW-ebRIM-CIM::ResourceConstraints'"/>
+				<xsl:with-param name="assocType" select="'urn:ogc:def:ebRIM-ObjectType:OGC-I15::ResourceConstraints'"/>
 			</xsl:call-template>
 		</xsl:if>
 		<xsl:if test="//tmp:localName[text() = 'OtherConstraints' or text() = 'AccessConstraints']">
 			<xsl:call-template name="createJoin">
 				<xsl:with-param name="targetObject" select="'$e5'"/>
 				<xsl:with-param name="assoc" select="'$a5'"/>
-				<xsl:with-param name="assocType" select="'urn:ogc:def:objectType:OGC-CSW-ebRIM-CIM::ResourceConstraints'"/>
+				<xsl:with-param name="assocType" select="'urn:ogc:def:ebRIM-ObjectType:OGC-I15::ResourceConstraints'"/>
 			</xsl:call-template>
 		</xsl:if>
 		<xsl:if test="//tmp:localName[text() = 'Classification']">
 			<xsl:call-template name="createJoin">
 				<xsl:with-param name="targetObject" select="'$e6'"/>
 				<xsl:with-param name="assoc" select="'$a6'"/>
-				<xsl:with-param name="assocType" select="'urn:ogc:def:objectType:OGC-CSW-ebRIM-CIM::ResourceConstraints'"/>
+				<xsl:with-param name="assocType" select="'urn:ogc:def:ebRIM-ObjectType:OGC-I15::ResourceConstraints'"/>
 			</xsl:call-template>
 		</xsl:if>
 		<xsl:if test="//tmp:localName[text() = 'OrganisationName']">
@@ -319,28 +312,28 @@ Transforms a CIM EP request to an ISO AP request.
 					<xsl:call-template name="createJoin">
 						<xsl:with-param name="targetObject" select="'$o1'"/>
 						<xsl:with-param name="assoc" select="'$a7'"/>
-						<xsl:with-param name="assocType" select="'urn:ogc:def:objectType:OGC-CSW-ebRIM-CIM::Publisher'"/>
+						<xsl:with-param name="assocType" select="'urn:ogc:def:ebRIM-ObjectType:OGC-I15::Publisher'"/>
 					</xsl:call-template>
 				</xsl:when>
 				<xsl:when test="//*[tmp:PropertyName/tmp:step/tmp:localName/text() = 'ResponsiblePartyRole' and ogc:Literal/text() = 'originator']">
 					<xsl:call-template name="createJoin">
 						<xsl:with-param name="targetObject" select="'$o1'"/>
 						<xsl:with-param name="assoc" select="'$a8'"/>
-						<xsl:with-param name="assocType" select="'urn:ogc:def:objectType:OGC-CSW-ebRIM-CIM::Originator'"/>
+						<xsl:with-param name="assocType" select="'urn:ogc:def:ebRIM-ObjectType:OGC-I15::Originator'"/>
 					</xsl:call-template>
 				</xsl:when>
 				<xsl:when test="//*[tmp:PropertyName/tmp:step/tmp:localName/text() = 'ResponsiblePartyRole' and ogc:Literal/text() = 'author']">
 					<xsl:call-template name="createJoin">
 						<xsl:with-param name="targetObject" select="'$o1'"/>
 						<xsl:with-param name="assoc" select="'$a9'"/>
-						<xsl:with-param name="assocType" select="'urn:ogc:def:objectType:OGC-CSW-ebRIM-CIM::Author'"/>
+						<xsl:with-param name="assocType" select="'urn:ogc:def:ebRIM-ObjectType:OGC-I15::Author'"/>
 					</xsl:call-template>
 				</xsl:when>
 				<xsl:when test="//*[tmp:PropertyName/tmp:step/tmp:localName/text() = 'ResponsiblePartyRole' and ogc:Literal/text() = 'pointOfContact']">
 					<xsl:call-template name="createJoin">
 						<xsl:with-param name="targetObject" select="'$o1'"/>
 						<xsl:with-param name="assoc" select="'$a10'"/>
-						<xsl:with-param name="assocType" select="'urn:ogc:def:objectType:OGC-CSW-ebRIM-CIM::PointOfContact'"/>
+						<xsl:with-param name="assocType" select="'urn:ogc:def:ebRIM-ObjectType:OGC-I15::PointOfContact'"/>
 					</xsl:call-template>
 				</xsl:when>
 				<xsl:otherwise>
@@ -384,7 +377,7 @@ Transforms a CIM EP request to an ISO AP request.
 	</xsl:template>
 
 	<xsl:template match="tmp:PropertyName[tmp:step/tmp:localName/text() = 'BoundingBox']">
-		<ogc:PropertyName>$e1/rim:Slot[@name='urn:ogc:def:slot:OGC-CSW-ebRIM-CIM::Envelope']/wrs:ValueList/wrs:Value</ogc:PropertyName>
+		<ogc:PropertyName>$e1/rim:Slot[@name='urn:ogc:def:ebRIM-slot:OGC-I15::Envelope']/wrs:ValueList/wrs:Value</ogc:PropertyName>
 	</xsl:template>
 
 	<!-- we use the temporary annotations for mapping PropertyName -->
@@ -445,22 +438,22 @@ Transforms a CIM EP request to an ISO AP request.
 	<!-- type -->
 	<xsl:template match="*[tmp:PropertyName/tmp:step/tmp:localName/text() = 'type' and ogc:Literal = 'service']">
 		<xsl:call-template name="resourceMetadata">
-			<xsl:with-param name="objectType" select="'urn:ogc:def:objectType:OGC-CSW-ebRIM-CIM::ServiceMetadata'"/>
+			<xsl:with-param name="objectType" select="'urn:ogc:def:ebRIM-ObjectType:OGC-I15::ServiceMetadata'"/>
 		</xsl:call-template>
 	</xsl:template>
 	<xsl:template match="*[tmp:PropertyName/tmp:step/tmp:localName/text() = 'type' and ogc:Literal = 'dataset']">
 		<xsl:call-template name="resourceMetadata">
-			<xsl:with-param name="objectType" select="'urn:ogc:def:objectType:OGC-CSW-ebRIM-CIM::DataMetadata'"/>
+			<xsl:with-param name="objectType" select="'urn:ogc:def:ebRIM-ObjectType:OGC-I15::ElementaryDataset'"/>
 		</xsl:call-template>
 	</xsl:template>
 	<xsl:template match="*[tmp:PropertyName/tmp:step/tmp:localName/text() = 'type' and (ogc:Literal = 'series' or ogc:Literal = 'datasetcollection')]">
 		<xsl:call-template name="resourceMetadata">
-			<xsl:with-param name="objectType" select="'urn:ogc:def:objectType:OGC-CSW-ebRIM-CIM::DatasetCollection'"/>
+			<xsl:with-param name="objectType" select="'urn:ogc:def:ebRIM-ObjectType:OGC-I15::DatasetCollection'"/>
 		</xsl:call-template>
 	</xsl:template>
 	<xsl:template match="*[tmp:PropertyName/tmp:step/tmp:localName/text() = 'type' and ogc:Literal = 'application']">
 		<xsl:call-template name="resourceMetadata">
-			<xsl:with-param name="objectType" select="'urn:ogc:def:objectType:OGC-CSW-ebRIM-CIM::Application'"/>
+			<xsl:with-param name="objectType" select="'urn:ogc:def:ebRIM-ObjectType:OGC-I15::Application'"/>
 		</xsl:call-template>
 	</xsl:template>
 
@@ -488,44 +481,58 @@ Transforms a CIM EP request to an ISO AP request.
 	</xsl:template>
 
 	<!-- keywordtype -->
+<!--
 	<xsl:template match="*[tmp:PropertyName[tmp:step/tmp:localName/text() = 'KeywordType']]">
 		<xsl:call-template name="classification">
 			<xsl:with-param name="classification" select="'$c1'"/>
 			<xsl:with-param name="classificationScheme" select="'KeywordType'"/>
 		</xsl:call-template>
 	</xsl:template>
+-->
 
 	<!-- keyword -->
 	<xsl:template match="*[tmp:PropertyName[tmp:step/tmp:localName/text() = 'subject']]">
-		<xsl:call-template name="classification">
-			<xsl:with-param name="classification" select="'$c5'"/>
-			<xsl:with-param name="classificationScheme" select="'KeywordScheme'"/>
-		</xsl:call-template>
+		<xsl:variable name="keywordType" select="../*[tmp:PropertyName[tmp:step/tmp:localName/text() = 'subject']]/ogc:Literal"/>
+		<xsl:choose>
+			<xsl:when test="$keywordType">
+				<xsl:variable name="scheme" select="concat('KeywordScheme', translate(substring($keywordType, 1, 1), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), substring($keywordType, 2))"/>
+				<xsl:call-template name="classification">
+					<xsl:with-param name="classification" select="'$c5'"/>
+					<xsl:with-param name="classificationScheme" select="$scheme"/>
+				</xsl:call-template>
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:call-template name="classification">
+					<xsl:with-param name="classification" select="'$c5'"/>
+					<xsl:with-param name="classificationScheme" select="'KeywordSchemeUntyped'"/>
+				</xsl:call-template>
+			</xsl:otherwise>
+		</xsl:choose>
 	</xsl:template>
 
 	<!-- lineage -->
 	<xsl:template match="tmp:PropertyName[tmp:step/tmp:localName/text() = 'Lineage']">
-		<ogc:PropertyName>$e1/rim:Slot[@name='urn:ogc:def:slot:OGC-CSW-ebRIM-CIM::Lineage']/wrs:ValueList/wrs:Value</ogc:PropertyName>
+		<ogc:PropertyName>$e1/rim:Slot[@name='urn:ogc:def:ebRIM-slot:OGC-I15::Lineage']/wrs:ValueList/wrs:Value</ogc:PropertyName>
 	</xsl:template>
 	
 	<!-- tempextent_begin -->
 	<xsl:template match="tmp:PropertyName[tmp:step/tmp:localName/text() = 'TempExtent_begin']">
-		<ogc:PropertyName>$e1/rim:Slot[@name='http://purl.org/dc/terms/temporal']/wrs:ValueList/wrs:AnyValue/gml:TimePeriod/gml:begin/gml:TimeInstant/gml:timePosition</ogc:PropertyName>
+		<ogc:PropertyName>$e1/rim:Slot[@name='urn:ogc:def:ebRIM-slot:OGC-I15::TemporalBegin']/rim:ValueList/rim:Value</ogc:PropertyName>
 	</xsl:template>
 
 	<!-- tempextent_end -->
 	<xsl:template match="tmp:PropertyName[tmp:step/tmp:localName/text() = 'TempExtent_end']">
-		<ogc:PropertyName>$e1/rim:Slot[@name='http://purl.org/dc/terms/temporal']/wrs:ValueList/wrs:AnyValue/gml:TimePeriod/gml:end/gml:TimeInstant/gml:timePosition</ogc:PropertyName>
+		<ogc:PropertyName>$e1/rim:Slot[@name='urn:ogc:def:ebRIM-slot:OGC-I15::TemporalEnd']/rim:ValueList/rim:Value</ogc:PropertyName>
 	</xsl:template>
 
 	<!-- denominator -->
 	<xsl:template match="tmp:PropertyName[tmp:step/tmp:localName/text() = 'Denominator']">
-		<ogc:PropertyName>$e1/rim:Slot[@name='urn:ogc:def:slot:OGC-CSW-ebRIM-CIM::ScaleDenominator']/rim:ValueList/rim:Value</ogc:PropertyName>
+		<ogc:PropertyName>$e1/rim:Slot[@name='urn:ogc:def:ebRIM-slot:OGC-I15::ScaleDenominator']/rim:ValueList/rim:Value</ogc:PropertyName>
 	</xsl:template>
 	
 	<!-- distance value -->
 	<xsl:template match="tmp:PropertyName[tmp:step/tmp:localName/text() = 'DistanceValue']">
-		<ogc:PropertyName>$e1/rim:Slot[@name='urn:ogc:def:slot:OGC-CSW-ebRIM-CIM::Resolution']/wrs:ValueList/wrs:Value</ogc:PropertyName>
+		<ogc:PropertyName>$e1/rim:Slot[@name='urn:ogc:def:ebRIM-slot:OGC-I15::Resolution']/wrs:ValueList/wrs:Value</ogc:PropertyName>
 	</xsl:template>
 	
 	<!--  organisation name -->
@@ -550,7 +557,7 @@ Transforms a CIM EP request to an ISO AP request.
 
 	<!-- degree -->
 	<xsl:template match="tmp:PropertyName[tmp:step/tmp:localName/text() = 'Degree']">
-		<ogc:PropertyName>$e3/rim:Slot[@name='urn:ogc:def:slot:OGC-CSW-ebRIM-CIM::Conformance']/rim:ValueList/rim:Value</ogc:PropertyName>
+		<ogc:PropertyName>$e3/rim:Slot[@name='urn:ogc:def:ebRIM-slot:OGC-I15::Conformance']/rim:ValueList/rim:Value</ogc:PropertyName>
 	</xsl:template>
 	
 	<!-- specification date, we can only map this queryable correctly if there is also the type -->
@@ -576,7 +583,7 @@ Transforms a CIM EP request to an ISO AP request.
 	
 	<!-- condition applying to access and use -->
 	<xsl:template match="tmp:PropertyName[tmp:step/tmp:localName/text() = 'ConditionApplyingToAccessAndUse']">
-		<ogc:PropertyName>$e4/rim:Slot[@name='http://purl.org/dc/elements/1.1/abstract']/rim:ValueList/rim:Value</ogc:PropertyName>
+		<ogc:PropertyName>$e4/rim:Description/rim:LocalizedString/@value</ogc:PropertyName>
 	</xsl:template>
 	
 	<!-- other constraints -->
@@ -641,7 +648,7 @@ Transforms a CIM EP request to an ISO AP request.
 			<!-- for some reason, filtering on classification scheme does not work for keywords on the ERDAS catalogue -->
 			<ogc:PropertyIsEqualTo>
 				<ogc:PropertyName><xsl:value-of select="concat($classification, '/@classificationScheme')"/></ogc:PropertyName>
-				<ogc:Literal><xsl:value-of select="concat('urn:ogc:def:classificationScheme:OGC-CSW-ebRIM-CIM::', $classificationScheme)"/></ogc:Literal>
+				<ogc:Literal><xsl:value-of select="concat('urn:ogc:def:ebRIM-ClassificationScheme:OGC-I15::', $classificationScheme)"/></ogc:Literal>
 			</ogc:PropertyIsEqualTo>
 		</xsl:if>
 		<ogc:PropertyIsEqualTo>
@@ -671,7 +678,7 @@ Transforms a CIM EP request to an ISO AP request.
 		<xsl:copy>
 			<xsl:apply-templates select="@*"/>
 			<ogc:PropertyName><xsl:value-of select="concat($classification, '/@classificationNode')"/></ogc:PropertyName>
-			<ogc:Literal><xsl:value-of select="concat('urn:ogc:def:classificationScheme:OGC-CSW-ebRIM-CIM::', $classificationScheme, ':', ogc:Literal)"/></ogc:Literal>
+			<ogc:Literal><xsl:value-of select="concat('urn:ogc:def:ebRIM-ClassificationScheme:OGC-I15::', $classificationScheme, ':', ogc:Literal)"/></ogc:Literal>
 		</xsl:copy>
 		<ogc:PropertyIsEqualTo>
 			<ogc:PropertyName><xsl:value-of select="concat($classifiedObject, '/@id')"/></ogc:PropertyName>
@@ -683,7 +690,7 @@ Transforms a CIM EP request to an ISO AP request.
 	<xsl:template name="conceptUriIntern">
 		<xsl:copy>
 			<xsl:apply-templates select="@*"/>
-			<ogc:PropertyName>$cn6/rim:Slot[@name='urn:ogc:def:slot:OGC-CSW-ebRIM-CIM::url']/rim:ValueList/rim:Value</ogc:PropertyName>
+			<ogc:PropertyName>$cn6/rim:Slot[@name='http://purl.org/dc/elements/1.1/source']/rim:ValueList/rim:Value</ogc:PropertyName>
 			<ogc:Literal><xsl:value-of select="ogc:Literal"/></ogc:Literal>
 		</xsl:copy>
 		<ogc:PropertyIsEqualTo>
