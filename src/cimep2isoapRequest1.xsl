@@ -158,9 +158,15 @@ These annotations are removed again by another stylesheet during the second tran
 					</xsl:when>
 					<xsl:when test="ogc:PropertyName[contains(text(), '/@objectType')]">
 						<xsl:text>objectType</xsl:text>
+						<xsl:if test="not(ogc:Literal = 'urn:ogc:def:ebRIM-ObjectType:OGC-I15::ElementaryDataset' or ogc:Literal = 'urn:ogc:def:ebRIM-ObjectType:OGC-I15::ServiceMetadata' or ogc:Literal = 'urn:ogc:def:ebRIM-ObjectType:OGC-I15::DatasetCollection' or ogc:Literal = 'urn:ogc:def:ebRIM-ObjectType:OGC-I15::Application' or ogc:Literal = 'urn:ogc:def:ebRIM-ObjectType:OGC-I15::MetadataInformation' or ogc:Literal = 'urn:ogc:def:ebRIM-ObjectType:OGC-I15::ReferenceSpecification' or ogc:Literal = 'urn:ogc:def:ebRIM-ObjectType:OGC-I15::Rights' or ogc:Literal = 'urn:ogc:def:ebRIM-ObjectType:OGC-I15::LegalConstraints' or ogc:Literal = 'urn:ogc:def:ebRIM-ObjectType:OGC-I15::SecurityConstraints' or ogc:Literal = 'urn:oasis:names:tc:ebxml-regrep:ObjectType:RegistryObject:Organization')">
+							<xsl:message terminate="yes"><xsl:value-of select="concat('Unsupported object type: ', ogc:Literal)"/></xsl:message>
+						</xsl:if>
 					</xsl:when>
 					<xsl:when test="ogc:PropertyName[contains(text(), '/@associationType')]">
 						<xsl:text>associationType</xsl:text>
+						<xsl:if test="not(ogc:Literal = 'urn:ogc:def:ebRIM-AssociationType:OGC-I15::ResourceMetadataInformation' or ogc:Literal = 'urn:ogc:def:ebRIM-AssociationType:OGC-I15::Specification' or ogc:Literal = 'urn:ogc:def:ebRIM-AssociationType:OGC-I15::ResourceConstraints' or ogc:Literal = 'urn:ogc:def:ebRIM-AssociationType:OGC-I15::Publisher' or ogc:Literal = 'urn:ogc:def:ebRIM-AssociationType:OGC-I15::Originator' or ogc:Literal = 'urn:ogc:def:ebRIM-AssociationType:OGC-I15::Author' or ogc:Literal = 'urn:ogc:def:ebRIM-AssociationType:OGC-I15::MetadataPointOfContact' or ogc:Literal = 'urn:ogc:def:ebRIM-AssociationType:OGC-I15::PointOfContact' or ogc:Literal = 'urn:ogc:def:ebRIM-AssociationType:OGC-I15::CitedResponsibleParty')">
+							<xsl:message terminate="yes"><xsl:value-of select="concat('Unsupported association type: ', ogc:Literal)"/></xsl:message>
+						</xsl:if>
 					</xsl:when>
 					<xsl:when test="ogc:PropertyName[contains(text(), '/@name')]">
 						<xsl:text>slotName</xsl:text>
@@ -260,6 +266,9 @@ These annotations are removed again by another stylesheet during the second tran
 	<xsl:template name="parseAbbrevAxisStep">
 		<xsl:param name="pn"/>
 		<xsl:choose>
+			<xsl:when test="contains($pn,'[') and not(contains($pn, 'Slot[') or contains($pn, 'Slot ['))">
+				<xsl:message terminate="yes"><xsl:value-of select="concat('Invalid path in property name: ', $pn)"/></xsl:message>
+			</xsl:when>
 			<xsl:when test="contains($pn,'[')">
 				<!-- step contains predicate expression -->
 				<xsl:call-template name="parseQName">

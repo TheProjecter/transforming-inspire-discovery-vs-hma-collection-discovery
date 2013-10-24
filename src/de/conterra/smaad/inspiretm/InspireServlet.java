@@ -42,10 +42,10 @@ public class InspireServlet extends TransformationServlet implements NamespaceCo
     private final static String NS_GCO = "http://www.isotc211.org/2005/gco";
     private final static String NS_CSW = "http://www.opengis.net/cat/csw/2.0.2";
     private final static String XPATH_RESOURCE_METADATA =
-            "//*[@objectType = 'urn:ogc:def:objectType:OGC-CSW-ebRIM-CIM::DataMetadata' or " +
-            "@objectType = 'urn:ogc:def:objectType:OGC-CSW-ebRIM-CIM::ServiceMetadata' or " +
-            "@objectType = 'urn:ogc:def:objectType:OGC-CSW-ebRIM-CIM::DatasetCollection' or " +
-            "@objectType = 'urn:ogc:def:objectType:OGC-CSW-ebRIM-CIM::Application']";
+            "//*[@objectType = 'urn:ogc:def:ebRIM-ObjectType:OGC-I15::ElementaryDataset' or " +
+            "@objectType = 'urn:ogc:def:ebRIM-ObjectType:OGC-I15::ServiceMetadata' or " +
+            "@objectType = 'urn:ogc:def:ebRIM-ObjectType:OGC-I15::DatasetCollection' or " +
+            "@objectType = 'urn:ogc:def:ebRIM-ObjectType:OGC-I15::Application']";
 
     private final DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
     private final XPathFactory xPathFactory = XPathFactory.newInstance();
