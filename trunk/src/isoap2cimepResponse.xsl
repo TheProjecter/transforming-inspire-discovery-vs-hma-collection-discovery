@@ -813,7 +813,7 @@ Transforms a CIM EP request to an ISO AP request.
 			<rim:Classification id="{concat($classifiedObject, $classificationScheme, 'Classification', ':', generate-id(.))}"
 				objectType="urn:oasis:names:tc:ebxml-regrep:ObjectType:RegistryObject:Classification"
 				classifiedObject="{$classifiedObject}"
-				classificationNode="{concat($classifiedObject, $classificationScheme, 'ClassificationNode', ':', generate-id(.))}"
+				classificationNode="{concat('urn:ogc:def:ebRIM-ClassificationScheme:OGC-I15::', $classificationScheme, ':', text())}"
 				classificationScheme="{concat('urn:ogc:def:ebRIM-ClassificationScheme:OGC-I15::', $classificationScheme)}"/>
 	</xsl:template>
 
@@ -829,8 +829,15 @@ Transforms a CIM EP request to an ISO AP request.
 			<rim:Classification id="{concat($classifiedObject, $classificationScheme, 'Classification', ':', count($values))}"
 				objectType="urn:oasis:names:tc:ebxml-regrep:ObjectType:RegistryObject:Classification"
 				classifiedObject="{$classifiedObject}"
+				classificationNode="{concat('urn:ogc:def:ebRIM-ClassificationScheme:OGC-I15::', $classificationScheme, ':', $values[1])}"
+				classificationScheme="{concat('urn:ogc:def:ebRIM-ClassificationScheme:OGC-I15::', $classificationScheme)}"/>
+<!--
+			<rim:Classification id="{concat($classifiedObject, $classificationScheme, 'Classification', ':', count($values))}"
+				objectType="urn:oasis:names:tc:ebxml-regrep:ObjectType:RegistryObject:Classification"
+				classifiedObject="{$classifiedObject}"
 				classificationNode="{concat($classifiedObject, $classificationScheme, 'ClassificationNode', ':', count($values))}"
 				classificationScheme="{concat('urn:ogc:def:ebRIM-ClassificationScheme:OGC-I15::', $classificationScheme)}"/>
+-->
 			<!-- recursive call to this template for remaining nodes requiering classification -->
 			<xsl:call-template name="classification">
 				<xsl:with-param name="classifiedObject" select="$classifiedObject"/>
