@@ -125,11 +125,17 @@ public class TransformationServlet extends HttpServlet {
             method.setRequestHeader("SOAPAction", "\"http://www.opengis.net/cat/csw/2.0.2/requests#GetRecords\"");
 
             // send request
-            int statusCode = client.executeMethod(method);
-            checkResponseCode(statusCode);
+            byte[] targetResponse = null;
+            try {
+                int statusCode = client.executeMethod(method);
+                checkResponseCode(statusCode);
 
-            // transform response
-            byte[] targetResponse = method.getResponseBody();
+                // transform response
+                targetResponse = method.getResponseBody();
+            }
+            finally {
+                method.releaseConnection();
+            }
             if (LOGGER.isDebugEnabled()) {
                 try {
                     LOGGER.debug("Received response from target service:");

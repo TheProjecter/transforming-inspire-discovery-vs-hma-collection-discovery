@@ -156,9 +156,15 @@ public class InspireServlet extends TransformationServlet implements NamespaceCo
 
         // send request
         try {
-            int statusCode = getClient().executeMethod(method);
-            checkResponseCode(statusCode);
-            byte[] targetResponse = method.getResponseBody();
+            byte[] targetResponse = null;
+            try {
+                int statusCode = getClient().executeMethod(method);
+                checkResponseCode(statusCode);
+                targetResponse = method.getResponseBody();
+            }
+            finally {
+                method.releaseConnection();
+            }
             if (LOGGER.isDebugEnabled()) {
                 try {
                     LOGGER.debug("Received response from target service:");
