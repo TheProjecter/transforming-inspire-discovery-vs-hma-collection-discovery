@@ -2,6 +2,7 @@ package de.conterra.smaad.inspiretm;
 
 import org.apache.commons.httpclient.DefaultHttpMethodRetryHandler;
 import org.apache.commons.httpclient.HttpClient;
+import org.apache.commons.httpclient.MultiThreadedHttpConnectionManager;
 import org.apache.commons.httpclient.methods.ByteArrayRequestEntity;
 import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.httpclient.methods.RequestEntity;
@@ -28,7 +29,7 @@ public class TransformationServlet extends HttpServlet {
 
     private String targetServiceUrl;
 
-    private HttpClient client = new HttpClient();
+    private HttpClient client = new HttpClient(new MultiThreadedHttpConnectionManager());
 
     private TransformationEngineFactory transformationEngineFactory;
 
