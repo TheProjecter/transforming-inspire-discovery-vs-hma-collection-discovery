@@ -106,12 +106,21 @@ Transforms a CIM EP request to an ISO AP request.
 		<!-- find out if the object type is represented by a variable -->
 		<xsl:variable name="otVariable" select="tmp:PropertyName/tmp:step[1]/tmp:variable/text()"/>
 		<xsl:choose>
-			<!-- association to object that holds this name, must be organisation -->
+			<xsl:when test="tmp:PropertyName/tmp:step[1]/tmp:localName = 'Organization' or //tmp:typeName[tmp:variable/text() = $otVariable and tmp:localName='Organization']">
+				<xsl:copy>
+					<xsl:apply-templates select="@*"/>
+					<ogc:PropertyName>apiso:OrganisationName</ogc:PropertyName>
+					<xsl:apply-templates select="ogc:Literal"/>
+				</xsl:copy>
+			</xsl:when>
+			<!-- association to object that holds this name, must be something other than title -->
 			<xsl:when test="//*[tmp:PropertyName/tmp:step[1]/*/text() = $otVariable and tmp:PropertyName/tmp:step[2]/tmp:localName = '@targetObject']">
-				<!-- can be specification name or organisation name -->
-				<xsl:call-template name="mapRimName">
-					<xsl:with-param name="otVariable" select="$otVariable"/>
-				</xsl:call-template>
+				<!-- associated object, since we already handled organisation it can only be specification name -->
+				<xsl:copy>
+					<xsl:apply-templates select="@*"/>
+					<ogc:PropertyName>apiso:SpecificationTitle</ogc:PropertyName>
+					<xsl:apply-templates select="ogc:Literal"/>
+				</xsl:copy>
 			</xsl:when>
 			<!-- name of ResourceMetadata, map to title if it does not reference keyword name-->
 			<xsl:when test="not(contains($otVariable, 'ClassificationNode') or starts-with(//tmp:Query/tmp:typeName/tmp:localName[contains(text(), $otVariable)], 'ClassificationNode'))">
@@ -125,6 +134,7 @@ Transforms a CIM EP request to an ISO AP request.
 	</xsl:template>
 	
 	<!-- find the object type with the given name -->
+<!--
 	<xsl:template name="mapRimName">
 		<xsl:param name="otVariable"/>
 		<xsl:variable name="objectType" select="../ogc:PropertyIsEqualTo[tmp:PropertyName/tmp:step[1]/tmp:variable = $otVariable and tmp:PropertyName/tmp:step[2]/tmp:localName = '@objectType']/ogc:Literal"/>
@@ -139,7 +149,6 @@ Transforms a CIM EP request to an ISO AP request.
 						<xsl:text>apiso:SpecificationTitle</xsl:text>
 					</xsl:when>
 					<xsl:otherwise>
-						<!-- no object type found, try to decide based on the association type this extrinsicobject/slot is connected with -->
 						<xsl:variable name="assocVariable" select="//*[tmp:PropertyName/tmp:step[1]/tmp:variable = $otVariable and tmp:PropertyName/tmp:step[2]/tmp:localName = '@targetObject']/tmp:PropertyName/tmp:step[1]/*[text() != $otVariable]"/>
 						<xsl:variable name="assocType" select="//ogc:PropertyIsEqualTo[tmp:PropertyName/tmp:step[1]/tmp:variable = $assocVariable and tmp:PropertyName/tmp:step[2]/tmp:localName = '@associationType']/ogc:Literal"/>
 						<xsl:choose>
@@ -156,21 +165,20 @@ Transforms a CIM EP request to an ISO AP request.
 			<xsl:copy-of select="ogc:Literal"/>
 		</xsl:copy>
 	</xsl:template>
-
+-->
 	<!-- abstract -->
 	<xsl:template match="tmp:PropertyName[tmp:step[2]/tmp:nsUri/text() = 'urn:oasis:names:tc:ebxml-regrep:xsd:rim:3.0' and tmp:step[2]/tmp:localName/text() = 'Description']">
 		<xsl:variable name="otVariable" select="tmp:PropertyName/tmp:step[1]/tmp:variable/text()"/>
 		<xsl:choose>
 			<!-- association to object that holds this slot, must be rights -->
 			<xsl:when test="//*[tmp:PropertyName/tmp:step[1]/tmp:variable = $otVariable and tmp:PropertyName/tmp:step[2]/tmp:localName = '@targetObject']">
-				<ogc:PropertyName>apiso:abstract</ogc:PropertyName>
+				<ogc:PropertyName>apiso:ConditionApplyingToAccessAndUse</ogc:PropertyName>
 			</xsl:when>
 			<!-- no association, slot should be contained in the requested *Metadata object -->
 			<xsl:otherwise>
 				<ogc:PropertyName>apiso:abstract</ogc:PropertyName>
 			</xsl:otherwise>
 		</xsl:choose>
-		<ogc:PropertyName>apiso:abstract</ogc:PropertyName>
 	</xsl:template>
 
 	<!-- resource identifier -->
@@ -181,46 +189,96 @@ Transforms a CIM EP request to an ISO AP request.
 	<!-- CLASSIFICATIONS -->
 	<!-- generic template for classifications -->
 	<xsl:template match="*[tmp:PropertyName[tmp:step[2]/tmp:localName/text() = '@classificationNode']]">
-		<xsl:variable name="classification" select="tmp:PropertyName[tmp:step[2]/tmp:localName/text() = '@classificationNode']/tmp:step[1]/tmp:stepValue/text()"/>
-		<xsl:variable name="classificationNode" select="tmp:PropertyName[tmp:step[2]/tmp:localName/text() = '@id']/tmp:step[1]/tmp:stepValue/text()"/>
-		<xsl:variable name="cnComparison" select="../*[tmp:PropertyName[tmp:step[1]/tmp:stepValue/text() = $classificationNode] and ogc:Literal]"/>
 		<xsl:choose>
-			<!-- keyword -->
-			<xsl:when test="$cnComparison/tmp:PropertyName[tmp:step[2]/tmp:localName/text() = 'Name']">
-				<!-- there is only one, but we make it the context node in this loop -->
-				<xsl:for-each select="$cnComparison">
-					<xsl:copy>
-						<xsl:apply-templates select="@*"/>
-						<ogc:PropertyName>apiso:subject</ogc:PropertyName>
-						<xsl:apply-templates select="$cnComparison/ogc:Literal"/>
-					</xsl:copy>
-				</xsl:for-each>
+			<xsl:when test="starts-with(ogc:Literal, 'urn:ogc:def:ebRIM-ClassificationScheme:OGC-I15::')">
+				<xsl:variable name="classificationWithScheme" select="substring-after(ogc:Literal, 'urn:ogc:def:ebRIM-ClassificationScheme:OGC-I15::')"/>
+				<xsl:call-template name="classificationNode">
+					<xsl:with-param name="scheme" select="substring-before($classificationWithScheme, ':')"/>
+					<xsl:with-param name="literal" select="substring-after($classificationWithScheme, ':')"/>
+				</xsl:call-template>
 			</xsl:when>
-			<!-- other classification -->
+			<xsl:when test="starts-with(ogc:Literal, 'urn:ogc:serviceType')">
+				<xsl:call-template name="serviceTypeMapping"/>
+			</xsl:when>
 			<xsl:otherwise>
-				<xsl:variable name="csComparison" select="../*[tmp:PropertyName[tmp:step[1]/tmp:stepValue/text() = $classification and tmp:step[2]/tmp:localName/text() = '@classificationScheme']]"/>
+				<xsl:message terminate="yes"><xsl:value-of select="concat('Unknown classsification scheme: ', ogc:Literal)"/></xsl:message>
+			</xsl:otherwise>
+		</xsl:choose>
+	</xsl:template>
+
+	<xsl:template name="classificationNode">
+		<xsl:param name="scheme"/>
+		<xsl:param name="literal"/>
+		<xsl:choose>
+			<xsl:when test="starts-with($scheme, 'KeywordScheme')">
+				<xsl:variable name="keywordScheme" select="translate(substring-after($scheme, 'KeywordScheme'), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz')"/>
 				<xsl:choose>
-					<!-- found the classification scheme -->
-					<xsl:when test="$csComparison/ogc:Literal">
-						<!-- there is only one, but we make it the context node in this loop -->
-						<xsl:for-each select="$cnComparison">
-							<xsl:call-template name="classificationWithScheme">
-								<xsl:with-param name="schemeAndValue" select="$csComparison/ogc:Literal"/>
-								<xsl:with-param name="literal" select="$cnComparison/ogc:Literal"/>
-							</xsl:call-template>
-						</xsl:for-each>
+					<xsl:when test="$keywordScheme = 'untyped'">
+						<xsl:copy>
+							<xsl:apply-templates select="@*"/>
+							<ogc:PropertyName>apiso:subject</ogc:PropertyName>
+							<ogc:Literal><xsl:value-of select="$literal"/></ogc:Literal>	
+						</xsl:copy>
 					</xsl:when>
-					<!-- unkown classification scheme, make AnyText comparison -->
 					<xsl:otherwise>
-						<xsl:for-each select="$cnComparison">
+						<ogc:And>
 							<xsl:copy>
 								<xsl:apply-templates select="@*"/>
-								<ogc:PropertyName>apiso:AnyText</ogc:PropertyName>
-								<xsl:apply-templates select="$cnComparison/ogc:Literal"/>
+								<ogc:PropertyName>apiso:subject</ogc:PropertyName>
+								<ogc:Literal><xsl:value-of select="$literal"/></ogc:Literal>	
 							</xsl:copy>
-						</xsl:for-each>
+							<ogc:PropertyIsEqualTo>
+								<ogc:PropertyName>apiso:KeywordType</ogc:PropertyName>
+								<ogc:Literal><xsl:value-of select="$keywordScheme"/></ogc:Literal>
+							</ogc:PropertyIsEqualTo>
+						</ogc:And>
 					</xsl:otherwise>
 				</xsl:choose>
+			</xsl:when>
+<!--
+			<xsl:when test="$scheme='KeywordScheme'">
+				<xsl:copy>
+					<xsl:apply-templates select="@*"/>
+					<ogc:PropertyName>apiso:subject</ogc:PropertyName>
+					<ogc:Literal><xsl:value-of select="$literal"/></ogc:Literal>	
+				</xsl:copy>
+			</xsl:when>
+-->
+			<xsl:when test="$scheme='RestrictionCode'">
+				<xsl:copy>
+					<xsl:apply-templates select="@*"/>
+					<ogc:PropertyName>apiso:AccessConstraints</ogc:PropertyName>
+					<ogc:Literal><xsl:value-of select="$literal"/></ogc:Literal>	
+				</xsl:copy>
+			</xsl:when>
+			<xsl:when test="$scheme='ClassificationCode'">
+				<xsl:copy>
+					<xsl:apply-templates select="@*"/>
+					<ogc:PropertyName>apiso:Classification</ogc:PropertyName>
+					<ogc:Literal><xsl:value-of select="$literal"/></ogc:Literal>	
+				</xsl:copy>
+			</xsl:when>
+			<xsl:when test="$scheme='Services'">
+				<xsl:call-template name="serviceTypeMapping"/>
+			</xsl:when>
+			<xsl:when test="$scheme='TopicCategory'">
+				<xsl:copy>
+					<xsl:apply-templates select="@*"/>
+					<ogc:PropertyName>apiso:TopicCategory</ogc:PropertyName>
+					<ogc:Literal><xsl:value-of select="$literal"/></ogc:Literal>	
+				</xsl:copy>
+			</xsl:when>
+<!--
+			<xsl:when test="$scheme='KeywordType'">
+				<xsl:copy>
+					<xsl:apply-templates select="@*"/>
+					<ogc:PropertyName><xsl:value-of select="concat('apsio:', $scheme)"/></ogc:PropertyName>
+					<ogc:Literal><xsl:value-of select="$literal"/></ogc:Literal>	
+				</xsl:copy>
+			</xsl:when>
+-->
+			<xsl:otherwise>
+				<xsl:message terminate="yes"><xsl:value-of select="concat('Unknown classsification scheme: ', $scheme)"/></xsl:message>
 			</xsl:otherwise>
 		</xsl:choose>
 	</xsl:template>
@@ -341,24 +399,64 @@ Transforms a CIM EP request to an ISO AP request.
 
 		Consequence for the Adapters is that ServiceType mapping cannot be defined a priori - instead it must be defined project specific. 
 	-->
-	<!-- TODO: handle service type and service type version mapping in this template. -->
 	<!-- Current context node is the comparison operator. -->
+<!--
 	<xsl:template name="serviceTypeMapping">
 		<xsl:message terminate="yes"><xsl:value-of select="concat('Service type mapping currently not supported: ', text())"/></xsl:message>
 	</xsl:template>
-<!--
-	<xsl:template name="serviceTypeMapping">
-		<xsl:copy>
-			<xsl:apply-templates select="@*"/>
-			<ogc:PropertyName>apiso:ServiceType</ogc:PropertyName>
-			<ogc:Literal>
-				<xsl:choose>
-					<xsl:when test=""></xsl:when>
-				</xsl:choose>
-			</ogc:Literal>	
-		</xsl:copy>
-	</xsl:template>
 -->
+	<xsl:template name="serviceTypeMapping">
+		<xsl:choose>
+			<xsl:when test="ogc:Literal = 'urn:ogc:serviceType:WebMapService:1.3'">
+				<xsl:call-template name="serviceTypeWithVersion">
+					<xsl:with-param name="serviceType" select="'WMS'"/>
+					<xsl:with-param name="version" select="'1.3.0'"/>
+				</xsl:call-template>
+			</xsl:when>
+			<xsl:when test="ogc:Literal = 'urn:ogc:serviceType:WebFeatureService:1.1'">
+				<xsl:call-template name="serviceTypeWithVersion">
+					<xsl:with-param name="serviceType" select="'WFS'"/>
+					<xsl:with-param name="version" select="'1.1.0'"/>
+				</xsl:call-template>
+			</xsl:when>
+			<xsl:when test="ogc:Literal = 'urn:ogc:serviceType:WebCoverageService:1.1.2'">
+				<xsl:call-template name="serviceTypeWithVersion">
+					<xsl:with-param name="serviceType" select="'WCS'"/>
+					<xsl:with-param name="version" select="'1.1.2'"/>
+				</xsl:call-template>
+			</xsl:when>
+			<xsl:when test="ogc:Literal = 'urn:ogc:serviceType:CatalogueService:2.0.2'">
+				<xsl:call-template name="serviceTypeWithVersion">
+					<xsl:with-param name="serviceType" select="'CSW'"/>
+					<xsl:with-param name="version" select="'2.0.2'"/>
+				</xsl:call-template>
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:variable name="serviceTypeAndVersion" select="substring-after(ogc:Literal, 'urn:ogc:serviceType:')"/>
+				<xsl:call-template name="serviceTypeWithVersion">
+					<xsl:with-param name="serviceType" select="substring-before($serviceTypeAndVersion, ':')"/>
+					<xsl:with-param name="version" select="substring-after($serviceTypeAndVersion, ':')"/>
+				</xsl:call-template>
+			</xsl:otherwise>
+		</xsl:choose>
+	</xsl:template>
+
+	<xsl:template name="serviceTypeWithVersion">
+		<xsl:param name="serviceType"/>
+		<xsl:param name="version"/>
+		<ogc:And>
+			<xsl:copy>
+				<xsl:apply-templates select="@*"/>
+				<ogc:PropertyName>apiso:ServiceType</ogc:PropertyName>
+				<ogc:Literal><xsl:value-of select="$serviceType"/></ogc:Literal>	
+			</xsl:copy>
+			<xsl:copy>
+				<xsl:apply-templates select="@*"/>
+				<ogc:PropertyName>apiso:ServiceTypeVersion</ogc:PropertyName>
+				<ogc:Literal><xsl:value-of select="$version"/></ogc:Literal>	
+			</xsl:copy>
+		</ogc:And>
+	</xsl:template>
 
 	<!-- SLOTS-->
 	<!-- generic template for slots with @name predicate -->
@@ -453,6 +551,11 @@ Transforms a CIM EP request to an ISO AP request.
 			<xsl:when test="$name = 'http://purl.org/dc/terms/type'">
 				<xsl:call-template name="slotComparison">
 					<xsl:with-param name="name" select="'apiso:type'"/>
+				</xsl:call-template>
+			</xsl:when>
+			<xsl:when test="$name = 'http://purl.org/dc/terms/title'">
+				<xsl:call-template name="slotComparison">
+					<xsl:with-param name="name" select="'apiso:AlternateTitle'"/>
 				</xsl:call-template>
 			</xsl:when>
 			<xsl:when test="$name = 'urn:ogc:def:ebRIM-slot:OGC-I15::Lineage'">

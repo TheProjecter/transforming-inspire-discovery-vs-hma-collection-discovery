@@ -91,6 +91,7 @@ Transforms a CIM EP request to an ISO AP request.
 		c4: Classification
 		c5: KeywordScheme
 		c6: ThesaurusKeywordScheme
+		c7: serviceType
 	-->
 	<xsl:template match="csw:Query">
 		<csw:Query xmlns:rim="urn:oasis:names:tc:ebxml-regrep:xsd:rim:3.0">
@@ -167,7 +168,7 @@ Transforms a CIM EP request to an ISO AP request.
 			</xsl:choose>
 		</xsl:if>
 		<!-- classifications -->
-		<xsl:if test="//tmp:localName[text() = 'TopicCategory' or text() = 'AccessConstraints' or text() = 'Classification' or text() = 'subject' or text() = $concept_uri]">
+		<xsl:if test="//tmp:localName[text() = 'TopicCategory' or text() = 'AccessConstraints' or text() = 'Classification' or text() = 'subject' or text() = $concept_uri or text() = 'ServiceType']">
 			<xsl:text> rim:Classification</xsl:text>
 		</xsl:if>
 		<xsl:if test="//tmp:localName/text() = 'TopicCategory'">
@@ -185,7 +186,11 @@ Transforms a CIM EP request to an ISO AP request.
 		<xsl:if test="//tmp:localName/text() = $concept_uri">
 			<xsl:text>_c6</xsl:text>
 		</xsl:if>
+		<xsl:if test="//tmp:localName/text() = 'ServiceType'">
+			<xsl:text>_c7</xsl:text>
+		</xsl:if>
 		<!-- classification nodes -->
+<!--
 		<xsl:if test="//tmp:localName[text() = 'TopicCategory' or text() = 'AccessConstraints' or text() = 'Classification' or text() = 'subject' or text() = $concept_uri]">
 			<xsl:text> rim:ClassificationNode</xsl:text>
 		</xsl:if>
@@ -204,6 +209,7 @@ Transforms a CIM EP request to an ISO AP request.
 		<xsl:if test="//tmp:localName/text() = $concept_uri">
 			<xsl:text>_cn6</xsl:text>
 		</xsl:if>
+-->
 	</xsl:template>
 
 	<!-- remove all temporary elements used for parsing the filter -->
@@ -409,12 +415,25 @@ Transforms a CIM EP request to an ISO AP request.
 	-->
 	<!-- TODO: map service type and service type version to classification Services-->
 	<!-- Current context node is the temporary property name. -->
+	<xsl:template match="*[tmp:PropertyName/tmp:step/tmp:localName/text() = 'ServiceType']">
+		<xsl:variable name="serviceTypeVersion" select="//*[tmp:PropertyName/tmp:step/tmp:localName/text() = 'ServiceTypeVersion']/ogc:Literal"/>
+		<ogc:And>
+			<ogc:PropertyIsEqualTo>
+				<ogc:PropertyName>$e1/@id</ogc:PropertyName>
+				<ogc:PropertyName>$c7/@classifiedObject</ogc:PropertyName>
+			</ogc:PropertyIsEqualTo>
+			<ogc:PropertyIsEqualTo>
+				<ogc:PropertyName>$c7/@classificationNode</ogc:PropertyName>
+				<ogc:Literal><xsl:value-of select="concat('urn:ogc:serviceType:', ogc:Literal, ':', $serviceTypeVersion)"/></ogc:Literal>
+			 </ogc:PropertyIsEqualTo>
+		</ogc:And>
+	</xsl:template>
+	<xsl:template match="*[tmp:PropertyName/tmp:step/tmp:localName/text() = 'ServiceTypeVersion']"/>
+<!--
 	<xsl:template match="tmp:PropertyName[tmp:step/tmp:localName/text() = 'ServiceType' or tmp:step/tmp:localName/text() = 'ServiceTypeVersion']">
 		<xsl:message terminate="yes"><xsl:value-of select="'Service type mapping currently not supported'"/></xsl:message>
 	</xsl:template>
-
-	<!-- TODO: ParentIdentifier -->
-
+-->
 	<!-- identifier -->
 	<xsl:template match="tmp:PropertyName[tmp:step/tmp:localName/text() = 'Identifier' or tmp:step/tmp:localName/text() = 'identifier']">
 		<ogc:PropertyName>$e2/rim:Slot[@name='http://purl.org/dc/elements/1.1/identifier']/rim:ValueList/rim:Value</ogc:PropertyName>
@@ -457,6 +476,11 @@ Transforms a CIM EP request to an ISO AP request.
 		</xsl:call-template>
 	</xsl:template>
 
+	<!-- alternatetitle -->
+	<xsl:template match="tmp:PropertyName[tmp:step/tmp:localName/text() = 'alternatetitle']">
+		<ogc:PropertyName>$e1/rim:Slot[@name='http://purl.org/dc/terms/title']/wrs:ValueList/wrs:Value</ogc:PropertyName>
+	</xsl:template>
+
 	<!-- creation date -->
 	<xsl:template match="tmp:PropertyName[tmp:step/tmp:localName/text() = 'CreationDate']">
 		<ogc:PropertyName>$e1/rim:Slot[@name='http://purl.org/dc/terms/created']/rim:ValueList/rim:Value</ogc:PropertyName>
@@ -476,23 +500,16 @@ Transforms a CIM EP request to an ISO AP request.
 	<xsl:template match="*[tmp:PropertyName[tmp:step/tmp:localName/text() = 'TopicCategory']]">
 		<xsl:call-template name="classification">
 			<xsl:with-param name="classification" select="'$c2'"/>
-			<xsl:with-param name="classificationScheme" select="'TopicCategoryCode'"/>
+			<xsl:with-param name="classificationScheme" select="'TopicCategory'"/>
 		</xsl:call-template>
 	</xsl:template>
 
 	<!-- keywordtype -->
-<!--
-	<xsl:template match="*[tmp:PropertyName[tmp:step/tmp:localName/text() = 'KeywordType']]">
-		<xsl:call-template name="classification">
-			<xsl:with-param name="classification" select="'$c1'"/>
-			<xsl:with-param name="classificationScheme" select="'KeywordType'"/>
-		</xsl:call-template>
-	</xsl:template>
--->
+	<xsl:template match="*[tmp:PropertyName[tmp:step/tmp:localName/text() = 'KeywordType']]"/>
 
 	<!-- keyword -->
 	<xsl:template match="*[tmp:PropertyName[tmp:step/tmp:localName/text() = 'subject']]">
-		<xsl:variable name="keywordType" select="../*[tmp:PropertyName[tmp:step/tmp:localName/text() = 'subject']]/ogc:Literal"/>
+		<xsl:variable name="keywordType" select="../*[tmp:PropertyName[tmp:step/tmp:localName/text() = 'KeywordType']]/ogc:Literal"/>
 		<xsl:choose>
 			<xsl:when test="$keywordType">
 				<xsl:variable name="scheme" select="concat('KeywordScheme', translate(substring($keywordType, 1, 1), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), substring($keywordType, 2))"/>
@@ -634,43 +651,6 @@ Transforms a CIM EP request to an ISO AP request.
 		</xsl:choose>
 	</xsl:template>
 	
-	<!-- generic template for classifications, context node is a comparison -->
-	<xsl:template name="classificationComps">
-		<xsl:param name="classification"/>
-		<xsl:param name="classificationScheme"/>
-		<xsl:param name="classifiedObject"/>
-		<xsl:variable name="classificationNode" select="concat('$cn', substring-after($classification, '$c'))"/>
-		<ogc:PropertyIsEqualTo>
-			<ogc:PropertyName><xsl:value-of select="concat($classifiedObject, '/@id')"/></ogc:PropertyName>
-			<ogc:PropertyName><xsl:value-of select="concat($classification, '/@classifiedObject')"/></ogc:PropertyName>
-		</ogc:PropertyIsEqualTo>
-		<xsl:if test="$classification != '$c5'">
-			<!-- for some reason, filtering on classification scheme does not work for keywords on the ERDAS catalogue -->
-			<ogc:PropertyIsEqualTo>
-				<ogc:PropertyName><xsl:value-of select="concat($classification, '/@classificationScheme')"/></ogc:PropertyName>
-				<ogc:Literal><xsl:value-of select="concat('urn:ogc:def:ebRIM-ClassificationScheme:OGC-I15::', $classificationScheme)"/></ogc:Literal>
-			</ogc:PropertyIsEqualTo>
-		</xsl:if>
-		<ogc:PropertyIsEqualTo>
-			<ogc:PropertyName><xsl:value-of select="concat($classification, '/@classificationNode')"/></ogc:PropertyName>
-			<ogc:PropertyName><xsl:value-of select="concat($classificationNode, '/@id')"/></ogc:PropertyName>
-		</ogc:PropertyIsEqualTo>
-		<xsl:copy>
-			<xsl:apply-templates select="@*"/>
-			<xsl:choose>
-				<!-- keywords require special processing as they are not mapped to the classification code -->
-				<xsl:when test="$classification = '$c5'">
-					<ogc:PropertyName><xsl:value-of select="concat($classificationNode, '/rim:Name/rim:LocalizedString/@value')"/></ogc:PropertyName>
-				</xsl:when>
-				<xsl:otherwise>
-					<ogc:PropertyName><xsl:value-of select="concat($classificationNode, '/@code')"/></ogc:PropertyName>
-				</xsl:otherwise>
-			</xsl:choose>
-			<ogc:Literal><xsl:value-of select="ogc:Literal"/></ogc:Literal>
-		</xsl:copy>
-	</xsl:template>
-
-<!--
 	<xsl:template name="classificationComps">
 		<xsl:param name="classification"/>
 		<xsl:param name="classificationScheme"/>
@@ -685,7 +665,6 @@ Transforms a CIM EP request to an ISO AP request.
 			<ogc:PropertyName><xsl:value-of select="concat($classification, '/@classifiedObject')"/></ogc:PropertyName>
 		</ogc:PropertyIsEqualTo>
 	</xsl:template>
--->
 	
 	<xsl:template name="conceptUriIntern">
 		<xsl:copy>
