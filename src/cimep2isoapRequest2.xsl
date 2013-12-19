@@ -52,7 +52,7 @@ Transforms a CIM EP request to an ISO AP request.
 	</xsl:template>
 	
 	<!-- do not copy the And node if it contains just a single value comparison and otherwise only comparisons necessary for joins -->
-	<xsl:template match="ogc:And[count(*) - count(*/tmp:type[text() != 'comparison']) &lt; 2]">
+	<xsl:template match="ogc:And[count(*) - count(*/tmp:type[text() != 'comparison' and text() != 'objectType']) &lt; 2]">
 		<xsl:apply-templates select="node()"/>
 	</xsl:template>
 	
