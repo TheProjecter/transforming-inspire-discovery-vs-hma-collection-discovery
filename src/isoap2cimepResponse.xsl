@@ -239,7 +239,8 @@ Transforms a CIM EP request to an ISO AP request.
 			<!-- resource identifier -->
 			<xsl:variable name="resIdentifier" select="gmd:identificationInfo/*/gmd:citation/gmd:CI_Citation/gmd:identifier/*/gmd:code/gco:CharacterString"/>
 			<xsl:if test="$elementSet != 'brief and $resIdentifier'">
-				<rim:ExternalIdentifier objectType="urn:oasis:names:tc:ebxml-regrep:ObjectType:RegistryObject:ExternalIdentifier" identificationScheme="urn:x-ogc:specification:csw-ebrim:EO:UnknownIdentifiers" value="{$resIdentifier}" id="{concat('EI:', $fileId)}" registryObject="{concat('RM:', $fileId)}"/>
+				<rim:ExternalIdentifier objectType="urn:oasis:names:tc:ebxml-regrep:ObjectType:RegistryObject:ExternalIdentifier" identificationScheme="urn:ogc:def:ebRIM-ClassificationScheme:OGC-I15::IdentifierScheme:resourceIdentifier" value="{$resIdentifier}" id="{concat('EI1:', $fileId)}" registryObject="{concat('RM:', $fileId)}"/>
+				<rim:ExternalIdentifier objectType="urn:oasis:names:tc:ebxml-regrep:ObjectType:RegistryObject:ExternalIdentifier" identificationScheme="urn:ogc:def:ebRIM-ClassificationScheme:OGC-I15::IdentifierScheme:fileIdentifier" value="{$fileId}" id="{concat('EI2:', $fileId)}" registryObject="{concat('RM:', $fileId)}"/>
 			</xsl:if>
 		</wrs:ExtrinsicObject>
 <!--
